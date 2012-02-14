@@ -1,0 +1,62 @@
+@import "bootstrap";
+@boxSize: 175px;
+
+a.btnAdd {
+  position: absolute;
+  font-size: 16px;
+  #gradient > .vertical(lighten(@blue, 8), darken(@blue, 10));
+  text-shadow: 0px 0px 1px rgba(0,0,0,.4);
+  font-weight: normal;
+  .border-radius(4px);
+  color: @white;
+  display: block;
+  padding: .5em 1em;
+  .box-shadow(0px 2px 3px rgba(0,0,0,.4));
+  &:active { .box-shadow(0px 2px 3px rgba(0,0,0,.4) inset); }
+}
+div.models { text-align: center; }
+
+a.delete {
+  position: absolute;
+  font-size: 18px;
+  font-weight: normal;
+  #gradient > .vertical(lighten(@red, 20), darken(@red, 8));
+  color: @white;
+  text-shadow: 0px 1px 0px rgba(0,0,0,.4);
+  padding: 4px 5px;
+  .border-radius(12px);
+  .box-shadow(0px 2px 3px rgba(0,0,0,.4));
+  border: solid 2px @white;
+}
+
+a.model {
+  display: inline-block;
+  zoom: 1;
+  vertical-align: top;
+  *display: inline;
+  text-align: center;
+  .square(@boxSize);
+  .box-shadow(0px 2px 3px rgba(0,0,0,.4));
+  margin: 1em;
+  border: solid 1px @grayLight;
+  background: @white;
+
+  div.name {
+    padding: 1em;
+    font-family: 'Crete Round', inherit;
+    font-size: 16px;
+    border-bottom: solid 1px @grayLight;
+    background: @grayLighter;
+    color: @grayDark;
+    overflow: hidden;
+    width: @boxSize - (2 * 16px);
+    height: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  p.description {
+    padding: 1em;
+    line-height: 1.4em;
+  }
+}

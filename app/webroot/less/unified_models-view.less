@@ -1,0 +1,133 @@
+@import "bootstrap";
+@leftWidth: 400px;
+
+a.btn {
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  margin-left: 1em;        
+  #gradient > .vertical(lighten(@grayLighter, 10), @grayLighter);
+  padding: .5em;
+  .border-radius(5px);
+  border: solid 1px @gray;
+  .box-shadow(0px 1px 2px rgba(0,0,0,.4));
+  &:active { .box-shadow(0px 1px 2px rgba(0,0,0,.4) inset); }
+}
+
+a.deleteModel {
+  position: absolute;
+  font-size: 16px;
+  #gradient > .vertical(lighten(@red, 20), darken(@red, 8));
+  padding: .5em 1em;
+  font-weight: normal;
+  text-shadow: 0px 1px 0px rgba(0,0,0,.4);
+  color: @white;
+  .border-radius(4px);
+  .box-shadow(0px 1px 2px rgba(0,0,0,.4));
+}
+
+a.btnDelete {
+  float: left;
+  color: @red;
+  font-size: 1em;
+  font-weight: bold;
+  margin-left: -20px;
+}
+
+div.left {
+  float: left;
+  width: @leftWidth;
+  background: @white;
+  border: solid 1px @grayLight;
+  .box-shadow(0px 2px 3px rgba(0,0,0,.4));
+  
+  div.concrete div.header { border-top: solid 1px @grayLight; }
+  
+  div.header {
+    font-weight: normal;
+    padding: .5em;
+    border-bottom: solid 1px @grayLight;
+    font-size: 13px;
+    background: lighten(@grayLighter, 8);
+    h2 {
+      float: left;
+      font-family: 'Crete Round', inherit;
+      color: @grayDark;
+      font-size: 1.5em;
+      padding-top: 6px;
+    }
+    
+    div.actions { float: right; }
+  }
+  
+  div.content {
+    font-family: 'Ubuntu Mono', monospace;
+    padding: 0px 1em;
+    padding-left: 11px;
+    line-height: 1.25em;
+    color: @grayLight;
+
+    a.btn {
+      padding: .25em .5em;
+      margin: .25em;
+      background: @white;
+      border: solid 1px @grayLighter;
+      .box-shadow(none);
+      &:hover {
+        #gradient > .vertical(lighten(@grayLighter, 20), @grayLighter);
+        color: @grayDark;
+        border: solid 1px @grayLight;
+      }
+    }
+    
+    div.generic-entity, div.concrete-entity, div.generic-process, div.concrete-process {
+      padding: .5em 0px;
+      margin-left: .5em;
+      padding-left: .5em;
+      border-left: solid 1px lighten(@grayLight, 30);
+
+      a.btn { font-size: 12px; margin-left: 14px; }
+    }
+
+    div.generic-entity {
+      span.type { color: @purple; font-weight: bold; }
+      span.name { color: darken(@blue, 8); font-weight: bold; }
+    }
+  
+    div.generic-process, div.concrete-process {
+      span.type { color: @purple; font-weight: bold; }
+      span.name { color: @green; font-weight: bold; }
+      span.arg { color: @blue; }
+    }
+    
+    div.concrete-entity {
+      span.type { color: darken(@blue, 8); font-weight: bold; }
+      span.name { color: @grayDark; font-weight: bold; }
+    }
+    
+    div.generic-attribute, div.generic-process-attribute, div.generic-equation,
+    div.concrete-attribute, div.concrete-process-attribute, div.concrete-equation {
+      padding-left: 1em;
+      span.name { color: @grayDark; font-weight: normal; }
+      span.value { color: darken(@orange, 15); }
+      a.btnDelete { margin-left: -34px; }
+    }
+  }
+}
+
+div.expand {
+  display: none;
+  div.generic-attribute { opacity: .6; }
+}
+
+div.right {
+  margin-left: @leftWidth;
+}
+
+a.expand {
+  position: absolute;
+  margin-left: -22px;
+  color: @grayLighter;
+  font-size: 11px;
+  display: block;
+}

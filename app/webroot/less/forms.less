@@ -1,0 +1,59 @@
+@import "bootstrap";
+
+a, input, span, select, textarea {
+  outline: none;
+}
+
+form {
+  text-align: center; 
+}
+div.input {
+  margin-bottom: .4em;
+  font-size: 16px;
+  label {
+    width: 150px;
+    font-weight: normal;
+    vertical-align: middle;      
+    display: inline-block;
+    text-align: left;
+    zoom: 1;
+    *display: inline;
+    font-family: 'Signika Negative', inherit;
+  }
+}
+div.input.email, div.input.password, div.input.text, div.input.select, div.input.textarea {
+  input, select, textarea {
+    border: solid 1px @grayLighter;
+    padding: .35em;
+    font-size: 1em;
+    width: 300px;
+    font-family: 'Signika Negative', inherit;
+    color: lighten(@gray, 18);
+    font-weight: lighter;
+    vertical-align: middle;
+    &:focus {
+      border: solid 1px @red;
+      color: @gray;
+    }
+  }
+  select { width: 315px; }
+}
+
+div.submit {
+  input {
+    font-family: 'Signika Negative', inherit;
+    font-size: 16px;
+    #gradient > .vertical(lighten(@grayLighter, 15), @grayLighter);
+    text-shadow: 0px 1px 1px @white;
+    color: @gray;
+    border: solid 1px @grayLight;
+    display: block;
+    padding: .35em;
+    width: 461px;
+    margin: 0px auto;
+    margin-top: 1.5em;
+    .border-radius(4px);
+    .box-shadow(0px 2px 3px rgba(0,0,0,.4));
+    &:active { .box-shadow(0px 2px 3px rgba(0,0,0,.4) inset); }
+  }
+}

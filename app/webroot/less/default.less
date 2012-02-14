@@ -1,0 +1,79 @@
+@import "bootstrap";
+@siteWidth: 1000px;
+
+#reset > .global-reset;
+
+@-webkit-keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+body {
+  background: url(../img/whitey.png);
+  background-position: top center;
+  #font > .sans-serif(lighter, 14px, 1em);
+  font-family: 'Signika Negative', inherit;
+  color: @gray;
+  text-shadow: 0px 1px 1px @white;
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+  }
+}
+
+div.message {
+  -webkit-animation: fade;
+  -webkit-animation-duration: .5s;
+  -webkit-animation-timing-function: ease-in-out;
+  #gradient > .vertical(lighten(@orange, 8), darken(@orange, 10));
+  padding: 1em;
+  text-shadow: 0px 1px 1px rgba(0,0,0,.4);
+  color: @white;
+  .box-shadow(0px 3px 5px rgba(0,0,0,.4) inset);  
+  width: 450px;
+  margin: 0px auto;
+}
+
+div.wrapper {
+  width: @siteWidth;
+  margin: 0px auto;
+  padding: 1em;
+}
+
+#header {
+  #gradient > .vertical(#444, #222);
+  border-bottom: solid 1px @white;
+  color: @white;
+  text-shadow: none;
+  div.wrapper { padding: 0px 1em; }
+}
+
+#nav {
+  float: right;
+  color: @grayLight;  
+  a {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    padding: 1em;
+    &:hover { color: @white; }
+  }
+}
+
+#content {
+  h1 {
+    font-family: 'Crete Round', inherit;
+    font-size: 26px;
+    text-align: center;
+    margin: 1em;
+    color: @grayDark;
+  }
+  div.wrapper {
+  }
+}
+
+pre {
+  text-align: left;
+}
