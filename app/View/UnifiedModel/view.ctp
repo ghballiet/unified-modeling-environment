@@ -324,13 +324,24 @@ foreach($concrete_entities as $ce) {
   $list[$ce['ConcreteEntity']['name']] = $grp;
 }
 
-// add the div
-printf('<div class="add-exogenous-value exogenous-row">');
+printf('<table class="exogenous-values">');
+printf('<tr><th>Attribute</th><th>Value</th><th></th></tr>');
+
+printf('<tr class="add-exogenous-value">');
 echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'create', 
                                                  'inputDefaults'=>array('required'=>'true')));
+printf('<td class="concrete-attribute">');
 echo $this->Form->input('concrete_attribute_id', array('label'=>'Concrete Attribute', 'options'=>$list));
-echo $this->Form->end('Add Exogenous Value');
-printf('</div>');
+printf('</td>');
+printf('<td class="value">');
+echo $this->Form->input('value');
+printf('</td>');
+printf('<td class="submit">');
+echo $this->Form->end('Add');
+printf('</td>');
+printf('</tr>');
+
+printf('</table>');
 ?>
     </div>
     <a href="#" data-reveal-id="exogenous-values">Setup Exogenous Values</a>
