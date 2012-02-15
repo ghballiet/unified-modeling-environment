@@ -46,41 +46,11 @@ class UnifiedModelsController extends AppController {
       $this->set('debug', true);
   }
   
-  public function lisp_generic($id = null) {
-    // $dbModel = $this->UnifiedModel->query(sprintf('SELECT * FROM unified_models AS UnifiedModel WHERE md5(id)=\'%s\'', $id));
-    // if(sizeof($dbModel) == 0) {
-    //   $this->Session->setFlash('You are not authorized to view that model.');
-    //   $this->redirect(array('controller'=>'users', 'action'=>'models'));
-    // }
-    // $this->UnifiedModel->id = $dbModel[0]['UnifiedModel']['id'];
-    $this->UnifiedModel->id = $id;
-    $model = $this->UnifiedModel->read();
-    if($model['User']['id'] != AuthComponent::user('id')) {
-      $this->Session->setFlash('You are not authorized to view that model.');
-      $this->redirect(array('controller'=>'users', 'action'=>'models'));
-      return false;
-    }
-    $this->layout = 'lisp-generic';    
-    $tmp_name = sprintf('model-%s', $id);
-    $tmp_file = sprintf('/tmp/%s', $tmp_name);
-    $this->set('tmp_name', $tmp_name);
-    
-    $id = $model['UnifiedModel']['id'];
-    $entities = $this->UnifiedModel->GenericEntity->find('all', array('conditions'=>array(
-      'GenericEntity.unified_model_id'=>$id)));
-    $this->set('entities', $entities);
-  }
-  
   public function view($id = null) {
-    // $dbModel = $this->UnifiedModel->query(sprintf('SELECT * FROM unified_models AS UnifiedModel WHERE md5(id)=\'%s\'', $id));
-    // if(sizeof($dbModel) == 0) {
-    //   $this->Session->setFlash('You are not authorized to view that model.');
-    //   $this->redirect(array('controller'=>'users', 'action'=>'models'));
-    // }
-    // $this->UnifiedModel->id = $dbModel[0]['UnifiedModel']['id'];
     $this->UnifiedModel->id = $id;
     $model = $this->UnifiedModel->read();
-    if($model['User']['id'] != AuthComponent::user('id')) {
+    $user = $this->UnifiedModel->User->findById($this->Auth->user('id'));
+    if(($model['User']['id'] != $user['User']['id']) && $user['User']['is_admin'] == 0) {
       $this->Session->setFlash('You are not authorized to view that model.');
       $this->redirect(array('controller'=>'users', 'action'=>'models'));
     } else {

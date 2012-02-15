@@ -30,8 +30,16 @@ class UsersController extends AppController {
   }
   
   public function models() {
-    $this->set('models', $this->User->UnifiedModel->find('all', array(
-      'conditions'=>array('UnifiedModel.user_id'=>AuthComponent::user('id')))));
+    $this->User->id = $this->Auth->user('id');
+    $user = $this->User->read();
+    if($user['User']['is_admin'] == 1) {
+      $this->set('models', $this->User->UnifiedModel->find('all', array(
+        'order'=>array('User.name', 'UnifiedModel.name'))));
+      $this->set('users', $this->User->find('list'));
+    } else {
+      $this->set('models', $this->User->UnifiedModel->find('all', array(
+        'conditions'=>array('UnifiedModel.user_id'=>AuthComponent::user('id')))));      
+    }
   }
   
   public function register() {
