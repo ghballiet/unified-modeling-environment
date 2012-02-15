@@ -327,12 +327,29 @@ foreach($concrete_entities as $ce) {
 printf('<table class="exogenous-values">');
 printf('<tr><th>Attribute</th><th>Value</th><th></th></tr>');
 
+foreach($exogenous_values as $e) {
+  printf('<tr class="edit-exogenous-value">');
+  echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit', 
+                                                   'inputDefaults'=>array('required'=>'true')));
+  printf('<td class="concrete-attribute">');
+  echo $this->Form->input('concrete_attribute_id', array('options'=>$list,
+                                                         'value'=>$e['ConcreteAttribute']['id']));
+  printf('</td>');
+  printf('<td class="value">');
+  echo $this->Form->input('value', array('value'=>$e['ExogenousValue']['value']));
+  printf('</td>');
+  printf('<td class="submit">');
+  echo $this->Form->end('Edit');
+  printf('</td>');
+  printf('</tr>');
+}
+
 printf('<tr class="add-exogenous-value">');
 echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'create', 
                                                  'inputDefaults'=>array('required'=>'true')));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 printf('<td class="concrete-attribute">');
-echo $this->Form->input('concrete_attribute_id', array('label'=>'Concrete Attribute', 'options'=>$list));
+echo $this->Form->input('concrete_attribute_id', array('options'=>$list));
 printf('</td>');
 printf('<td class="value">');
 echo $this->Form->input('value');
