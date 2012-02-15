@@ -15,6 +15,29 @@ class UnifiedModelsController extends AppController {
       $this->redirect(array('controller'=>'users', 'action'=>'models'));
     }
   }
+
+  public function simulate($id = null) {
+    $this->layout = 'simulate';
+    $this->UnifiedModel->id = $id;
+    $model = $this->UnifiedModel->read();
+    $this->set('model', $model);
+    // grab model information
+    $concrete_entities = $this->UnifiedModel->ConcreteEntity->find('all', array('conditions'=>array(
+      'ConcreteEntity.unified_model_id'=>$id)));
+    $concrete_processes = $this->UnifiedModel->ConcreteProcess->find('all', array('conditions'=>array(
+      'ConcreteProcess.unified_model_id'=>$id)));
+    $concrete_attrs = $this->UnifiedModel->ConcreteEntity->ConcreteAttribute->find('all',
+      array('conditions'=>array('ConcreteEntity.unified_model_id'=>$id)),
+      array('group'=>array('ConcreteEntity.id')));
+    $concrete_equations = $this->UnifiedModel->ConcreteProcess->ConcreteEquation->find('all',
+      array('conditions'=>array('ConcreteProcess.unified_model_id'=>$id)));
+    
+    // set model information
+    $this->set('concrete_entities', $concrete_entities);
+    $this->set('concrete_processes', $concrete_processes);
+    $this->set('concrete_attrs', $concrete_attrs);
+    $this->set('concrete_equations', $concrete_equations);
+  }
   
   public function lisp_generic($id = null) {
     // $dbModel = $this->UnifiedModel->query(sprintf('SELECT * FROM unified_models AS UnifiedModel WHERE md5(id)=\'%s\'', $id));

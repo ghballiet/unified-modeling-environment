@@ -23,6 +23,8 @@ $(document).ready(function() {
 
 	// always replace spaces with underscores
 	$('input[type="text"], textarea').live('keypress', function(e) {
+    if($(this).attr('id') == 'ConcreteEquationRightHandSide' || $(this).attr('id') == 'GenericEquationRightHandSide')
+      return true;
 		if(e.keyCode == 32) {
 			e.preventDefault();
 			var val = $(this).val() + '_';
