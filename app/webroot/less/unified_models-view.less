@@ -217,6 +217,13 @@ a.expand {
     
     tbody tr:last-child td { border-bottom: none; }
     
-    th { border-bottom: solid 1px @gray;}
+    th {
+      border-bottom: solid 1px @gray;
+      color: @grayDark;
+    }
+    
+    td {
+      span.name { font-weight: bold; color: @blue; }
+    }
   }
 }
