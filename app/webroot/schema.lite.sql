@@ -114,7 +114,7 @@ create table if not exists operands (
   symbol varchar(50)
 );
 
-create table if not exists exogenous_data (
+create table if not exists exogenous_values (
   id integer primary key autoincrement,
   timestep integer,
   concrete_attribute_id integer,

@@ -1,6 +1,6 @@
 <?
-class ExogenousData extends AppModel {
-  public $name = 'ExogenousData';
+class ExogenousValue extends AppModel {
+  public $name = 'ExogenousValue';
   public $belongsTo = array('ConcreteAttribute', 'UnifiedModel');
 }
 ?>

@@ -1489,3 +1489,15 @@
 #1 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
 #2 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2012-02-15 04:12:18 Error: [MissingTableException] Database table exogenous_datas for model ExogenousData was not found.
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Model.php(3265): Model->setSource('exogenous_datas')
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Model.php(2483): DboSource->read(Object(UnifiedModel), Array)
+#3 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#4 /d1/www/html/cll/unified-modeling/app/Controller/UnifiedModelsController.php(75): Model->read()
+#5 [internal function]: UnifiedModelsController->view('1')
+#6 /d1/www/html/cll/unified-modeling/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#7 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#8 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#9 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#10 {main}
