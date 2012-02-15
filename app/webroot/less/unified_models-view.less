@@ -176,6 +176,16 @@ div.right {
         color: @gray;
         font-weight: normal;
       }
+      
+      tr.add-exogenous-value td {
+        background: @grayLighter;
+        &.submit input {
+          #gradient > .vertical(lighten(@orange, 15), @orange);
+          color: @white;
+          text-shadow: 0px 1px 0px @white;
+          border: solid 1px @orange;
+        }
+      }
     }
   }
 }
