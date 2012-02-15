@@ -212,8 +212,11 @@ a.expand {
     td, th {
       padding: .35em;
       padding-right: .5em;
-    }    
+      border-bottom: solid 1px @grayLighter;
+    }
     
-    th { border-bottom: solid 1px @grayLighter; color: @gray; }
+    tbody tr:last-child td { border-bottom: none; }
+    
+    th { border-bottom: solid 1px @gray;}
   }
 }
