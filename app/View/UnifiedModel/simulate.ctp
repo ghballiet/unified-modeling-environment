@@ -2,15 +2,24 @@
 printf("// NAME: %s\n", $model['UnifiedModel']['name']);
 printf("// DESC: %s\n\n", $model['UnifiedModel']['description']);
 
+printf("var variables={};\n\n");
+
 printf("// entities\n");
 
 // concrete entities
 foreach($concrete_entities as $ce) {
   printf("var x%d = {", $ce['ConcreteEntity']['id']);
+  printf("'id': %d, 'entity_name': '%s', ", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['name']);
   foreach($ce['ConcreteAttribute'] as $ca) {
     printf("'%s': %s, ", $ca['name'], $ca['value']);
   }
   printf("};\n");
+}
+
+printf("\n// exogenous values\n");
+foreach($exogenous_values as $e) {
+  printf("x%d['%s'] = %s;\n", $e['ConcreteAttribute']['concrete_entity_id'], $e['ConcreteAttribute']['name'],
+         $e['ExogenousValue']['value']);
 }
 
 printf("\n// equations\n");
@@ -31,4 +40,10 @@ foreach($concrete_equations as $cq) {
   printf("x%d.%s += %s;\n", $cq['ConcreteAttribute']['concrete_entity_id'],
          $cq['ConcreteAttribute']['name'], $newRhs);
 }
+
+printf("\n//add to variables list\n");
+
+// add variables
+foreach($concrete_entities as $ce)
+  printf("variables.x%d = x%d;\n", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['id']);
 ?>

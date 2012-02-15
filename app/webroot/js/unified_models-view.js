@@ -21,18 +21,52 @@ $(document).ready(function() {
     $(this).html('&#x25bc;');
   });
 
-	// always replace spaces with underscores
-	$('input[type="text"], textarea').live('keypress', function(e) {
+  // always replace spaces with underscores
+  $('input[type="text"], textarea').live('keypress', function(e) {
     if($(this).attr('id') == 'ConcreteEquationRightHandSide' || $(this).attr('id') == 'GenericEquationRightHandSide')
       return true;
-		if(e.keyCode == 32) {
-			e.preventDefault();
-			var val = $(this).val() + '_';
-			$(this).val(val);
-		} else {
-			var str = String.fromCharCode(e.keyCode);
-			if(str.match(/\W/g) != null && str != '.')
-				e.preventDefault();
-		}
-	});
+    if(e.keyCode == 32) {
+      e.preventDefault();
+      var val = $(this).val() + '_';
+      $(this).val(val);
+    } else {
+      var str = String.fromCharCode(e.keyCode);
+      if(str.match(/\W/g) != null && str != '.')
+	e.preventDefault();
+    }
+  });
+
+  // grab the exogenous data
+  function grabExogenousData() {
+    var url = $('#data-url').val();
+    $.post(url, {}, function(data) {
+      eval(data);
+      console.log('Simulation data loaded.');
+      console.log('Variables: ', variables);
+      for(var i in variables) {
+        var table = loadSimData(variables[i]);
+        console.log(table);
+        $('#simulation-data').append(table);
+      }
+    });
+  }
+
+  function loadSimData(data) {
+    var table = $('<table />').attr('id', 'simulation-data-' + data.id);
+    var header = $('<tr />');
+    var row = $('<tr />');
+    var name = data.entity_name;
+    for(var i in data) {
+      if(i == 'entity_name' || i == 'id')
+        continue;
+      th = $('<th />').html(name + '.' + i);
+      td = $('<td />').html(data[i]);
+      header.append(th);
+      row.append(td);
+    }
+    table.append(header).append(row);
+    return table;
+  }
+
+  grabExogenousData();
 });

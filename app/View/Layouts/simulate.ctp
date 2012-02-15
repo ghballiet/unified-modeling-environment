@@ -1,3 +1,3 @@
-<pre>
-<? echo $content_for_layout; ?>
-</pre>
+<?
+echo $content_for_layout; 
+?>

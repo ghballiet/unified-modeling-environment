@@ -310,7 +310,7 @@ foreach($concrete_processes as $p) {
 </div>
 <div class="right">
   <div class="header">
-    <h2>Simulate</h2>
+    <h2>Simulation</h2>
   </div>
   <div class="content">
     <div class="reveal-modal" id="exogenous-values">
@@ -365,6 +365,13 @@ printf('</table>');
 ?>
     </div>
     <a href="#" data-reveal-id="exogenous-values">Setup Exogenous Values</a>
+<?
+$url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
+                              $model['UnifiedModel']['id']));
+printf('<input type="hidden" id="data-url" value="%s">', $url);
+?>
+    <div id="simulation-data">
+    </div>
   </div>
 </div>
 <div class="clearfix"></div>
