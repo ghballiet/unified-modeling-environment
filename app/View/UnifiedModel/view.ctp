@@ -309,7 +309,11 @@ foreach($concrete_processes as $p) {
   </div>
 </div>
 <div class="right">
-  <h2>Simulate</h2>
+  <div class="header">
+    <h2>Simulate</h2>
+    <div class="actions">
+    </div>
+  </div>
   <div class="content"></div>
 </div>
 <div class="clearfix"></div>
