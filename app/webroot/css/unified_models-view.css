@@ -31,7 +31,7 @@ div.left div.content div.generic-entity span.type{color:#7a43b6;font-weight:bold
 div.left div.content div.generic-entity span.name{color:#039ad7;font-weight:bold;}
 div.left div.content div.generic-process span.type,div.left div.content div.concrete-process span.type{color:#7a43b6;font-weight:bold;}
 div.left div.content div.generic-process span.name,div.left div.content div.concrete-process span.name{color:#46a546;font-weight:bold;}
-div.left div.content div.generic-process span.arg,div.left div.content div.concrete-process span.arg{color:#08b5fb;}
+div.left div.content div.generic-process span.arg,div.left div.content div.concrete-process span.arg{color:#039ad7;}
 div.left div.content div.concrete-entity span.type{color:#039ad7;font-weight:bold;}
 div.left div.content div.concrete-entity span.name{color:#333333;font-weight:bold;}
 div.left div.content div.generic-attribute,div.left div.content div.generic-process-attribute,div.left div.content div.generic-equation,div.left div.content div.concrete-attribute,div.left div.content div.concrete-process-attribute,div.left div.content div.concrete-equation{padding-left:1em;}div.left div.content div.generic-attribute span.name,div.left div.content div.generic-process-attribute span.name,div.left div.content div.generic-equation span.name,div.left div.content div.concrete-attribute span.name,div.left div.content div.concrete-process-attribute span.name,div.left div.content div.concrete-equation span.name{color:#333333;font-weight:normal;}
