@@ -329,7 +329,7 @@ printf('<tr><th></th><th>Attribute</th><th>Value</th><th></th></tr>');
 
 foreach($exogenous_values as $e) {
   printf('<tr class="edit-exogenous-value">');
-  printf('<td class="delete">%s</td>', $this->Html->link('×', array('controller'=>'exogenous_values', 'action'=>'delete', $e['ExogenousValue']['id'])));
+  printf('<td class="delete">%s</td>', $this->Html->link('×', array('controller'=>'exogenous_values', 'action'=>'delete', $e['ExogenousValue']['id'], $model['UnifiedModel']['id'])));
   echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit', 
                                                    'inputDefaults'=>array('required'=>'true')));
   echo $this->Form->input('id', array('type'=>'hidden', 'value'=>$e['ExogenousValue']['id']));
