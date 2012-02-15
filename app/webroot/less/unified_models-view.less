@@ -154,12 +154,10 @@ div.right {
       font-family: 'Signika Negative', inherit;
       font-size: 1em;
       label { display: none; }
-      div.input {
+      div.input.email, div.input.password, div.input.text, div.input.select, div.input.textarea {
         margin: 0px;
         font-size: 14px;
-        &.email, .password, .text, .select, .textarea {
-          select, input { width: auto; }
-        }
+        select, input { width: auto; }
       }
     }
   }
