@@ -41,6 +41,7 @@ Router::connect('/concrete_attributes/:action/*', array('controller'=>'concrete_
 Router::connect('/concrete_processes/:action/*', array('controller'=>'concrete_processes'));
 Router::connect('/concrete_process_attributes/:action/*', array('controller'=>'concrete_process_attributes'));
 Router::connect('/concrete_equations/:action/*', array('controller'=>'concrete_equations'));
+Router::connect('/exogenous_values/:action/*', array('controller'=>'exogenous_values'));
 Router::connect('/:action/*', array('controller'=>'users'));
 Router::connect('/', array('controller'=>'users', 'action'=>'models'));
 

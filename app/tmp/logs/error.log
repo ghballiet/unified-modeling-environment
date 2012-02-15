@@ -1527,3 +1527,23 @@
 #9 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
 #10 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #11 {main}
+2012-02-15 04:53:36 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-15 04:53:52 Error: [MissingActionException] Action UserController::exogenous_values() could not be found.
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-15 04:53:53 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-15 04:53:53 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
