@@ -39,5 +39,5 @@ div.left div.content div.generic-attribute,div.left div.content div.generic-proc
 div.left div.content div.generic-attribute span.value,div.left div.content div.generic-process-attribute span.value,div.left div.content div.generic-equation span.value,div.left div.content div.concrete-attribute span.value,div.left div.content div.concrete-process-attribute span.value,div.left div.content div.concrete-equation span.value{color:#ad6704;}
 div.left div.content div.generic-attribute a.btnDelete,div.left div.content div.generic-process-attribute a.btnDelete,div.left div.content div.generic-equation a.btnDelete,div.left div.content div.concrete-attribute a.btnDelete,div.left div.content div.concrete-process-attribute a.btnDelete,div.left div.content div.concrete-equation a.btnDelete{margin-left:-34px;}
 div.expand{display:none;}div.expand div.generic-attribute{opacity:.6;}
-div.right{margin-left:400px;background:#ffffff;border:solid 1px #777777;}
+div.right{margin-left:420px;background:#ffffff;border:solid 1px #777777;}
 a.expand{position:absolute;margin-left:-22px;color:#cccccc;font-size:11px;display:block;}
