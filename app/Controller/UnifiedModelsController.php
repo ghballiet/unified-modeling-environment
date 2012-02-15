@@ -151,6 +151,11 @@ class UnifiedModelsController extends AppController {
         }
         $concrete_process_arguments[$gp['ConcreteProcess']['id']] = $arr;
       }
+
+      // exogenous values
+      $exogenous_values = $this->UnifiedModel->ExogenousValue->find('all', array('conditions'=>array(
+        'UnifiedModel.id'=>$id)));
+
       $this->set('generic_entities', $generic_entities);
       $this->set('generic_attributes', $generic_attributes);
       $this->set('generic_entity_list', $generic_entity_list);
@@ -163,6 +168,7 @@ class UnifiedModelsController extends AppController {
       $this->set('concrete_processes', $concrete_processes);
       $this->set('concrete_equations', $concrete_equations);
       $this->set('concrete_process_arguments', $concrete_process_arguments);
+      $this->set('exogenous_values', $exogenous_values);
     }
   }
 }

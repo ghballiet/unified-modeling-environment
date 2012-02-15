@@ -312,6 +312,28 @@ foreach($concrete_processes as $p) {
   <div class="header">
     <h2>Simulate</h2>
   </div>
-  <div class="content"></div>
+  <div class="content">
+    <div class="reveal-modal" id="exogenous-values">
+<?
+echo $this->Html->tag('h1', 'Exogenous Value Setup');
+$list = array();
+foreach($concrete_entities as $ce) {
+  $grp = array();
+  foreach($ce['ConcreteAttribute'] as $ca)
+    $grp[$ca['id']] = sprintf('%s.%s', $ce['ConcreteEntity']['name'], $ca['name']);
+  $list[$ce['ConcreteEntity']['name']] = $grp;
+}
+
+// add the div
+printf('<div class="add-exogenous-value exogenous-row">');
+echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'create', 
+                                                 'inputDefaults'=>array('required'=>'true')));
+echo $this->Form->input('concrete_attribute_id', array('label'=>'Concrete Attribute', 'options'=>$list));
+echo $this->Form->end('Add Exogenous Value');
+printf('</div>');
+?>
+    </div>
+    <a href="#" data-reveal-id="exogenous-values">Setup Exogenous Values</a>
+  </div>
 </div>
 <div class="clearfix"></div>

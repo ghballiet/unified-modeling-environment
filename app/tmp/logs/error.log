@@ -1501,3 +1501,29 @@
 #8 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
 #9 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #10 {main}
+2012-02-15 04:23:24 Error: [PDOException] SQLSTATE[HY000]: General error: 1 no such column: ConcreteEntity.unified_model_id
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(434): PDO->prepare('SELECT "Concret...', Array)
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(403): DboSource->_execute('SELECT "Concret...', Array)
+#2 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(647): DboSource->execute('SELECT "Concret...', Array, Array)
+#3 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(1040): DboSource->fetchAll('SELECT "Concret...', false)
+#4 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Model.php(2483): DboSource->read(Object(ConcreteAttribute), Array)
+#5 /d1/www/html/cll/unified-modeling/app/Controller/UnifiedModelsController.php(157): Model->find('list', Array)
+#6 [internal function]: UnifiedModelsController->view('1')
+#7 /d1/www/html/cll/unified-modeling/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#8 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#9 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#10 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-02-15 04:24:56 Error: [PDOException] SQLSTATE[HY000]: General error: 1 no such column: ConcreteEntity.unified_model_id
+#0 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(434): PDO->prepare('SELECT "Concret...', Array)
+#1 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(403): DboSource->_execute('SELECT "Concret...', Array)
+#2 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(647): DboSource->execute('SELECT "Concret...', Array, Array)
+#3 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Datasource/DboSource.php(1040): DboSource->fetchAll('SELECT "Concret...', false)
+#4 /d1/www/html/cll/unified-modeling/lib/Cake/Model/Model.php(2483): DboSource->read(Object(ConcreteAttribute), Array)
+#5 /d1/www/html/cll/unified-modeling/app/Controller/UnifiedModelsController.php(157): Model->find('list', Array)
+#6 [internal function]: UnifiedModelsController->view('1')
+#7 /d1/www/html/cll/unified-modeling/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#8 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#9 /d1/www/html/cll/unified-modeling/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#10 /d1/www/html/cll/unified-modeling/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
