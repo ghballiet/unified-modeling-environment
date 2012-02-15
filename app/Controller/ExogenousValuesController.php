@@ -18,5 +18,12 @@ class ExogenousValuesController extends AppController {
                             $this->request->data['ExogenousValue']['unified_model_id']));
     }
   }
+
+  public function delete($id = null, $model = null) {
+    if($this->ExogenousValue->delete($id)) {
+      $this->Session->setFlash('Exogenous value successfully deleted.');
+      $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
+    }
+  }
 }
 ?>
