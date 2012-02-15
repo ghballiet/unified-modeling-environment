@@ -113,3 +113,11 @@ create table if not exists operands (
   id integer primary key autoincrement,
   symbol varchar(50)
 );
+
+create table if not exists exogenous_data (
+  id integer primary key autoincrement,
+  timestep integer,
+  concrete_attribute_id integer,
+  value varchar(250),
+  unified_model_id integer  
+);
