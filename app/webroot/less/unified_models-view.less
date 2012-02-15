@@ -127,6 +127,26 @@ div.right {
   margin-left: @leftWidth + 20px;
   background: @white;
   border: solid 1px @grayLight;
+  
+  div.content {
+    font-family: 'Ubuntu Mono', monospace;
+    padding: 1em;
+    line-height: 1.25em;
+    color: @grayLight;
+
+    a.btn {
+      padding: .25em .5em;
+      margin: .25em;
+      background: @white;
+      border: solid 1px @grayLighter;
+      .box-shadow(none);
+      &:hover {
+        #gradient > .vertical(lighten(@grayLighter, 20), @grayLighter);
+        color: @grayDark;
+        border: solid 1px @grayLight;
+      }
+    }
+  }
 }
 
 a.expand {
