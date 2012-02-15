@@ -52,6 +52,8 @@ $(document).ready(function() {
   function createRows(data) {
     var name = data.entity_name;
     for(var i in data) {
+      if(i == 'id' || i == 'entity_name')
+        continue;
       var row = $('<tr />');
       var spanName = $('<span />').addClass('name').html(name);
       var spanAttr = $('<span />').addClass('attr').html(i);
