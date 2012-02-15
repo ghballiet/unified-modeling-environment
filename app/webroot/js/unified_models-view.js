@@ -44,28 +44,22 @@ $(document).ready(function() {
       console.log('Simulation data loaded.');
       console.log('Variables: ', variables);
       for(var i in variables) {
-        var table = loadSimData(variables[i]);
-        console.log(table);
-        $('#simulation-data').append(table);
+        createRows(variables[i]);
       }
     });
   }
 
-  function loadSimData(data) {
-    var table = $('<table />').attr('id', 'simulation-data-' + data.id);
-    var header = $('<tr />');
-    var row = $('<tr />');
+  function createRows(data) {
     var name = data.entity_name;
     for(var i in data) {
-      if(i == 'entity_name' || i == 'id')
-        continue;
-      th = $('<th />').html(name + '.' + i);
-      td = $('<td />').html(data[i]);
-      header.append(th);
-      row.append(td);
+      var row = $('<tr />');
+      var spanName = $('<span />').addClass('name').html(name);
+      var spanAttr = $('<span />').addClass('attr').html(i);
+      var tdName = $('<td />').addClass('name').append(spanName).append('.').append(spanAttr);
+      var tdValue = $('<td />').addClass('value').html(data[i]);
+      row.append(tdName).append(tdValue);
+      $('#simulation-data tbody').append(row);
     }
-    table.append(header).append(row);
-    return table;
   }
 
   grabExogenousData();

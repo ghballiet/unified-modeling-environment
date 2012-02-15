@@ -2,8 +2,6 @@
 printf("// NAME: %s\n", $model['UnifiedModel']['name']);
 printf("// DESC: %s\n\n", $model['UnifiedModel']['description']);
 
-printf("var variables={};\n\n");
-
 printf("// entities\n");
 
 // concrete entities
@@ -16,6 +14,15 @@ foreach($concrete_entities as $ce) {
   printf("};\n");
 }
 
+// process attributes
+printf("\n// process attributes\n");
+foreach($concrete_processes as $cp) {
+  foreach($cp['ConcreteProcessAttribute'] as $cpa) {
+    printf("var %s = %s;\n", $cpa['name'], $cpa['value']);
+  }
+}
+
+// exogenous values
 printf("\n// exogenous values\n");
 foreach($exogenous_values as $e) {
   printf("x%d['%s'] = %s;\n", $e['ConcreteAttribute']['concrete_entity_id'], $e['ConcreteAttribute']['name'],
@@ -44,6 +51,7 @@ foreach($concrete_equations as $cq) {
 printf("\n//add to variables list\n");
 
 // add variables
+printf("var variables={};\n");
 foreach($concrete_entities as $ce)
   printf("variables.x%d = x%d;\n", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['id']);
 ?>

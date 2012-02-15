@@ -373,6 +373,10 @@ $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulat
 printf('<input type="hidden" id="data-url" value="%s">', $url);
 ?>
     <div id="simulation-data">
+      <table>
+        <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+        <tbody></tbody>
+      </table>
     </div>
   </div>
 </div>
