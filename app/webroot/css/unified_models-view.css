@@ -50,3 +50,4 @@ div.right #exogenous-values table tr.add-exogenous-value td{background:#cccccc;}
 a.expand{position:absolute;margin-left:-22px;color:#cccccc;font-size:11px;display:block;}
 #simulation-data table{width:100%;margin:1em 0px;}#simulation-data table td,#simulation-data table th{padding:.35em;padding-right:.5em;}
 #simulation-data table th{border-bottom:solid 1px #777777;color:#555555;}
+#simulation-data table td{border-bottom:none;}
