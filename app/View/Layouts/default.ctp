@@ -11,6 +11,7 @@ echo $this->Html->css('default');
 echo $this->Html->css('forms');
 echo $this->Html->css('reveal');
 echo $this->Html->css(sprintf('%s-%s', $this->params['controller'], $this->params['action']));
+echo $this->Html->script('less-1.2.1.min');
 echo $this->Html->script(sprintf('%s-%s', $this->params['controller'], $this->params['action']));
 ?>
   </head>
