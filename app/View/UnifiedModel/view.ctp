@@ -366,7 +366,7 @@ printf('</tr>');
 printf('</table>');
 ?>
     </div>
-    <a href="#" data-reveal-id="exogenous-values">Setup Exogenous Values</a>
+    <a href="#" data-reveal-id="exogenous-values" class="btn">Setup Exogenous Values</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));
