@@ -331,6 +331,7 @@ foreach($exogenous_values as $e) {
   printf('<tr class="edit-exogenous-value">');
   echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit', 
                                                    'inputDefaults'=>array('required'=>'true')));
+  echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
   printf('<td class="concrete-attribute">');
   echo $this->Form->input('concrete_attribute_id', array('options'=>$list,
                                                          'value'=>$e['ConcreteAttribute']['id']));

@@ -11,6 +11,7 @@ class ExogenousValuesController extends AppController {
   }
 
   public function edit() {
+    pr($this->request->data);
   }
 }
 ?>
