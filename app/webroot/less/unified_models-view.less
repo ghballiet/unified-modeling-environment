@@ -42,24 +42,7 @@ div.left {
   .box-shadow(0px 2px 3px rgba(0,0,0,.4));
   
   div.concrete div.header { border-top: solid 1px @grayLight; }
-  
-  div.header {
-    font-weight: normal;
-    padding: .5em;
-    border-bottom: solid 1px @grayLight;
-    font-size: 13px;
-    background: lighten(@grayLighter, 8);
-    h2 {
-      float: left;
-      font-family: 'Crete Round', inherit;
-      color: @grayDark;
-      font-size: 1.5em;
-      padding-top: 6px;
-    }
     
-    div.actions { float: right; }
-  }
-  
   div.content {
     font-family: 'Ubuntu Mono', monospace;
     padding: 0px 1em;
@@ -112,6 +95,25 @@ div.left {
       span.value { color: darken(@orange, 15); }
       a.btnDelete { margin-left: -34px; }
     }
+  }
+}
+
+div.left, div.right {
+  div.header {
+    font-weight: normal;
+    padding: .5em;
+    border-bottom: solid 1px @grayLight;
+    font-size: 13px;
+    background: lighten(@grayLighter, 8);
+    h2 {
+      float: left;
+      font-family: 'Crete Round', inherit;
+      color: @grayDark;
+      font-size: 1.5em;
+      padding-top: 6px;
+    }
+  
+    div.actions { float: right; }
   }
 }
 
