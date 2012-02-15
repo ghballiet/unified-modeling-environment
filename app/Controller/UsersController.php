@@ -45,7 +45,53 @@ class UsersController extends AppController {
         $this->Session->setFlash('Error: the passwords you entered did not match.');
         return false;
       } else {
-        if($this->User->save($this->request->data)) {
+        // all valid data so far
+        $user = null;
+        if($user = $this->User->save($this->request->data)) {
+          $id = $user['User']['id'];
+          $m1 = array('UnifiedModel'=>array(
+            'name'=>'Traffic and Lung Disease',
+            'description'=>'Traffic and Lung Disease Model',
+            'user_id'=>$id
+          ));
+          $m2 = array('UnifiedModel'=>array(
+            'name'=>'Hunter and Game',
+            'description'=>'Hunter and Game Model',
+            'user_id'=>$id
+          ));
+
+          // create the models
+          $this->User->UnifiedModel->create();
+          $model1 = $this->User->UnifiedModel->save($m1);
+          $this->User->UnifiedModel->create();
+          $model2 = $this->User->UnifiedModel->save($m2);
+
+          // create the generic entities
+          $ge1 = array('GenericEntity'=>array('name'=>'GenericEntity', 'unified_model_id'=>$model1['UnifiedModel']['id']));
+          $ge2 = array('GenericEntity'=>array('name'=>'GenericEntity', 'unified_model_id'=>$model2['UnifiedModel']['id']));
+          $this->User->UnifiedModel->GenericEntity->create();
+          $entity1 = $this->User->UnifiedModel->GenericEntity->save($ge1);
+          $this->User->UnifiedModel->GenericEntity->create();
+          $entity2 = $this->User->UnifiedModel->GenericEntity->save($ge2);
+
+          // create the generic processes
+          $gp1 = array('GenericProcess'=>array('name'=>'GenericProcess', 'unified_model_id'=>$model1['UnifiedModel']['id']));
+          $gp2 = array('GenericProcess'=>array('name'=>'GenericProcess', 'unified_model_id'=>$model2['UnifiedModel']['id']));
+          $this->User->UnifiedModel->GenericProcess->create();
+          $process1 = $this->User->UnifiedModel->GenericProcess->save($gp1);
+          $this->User->UnifiedModel->GenericProcess->create();
+          $process2 = $this->User->UnifiedModel->GenericProcess->save($gp2);
+
+          // create the generic process arguments
+          $gpa1 = array('GenericProcessArgument'=>
+                        array('generic_process_id'=>$process1['GenericProcess']['id'], 'generic_entity_id'=>$entity1['GenericEntity']['id']));
+          $gpa2 = array('GenericProcessArgument'=>
+                        array('generic_process_id'=>$process2['GenericProcess']['id'], 'generic_entity_id'=>$entity2['GenericEntity']['id']));
+          $this->User->UnifiedModel->GenericProcess->GenericProcessArgument->create();
+          $this->User->UnifiedModel->GenericProcess->GenericProcessArgument->save($gpa1);
+          $this->User->UnifiedModel->GenericProcess->GenericProcessArgument->create();
+          $this->User->UnifiedModel->GenericProcess->GenericProcessArgument->save($gpa2);
+
           if($this->Auth->login())
             return $this->redirect($this->Auth->redirect());
         }
