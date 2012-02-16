@@ -9,9 +9,9 @@ foreach($models as $model) {
 <a class="model" href="<? echo $this->Html->url(array('controller'=>'models', 'action'=>'view', $model['UnifiedModel']['id']))?>">
 <?
 echo $this->Html->div('name', $model['UnifiedModel']['name']);
-echo $this->Html->para('description', $model['UnifiedModel']['description']);
 if($users)
   printf('<div class="owner">%s</div>', $users[$model['UnifiedModel']['user_id']]);
+echo $this->Html->para('description', $model['UnifiedModel']['description']);
 ?>
 </a>
 <?
