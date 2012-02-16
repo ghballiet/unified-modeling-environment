@@ -15,5 +15,11 @@ class ConcreteProcessAttributesController extends AppController {
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
     }
   }
+
+  public function edit($id = null) {
+    if($this->request->is('post')) {
+      $this->layout = 'simulate';
+    }
+  }
 }
 ?>

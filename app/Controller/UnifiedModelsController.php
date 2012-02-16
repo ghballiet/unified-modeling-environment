@@ -24,6 +24,8 @@ class UnifiedModelsController extends AppController {
     // grab model information
     $concrete_entities = $this->UnifiedModel->ConcreteEntity->find('all', array('conditions'=>array(
       'ConcreteEntity.unified_model_id'=>$id)));
+    $concrete_entity_list = $this->UnifiedModel->ConcreteEntity->find('list', array('conditions'=>array(
+      'ConcreteEntity.unified_model_id'=>$id)));
     $concrete_processes = $this->UnifiedModel->ConcreteProcess->find('all', array('conditions'=>array(
       'ConcreteProcess.unified_model_id'=>$id)));
     $concrete_attrs = $this->UnifiedModel->ConcreteEntity->ConcreteAttribute->find('all',
@@ -36,6 +38,7 @@ class UnifiedModelsController extends AppController {
     
     // set model information
     $this->set('concrete_entities', $concrete_entities);
+    $this->set('concrete_entity_list', $concrete_entity_list);
     $this->set('concrete_processes', $concrete_processes);
     $this->set('concrete_attrs', $concrete_attrs);
     $this->set('concrete_equations', $concrete_equations);

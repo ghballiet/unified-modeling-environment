@@ -25,6 +25,8 @@
    results of simulating their model to the results in the file. These
    files will be space- and newline-delimited.
 
+======================================================================
+
 4. Users should be able to edit names or values without deleting the
    entry and recreating it with another spelling.
 

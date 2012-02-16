@@ -258,7 +258,8 @@ foreach($concrete_processes as $p) {
     printf('<div class="concrete-process-attribute" id="concrete-process-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
-    printf('.<span class="name" contenteditable="true">%s</span> = <span class="value" contenteditable="true">%s</span>;', $a['name'], $a['value']);
+    printf('.<span class="name" contenteditable="true">%s</span> = ', $a['name']);
+    printf('<span class="value" contenteditable="true" data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['value'], $a['id']);
     printf('</div>');
   }
   printf('<div class="reveal-modal" id="add-concrete-process-attribute-%s">', $p['ConcreteProcess']['id']);

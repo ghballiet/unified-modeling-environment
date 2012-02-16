@@ -66,8 +66,28 @@ $(document).ready(function() {
 
   // whenever content is editable, i'll be there...
   function saveEditableContent() {
-    $('span[contenteditable="true"]').keyup(function(e) {
-      
+    $('span[contenteditable="true"]').keydown(function(e) {
+      if(e.keyCode==13) {
+        e.preventDefault();
+        $(this).blur();
+        saveData($(this));
+        return false;
+      }
+    });
+  }
+
+  function saveData(item) {
+    var dataType = item.attr('data-type');
+    var dataId = item.attr('data-id');
+    var dataName = item.attr('data-name');
+    var dataModel = item.attr('data-model');
+    var dataValue = item.text();
+    var url = '../../' + dataType + '/edit/' + dataId;
+    var values = {};
+    values[dataModel] = {};
+    values[dataModel][dataName] = dataValue;
+    $.post(url, values, function(data) {
+      console.log(data);
     });
   }
 
