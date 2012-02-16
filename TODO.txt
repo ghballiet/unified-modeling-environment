@@ -1,0 +1,39 @@
+1. Generic processes should specify the number and type of arguments
+   (even when there is only one generic entity type).
+
+   NOTE: This means that generic processes may include multiple
+   arguments of the same generic entity type.
+
+2. Arguments to concrete processes should NOT specify types or
+   pattern-match variables; they should take concrete entities as
+   arguments, or at least they CAN take them as arguments.
+
+   NOTE: For the agent-based models, we may need to include pattern
+   match variables in arguments of concrete equations, but it is not
+   necessary for algebraic models.
+
+3. The system should let users provide a file with observed values for
+   exogenous variables and plot model-predicted "trajectories" over
+   "time" for specified variables; it should also plot the observed
+   values for requested endogenous variables.
+
+   NOTE: There will actually be two files: one for exogenous
+   variables, and one for endogenous variables. The file containing
+   values for endogenous variables represents empirical observations
+   or facts, which should be plotted alongside the values computed
+   from the simulation. This will allow students to compare the
+   results of simulating their model to the results in the file. These
+   files will be space- and newline-delimited.
+
+4. Users should be able to edit names or values without deleting the
+   entry and recreating it with another spelling.
+
+5. The user should not have to check a box to indicate that an
+   equation is algebraic; a drop-down menu would make more sense.
+
+6. Users should be able to resize the frames for generic and concrete
+   elements and the graphs for simulation results; also, the system
+   should not run text over the edge of frames.
+
+7. When the user creates an equation, the system should ensure that
+   all attributes in the equation have already been declared.
