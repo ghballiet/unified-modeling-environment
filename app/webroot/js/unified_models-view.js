@@ -64,5 +64,13 @@ $(document).ready(function() {
     }
   }
 
+  // whenever content is editable, i'll be there...
+  function saveEditableContent() {
+    $('span[contenteditable="true"]').keyup(function(e) {
+      
+    });
+  }
+
   grabExogenousData();
+  saveEditableContent();
 });
