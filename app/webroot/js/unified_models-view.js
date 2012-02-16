@@ -86,7 +86,9 @@ $(document).ready(function() {
     var values = {};
     values[dataModel] = {};
     values[dataModel][dataName] = dataValue;
+    //values[dataModel]['id'] = dataId;
     $.post(url, values, function(data) {
+      data = $.parseJSON(data);
       console.log(data);
     });
   }

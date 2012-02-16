@@ -205,7 +205,8 @@ foreach($concrete_entities as $e) {
   printf('<div class="concrete-entity" id="concrete-entity-%s">', $e['ConcreteEntity']['id']);
   echo $this->Html->link('×', array('controller'=>'concrete_entities', 'action'=>'delete', $e['ConcreteEntity']['id'],
     $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
-  printf('<span class="type">%s</span> <span class="name" contenteditable="true">%s</span> {<br>', $e['GenericEntity']['name'], $e['ConcreteEntity']['name']);
+  printf('<span class="type">%s</span> ', $e['GenericEntity']['name']);
+  printf('<span class="name" contenteditable="true" data-model="ConcreteEntity" data-type="concrete_entities" data-id="%d" data-name="name">%s</span> {<br>', $e['ConcreteEntity']['id'], $e['ConcreteEntity']['name']);
 
   printf('<div id="add-concrete-attribute-%s" class="reveal-modal">', $e['ConcreteEntity']['id']);
   echo $this->Html->tag('h1', 'Add Concrete Attribute');
@@ -259,7 +260,7 @@ foreach($concrete_processes as $p) {
     echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
     printf('.<span class="name" contenteditable="true">%s</span> = ', $a['name']);
-    printf('<span class="value" contenteditable="true" data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['value'], $a['id']);
+    printf('<span class="value" contenteditable="true" data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['id'], $a['value']);
     printf('</div>');
   }
   printf('<div class="reveal-modal" id="add-concrete-process-attribute-%s">', $p['ConcreteProcess']['id']);

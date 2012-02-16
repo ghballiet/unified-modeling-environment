@@ -17,8 +17,11 @@ class ConcreteProcessAttributesController extends AppController {
   }
 
   public function edit($id = null) {
-    if($this->request->is('post')) {
-      $this->layout = 'simulate';
+    $this->layout = 'simulate';
+    $this->ConcreteProcessAttribute->id = $id;
+    if($this->request->is('post') && $this->ConcreteProcessAttribute->save($this->request->data)) {
+      $response = array('msg'=>'Attribute updated.', 'data'=>$this->ConcreteProcessAttribute->read());
+      print json_encode($response);
     }
   }
 }
