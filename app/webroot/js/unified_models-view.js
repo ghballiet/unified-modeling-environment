@@ -66,7 +66,8 @@ $(document).ready(function() {
 
   function genericProcessArgs() {
     $('#GenericProcessNumArguments').change(function() {
-      console.log($(this).val());
+      var num = parseInt($(this).val()) + 1;
+      console.log(num);
     });
   }
 
