@@ -38,7 +38,7 @@ echo $this->Html->tag('h1', 'Add Generic Process');
 echo $this->Form->create('GenericProcess', array('controller'=>'GenericProcess', 'action'=>'create', 'inputDefaults'=>array(
   'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the process.'));
-echo $this->Form->input('num_arguments', array('options'=>range(1,20)));
+echo $this->Form->input('num_arguments', array('options'=>range(1,20), 'label'=>'# of Arguments'));
 echo $this->Form->input('argument-1', array('label'=>'Argument 1', 'options'=>$generic_entity_list));
 foreach(range(2, 20) as $i) {
   echo $this->Form->input("argument-$i", array('label'=>"Argument $i", 'options'=>$generic_entity_list,
