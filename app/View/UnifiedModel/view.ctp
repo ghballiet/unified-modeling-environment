@@ -12,6 +12,7 @@ var concrete_entity_list = <? print json_encode($concrete_entity_list); ?>;
 var concrete_processes = <? print json_encode($concrete_processes); ?>;
 var concrete_equations = <? print json_encode($concrete_equations); ?>;
 var concrete_process_arguments = <? print json_encode($concrete_process_arguments); ?>;
+var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>
 </script>
 
 <?
@@ -67,8 +68,9 @@ echo $this->Html->tag('h1', 'Add Concrete Process');
 echo $this->Form->create('ConcreteProcess', array('controller'=>'concrete_processes', 'action'=>'create', 'inputDefaults'=>array(
   'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the process.'));
-echo $this->Form->input('arguments', array('options'=>$concrete_entity_list, 'multiple'=>'checkbox'));
 echo $this->Form->input('generic_process_id', array('options'=>$generic_process_list));
+echo $this->Form->input('num_arguments', array('type'=>'hidden'));
+echo $this->Html->tag('div', '', array('id'=>'ConcreteProcessArguments'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->end('Add Process');
 printf('</div>');

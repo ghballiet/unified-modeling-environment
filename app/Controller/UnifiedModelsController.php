@@ -132,6 +132,22 @@ class UnifiedModelsController extends AppController {
         $concrete_process_arguments[$gp['ConcreteProcess']['id']] = $arr;
       }
 
+      // concrete process argument stuff
+      $concrete_process_argument_list = array();
+      foreach($generic_processes as $gp) {
+        // add generic process arguments
+        $row = array();
+        $args = $this->UnifiedModel->GenericProcess->GenericProcessArgument->find('all', array('conditions'=>array(
+          'GenericProcessArgument.generic_process_id'=>$gp['GenericProcess']['id'])));
+        foreach($args as $a) {
+          $ce = $this->UnifiedModel->ConcreteEntity->find('list', array('conditions'=>array(
+            'ConcreteEntity.generic_entity_id'=>$a['GenericEntity']['id'])));
+          // $row[$a['GenericProcessArgument']['id']] = $ce;
+          $row[] = $ce;
+        }
+        $concrete_process_argument_list[$gp['GenericProcess']['id']] = $row;
+      }
+
       // exogenous values
       $exogenous_values = $this->UnifiedModel->ExogenousValue->find('all', array('conditions'=>array(
         'UnifiedModel.id'=>$id)));
@@ -148,6 +164,7 @@ class UnifiedModelsController extends AppController {
       $this->set('concrete_processes', $concrete_processes);
       $this->set('concrete_equations', $concrete_equations);
       $this->set('concrete_process_arguments', $concrete_process_arguments);
+      $this->set('concrete_process_argument_list', $concrete_process_argument_list);
       $this->set('exogenous_values', $exogenous_values);
     }
   }

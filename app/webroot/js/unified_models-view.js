@@ -75,6 +75,38 @@ $(document).ready(function() {
     });
   }
 
+  function concreteProcessArgs() {
+    // load the initial set
+    var gp = $('#ConcreteProcessGenericProcessId').val();
+    loadConcreteProcessArgs(gp);
+
+    $('#ConcreteProcessGenericProcessId').change(function() {
+      loadConcreteProcessArgs($(this).val());
+    });
+  }
+
+  function loadConcreteProcessArgs(id) {
+    var cpa = concrete_process_argument_list;
+    var count = 0;
+    $('#ConcreteProcessArguments').html('');
+    for(var i in cpa[id]) {
+      count++;
+      var arg = cpa[id][i];
+      var div = $('<div />').addClass('input select');
+      var num = parseInt(i)+1;
+      var lbl = $('<label />').html('Argument ' + num);
+      var select = $('<select />').attr('name', 'data[ConcreteProcess][argument-' + i + ']');
+      for(var j in arg) {
+        var opt = $('<option />').val(j).html(arg[j]);
+        select.append(opt);
+      }
+      div.append(lbl).append(select);
+      $('#ConcreteProcessArguments').append(div);
+    }
+    $('#ConcreteProcessNumArguments').val(count);
+  }
+
   grabExogenousData();
   genericProcessArgs();
+  concreteProcessArgs();
 });
