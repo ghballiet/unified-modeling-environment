@@ -328,6 +328,13 @@ foreach($concrete_processes as $p) {
     <div id="exogenous-values" class="reveal-modal">
 <?
 echo $this->Html->tag('h1', 'Edit Exogenous Data');
+if($exogenous_values != null)
+  $ex_text = $exogenous_values['ExogenousValue']['value'];
+echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit',
+                                                 'inputDefaults'=>array('required'=>'true')));
+echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
+echo $this->Form->input('value', array('value'=>$ex_text));
+echo $this->Form->end('Save Data');
 ?>
     </div>
     <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>

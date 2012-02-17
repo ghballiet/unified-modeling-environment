@@ -149,8 +149,7 @@ class UnifiedModelsController extends AppController {
       }
 
       // exogenous values
-      $exogenous_values = $this->UnifiedModel->ExogenousValue->find('all', array('conditions'=>array(
-        'UnifiedModel.id'=>$id)));
+      $exogenous_values = $this->UnifiedModel->ExogenousValue->findByUnifiedModelId($id);
 
       $this->set('generic_entities', $generic_entities);
       $this->set('generic_attributes', $generic_attributes);
