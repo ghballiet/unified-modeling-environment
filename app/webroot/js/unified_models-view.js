@@ -60,7 +60,7 @@ $(document).ready(function() {
         continue;
       var row = $('<tr />');
       var spanName = $('<span />').addClass('name').html(i);
-      var tdRow = $('<td />').addClass('row').html(num+1);
+      var tdRow = $('<td />').addClass('row').html(num);
       var tdName = $('<td />').addClass('name').append(spanName);
       var tdValue = $('<td />').addClass('value').html(data[i]);
       row.append(tdRow).append(tdName).append(tdValue);
@@ -71,10 +71,26 @@ $(document).ready(function() {
   function chartData(values) {
     var data = new google.visualization.DataTable();
     data.addColumn('number', 'Time');
-    data.addColumn('string', 'Attribute');
-    data.addColumn('number', 'Value');
-
-    // pivot the data table
+    var rows = [];
+    // pivot the data table    
+    for(var i in values[0])
+      data.addColumn('number', i);
+    for(var i in values) {
+      var row = [];
+      row.push(parseInt(i));
+      for(var j in values[i])
+        row.push(values[i][j]);
+      rows.push(row);
+    }    
+    console.log(rows);
+    data.addRows(rows);
+    var width = $('#right').width();
+    var options = {
+      width: width, height: 350, title: '', fontSize: 10, fontName: 'Helvetica, Arial'
+    };
+    
+    var chart = new google.visualization.LineChart(document.getElementById('google-chart'));
+    chart.draw(data, options);
   }
 
   function genericProcessArgs() {
