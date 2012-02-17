@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><? echo $title_for_layout; ?> | Unified Modeling Framework</title>
     <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <link href="http://fonts.googleapis.com/css?family=Signika+Negative:300,400,600,700|Crete+Round|Ubuntu+Mono:400,700,400italic" rel="stylesheet" type="text/css">
 <?
 echo $this->Html->script('jquery.reveal');

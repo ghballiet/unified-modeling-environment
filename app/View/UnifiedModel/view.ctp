@@ -343,12 +343,17 @@ $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulat
                               $model['UnifiedModel']['id']));
 printf('<input type="hidden" id="data-url" value="%s">', $url);
 ?>
+    <div id="google-chart">
+      <script type="text/javascript">
+        google.load('visualization', '1', { packages: ['corechart']});
+      </script>
+    </div>
     <div id="simulation-data">
       <table>
-        <thead><tr><th>Row</th><th>Attribute</th><th>Value</th></tr></thead>
+        <thead><tr><th>Time</th><th>Attribute</th><th>Value</th></tr></thead>
         <tbody></tbody>
       </table>
-    </div>
+    </div>  
   </div>
 </div>
 <div class="clearfix"></div>

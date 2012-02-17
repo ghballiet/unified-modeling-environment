@@ -3,16 +3,20 @@ printf("// NAME: %s\n", $model['UnifiedModel']['name']);
 printf("// AUTH: %s (%s)\n", $user['User']['name'], $user['User']['email']);
 printf("// DESC: %s\n\n", $model['UnifiedModel']['description']);
 
+printf("var values = {};\n");
+
 printf("// entities\n");
 
 // concrete entities
+printf("values[0] = {};\n");
 foreach($concrete_entities as $ce) {
-  printf("var %s = {", $ce['ConcreteEntity']['name']);
-  printf("'id': %d, 'entity_name': '%s', ", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['name']);
+  //printf("var %s = {", $ce['ConcreteEntity']['name']);  
+  //printf("'id': %d, 'entity_name': '%s', ", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['name']);
   foreach($ce['ConcreteAttribute'] as $ca) {
-    printf("'%s': %s, ", $ca['name'], $ca['value']);
+    // printf("'%s': %s, ", $ca['name'], $ca['value']);
+    printf("values[0]['%s.%s'] = %s;\n", $ce['ConcreteEntity']['name'], $ca['name'], $ca['value']);
   }
-  printf("};\n");
+  //printf("};\n");
 }
 
 // process attributes
@@ -38,26 +42,49 @@ foreach($lines as $i => $line) {
   else
     $arr['data'][] = $tokens;
 }
-printf("var values = {};\n");
-foreach($arr['data'] as $i=>$row) {
-  printf("values[%d] = [];\n", $i);
+
+foreach($arr['data'] as $h=>$row) {
+  $i = $h+1;
+  printf("values[%d] = {};\n", $i);
+  foreach($concrete_entities as $ce) {
+    foreach($ce['ConcreteAttribute'] as $ca)
+      printf("values[%d]['%s.%s'] = %s;\n", $i, $ce['ConcreteEntity']['name'], $ca['name'], $ca['value']);
+  }
+
   foreach($row as $j=>$val) {
     $key = $arr['keys'][$j];
     $split = split('\.', $key);
     $entity = $split[0];
     $attr = $split[1];
     $val = floatval($val);
-    $r = array('entity'=>$entity, 'attribute'=>$attr, 'value'=>$val);
-    printf("values[%d].push(%s);\n", $i, json_encode($r));
+    //$r = array('entity'=>$entity, 'attribute'=>$attr, 'value'=>$val);
+    // printf("values[%d].push(%s);\n", $i, json_encode($r));
+    printf("values[%d]['%s.%s'] = %s;\n", $i, $entity, $attr, $val);
   }
 }
 
-printf("\n// equations\n");
+printf("\n// process equations\n");
 
 // concrete equations
 foreach($concrete_equations as $cq) {
   // build terms
   $rhs = $cq['ConcreteEquation']['right_hand_side'];
+  for($i=0; $i<sizeof($arr['data']); $i++) {
+    $h = $i + 1;
+    $entity_id = $cq['ConcreteAttribute']['concrete_entity_id'];
+    $entity_name = $concrete_entity_list[$entity_id];
+    $attr_name = $cq['ConcreteAttribute']['name'];
+    $rhs = preg_replace('/\s\s+/', ' ', $rhs);
+    $tokens = explode(' ', $rhs);
+    $parsedTokens = array();
+    foreach($tokens as $j=>$token) {
+      $token = preg_replace('/(\w+)\.(\w+)/', "values[%d]['$1.$2']", $token);
+      $parsedTokens[$j] = sprintf($token, $h);
+    }
+    $newRhs = join(' ', $parsedTokens);
+    printf("values[%d]['%s.%s'] = %s;\n", $h, $entity_name, $attr_name, $newRhs);
+  }
+  /*
   $tokens = explode(' ', $rhs);
   $parsedTokens = array();
   foreach($tokens as $i=>$token) {
@@ -71,12 +98,6 @@ foreach($concrete_equations as $cq) {
   $name = $concrete_entity_list[$entity_id];
 
   printf("%s.%s += %s;\n", $name, $cq['ConcreteAttribute']['name'], $newRhs);
+  */
 }
-
-printf("\n//add to variables list\n");
-
-// add variables
-printf("var variables={};\n");
-foreach($concrete_entities as $ce)
-  printf("variables.x%d = %s;\n", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['name']);
 ?>

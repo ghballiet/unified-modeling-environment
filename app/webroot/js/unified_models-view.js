@@ -45,27 +45,36 @@ $(document).ready(function() {
       eval(data);
       console.log('Values: ', values);
       console.log('Simulation data loaded.');
-      console.log('Variables: ', variables);
-      for(var i in variables) {
-        createRows(variables[i]);
+      chartData(values);
+      for(var i in values) {
+        i = parseInt(i);
+        createRows(i, values[i]);
       }
     });
   }
 
-  function createRows(data) {
+  function createRows(num, data) {
     var name = data.entity_name;
     for(var i in data) {
       if(i == 'id' || i == 'entity_name')
         continue;
       var row = $('<tr />');
-      var spanName = $('<span />').addClass('name').html(name);
-      var spanAttr = $('<span />').addClass('attr').html(i);
-      var tdRow = $('<td />').addClass('row');
-      var tdName = $('<td />').addClass('name').append(spanName).append('.').append(spanAttr);
+      var spanName = $('<span />').addClass('name').html(i);
+      var tdRow = $('<td />').addClass('row').html(num+1);
+      var tdName = $('<td />').addClass('name').append(spanName);
       var tdValue = $('<td />').addClass('value').html(data[i]);
       row.append(tdRow).append(tdName).append(tdValue);
       $('#simulation-data tbody').append(row);
     }
+  }
+
+  function chartData(values) {
+    var data = new google.visualization.DataTable();
+    data.addColumn('number', 'Time');
+    data.addColumn('string', 'Attribute');
+    data.addColumn('number', 'Value');
+
+    // pivot the data table
   }
 
   function genericProcessArgs() {
