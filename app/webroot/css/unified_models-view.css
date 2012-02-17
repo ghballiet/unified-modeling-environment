@@ -53,3 +53,5 @@ a.expand{position:absolute;margin-left:-22px;color:#cccccc;font-size:11px;displa
 #simulation-data table tbody tr:last-child td{border-bottom:none;}
 #simulation-data table th{border-bottom:solid 1px #555555;color:#333333;}
 #simulation-data table td span.name{font-weight:bold;color:#039ad7;}
+#exogenous-values label{display:block;}
+#exogenous-values #ExogenousValueValue{width:100%;line-height:1.25em;font-family:'Ubuntu Mono',monospace;font-size:13px;color:#555555;height:250px;}
