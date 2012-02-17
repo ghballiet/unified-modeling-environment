@@ -1,5 +1,6 @@
 <?
 printf("// NAME: %s\n", $model['UnifiedModel']['name']);
+printf("// AUTH: %s (%s)\n", $user['User']['name'], $user['User']['email']);
 printf("// DESC: %s\n\n", $model['UnifiedModel']['description']);
 
 printf("// entities\n");
@@ -22,13 +23,33 @@ foreach($concrete_processes as $cp) {
   }
 }
 
-// exogenous values
-printf("\n// exogenous values\n");
-foreach($exogenous_values as $e) {
-  $entity_id = $e['ConcreteAttribute']['concrete_entity_id'];
-  $name = $concrete_entity_list[$entity_id];
-  printf("%s.%s = %s;\n", $name, $e['ConcreteAttribute']['name'],
-         $e['ExogenousValue']['value']);
+// exogenous data
+printf("\n// exogenous data\n");
+$ex = $exogenous_data['ExogenousValue'];
+$lines = explode("\n", $ex['value']);
+$arr = array();
+$arr['data'] = array();
+foreach($lines as $i => $line) {
+  $line = str_replace("\r", '', $line);
+  $line = preg_replace('/\s\s+/', ' ', $line);
+  $tokens = split(' ', $line);
+  if($i == 0)
+    $arr['keys'] = $tokens;
+  else
+    $arr['data'][] = $tokens;
+}
+printf("var values = {};\n");
+foreach($arr['data'] as $i=>$row) {
+  printf("values[%d] = [];\n", $i);
+  foreach($row as $j=>$val) {
+    $key = $arr['keys'][$j];
+    $split = split('\.', $key);
+    $entity = $split[0];
+    $attr = $split[1];
+    $val = floatval($val);
+    $r = array('entity'=>$entity, 'attribute'=>$attr, 'value'=>$val);
+    printf("values[%d].push(%s);\n", $i, json_encode($r));
+  }
 }
 
 printf("\n// equations\n");

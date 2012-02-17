@@ -33,8 +33,7 @@ class UnifiedModelsController extends AppController {
       array('group'=>array('ConcreteEntity.id')));
     $concrete_equations = $this->UnifiedModel->ConcreteProcess->ConcreteEquation->find('all',
       array('conditions'=>array('ConcreteProcess.unified_model_id'=>$id)));
-    $exogenous_values = $this->UnifiedModel->ExogenousValue->find('all', array('conditions'=>array(
-      'UnifiedModel.id'=>$id)));
+    $exogenous_data = $this->UnifiedModel->ExogenousValue->findByUnifiedModelId($id);
     
     // set model information
     $this->set('concrete_entities', $concrete_entities);
@@ -42,7 +41,8 @@ class UnifiedModelsController extends AppController {
     $this->set('concrete_processes', $concrete_processes);
     $this->set('concrete_attrs', $concrete_attrs);
     $this->set('concrete_equations', $concrete_equations);
-    $this->set('exogenous_values', $exogenous_values);
+    $this->set('exogenous_data', $exogenous_data);
+    $this->set('user', $this->UnifiedModel->User->findById($model['UnifiedModel']['user_id']));
 
     // display stuff correctly
     if($this->request->is('get'))

@@ -43,6 +43,7 @@ $(document).ready(function() {
     var url = $('#data-url').val();
     $.post(url, {}, function(data) {
       eval(data);
+      console.log('Values: ', values);
       console.log('Simulation data loaded.');
       console.log('Variables: ', variables);
       for(var i in variables) {
@@ -59,9 +60,10 @@ $(document).ready(function() {
       var row = $('<tr />');
       var spanName = $('<span />').addClass('name').html(name);
       var spanAttr = $('<span />').addClass('attr').html(i);
+      var tdRow = $('<td />').addClass('row');
       var tdName = $('<td />').addClass('name').append(spanName).append('.').append(spanAttr);
       var tdValue = $('<td />').addClass('value').html(data[i]);
-      row.append(tdName).append(tdValue);
+      row.append(tdRow).append(tdName).append(tdValue);
       $('#simulation-data tbody').append(row);
     }
   }
