@@ -325,60 +325,12 @@ foreach($concrete_processes as $p) {
     <h2>Simulation</h2>
   </div>
   <div class="content">
-    <div class="reveal-modal" id="exogenous-values">
+    <div id="exogenous-values" class="reveal-modal">
 <?
-echo $this->Html->tag('h1', 'Exogenous Value Setup');
-$list = array();
-foreach($concrete_entities as $ce) {
-  $grp = array();
-  foreach($ce['ConcreteAttribute'] as $ca)
-    $grp[$ca['id']] = sprintf('%s.%s', $ce['ConcreteEntity']['name'], $ca['name']);
-  $list[$ce['ConcreteEntity']['name']] = $grp;
-}
-
-printf('<table class="exogenous-values">');
-printf('<tr><th></th><th>Attribute</th><th>Value</th><th></th></tr>');
-
-foreach($exogenous_values as $e) {
-  printf('<tr class="edit-exogenous-value">');
-  printf('<td class="delete">%s</td>', $this->Html->link('×', array('controller'=>'exogenous_values', 'action'=>'delete', $e['ExogenousValue']['id'], $model['UnifiedModel']['id'])));
-  echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit', 
-                                                   'inputDefaults'=>array('required'=>'true')));
-  echo $this->Form->input('id', array('type'=>'hidden', 'value'=>$e['ExogenousValue']['id']));
-  echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
-  printf('<td class="concrete-attribute">');
-  echo $this->Form->input('concrete_attribute_id', array('options'=>$list,
-                                                         'value'=>$e['ConcreteAttribute']['id']));
-  printf('</td>');
-  printf('<td class="value">');
-  echo $this->Form->input('value', array('value'=>$e['ExogenousValue']['value']));
-  printf('</td>');
-  printf('<td class="submit">');
-  echo $this->Form->end('Save');
-  printf('</td>');
-  printf('</tr>');
-}
-
-printf('<tr class="add-exogenous-value">');
-printf('<td></td>');
-echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'create', 
-                                                 'inputDefaults'=>array('required'=>'true')));
-echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
-printf('<td class="concrete-attribute">');
-echo $this->Form->input('concrete_attribute_id', array('options'=>$list));
-printf('</td>');
-printf('<td class="value">');
-echo $this->Form->input('value');
-printf('</td>');
-printf('<td class="submit">');
-echo $this->Form->end('Add');
-printf('</td>');
-printf('</tr>');
-
-printf('</table>');
+echo $this->Html->tag('h1', 'Edit Exogenous Data');
 ?>
     </div>
-    <a href="#" data-reveal-id="exogenous-values" class="btn">Setup Exogenous Values</a>
+    <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));

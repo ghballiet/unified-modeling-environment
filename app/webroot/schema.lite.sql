@@ -114,10 +114,16 @@ create table if not exists operands (
   symbol varchar(50)
 );
 
+-- create table if not exists exogenous_values (
+--   id integer primary key autoincrement,
+--   timestep integer,
+--   concrete_attribute_id integer,
+--   value varchar(250),
+--   unified_model_id integer  
+-- );
+
 create table if not exists exogenous_values (
-  id integer primary key autoincrement,
-  timestep integer,
-  concrete_attribute_id integer,
-  value varchar(250),
-  unified_model_id integer  
+  id integer primary key autoincrement, 
+  value longtext,
+  unified_model_id integer
 );
