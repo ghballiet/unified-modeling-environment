@@ -86,7 +86,8 @@ $(document).ready(function() {
     data.addRows(rows);
     var width = $('#right').width();
     var options = {
-      width: width, height: 350, title: '', fontSize: 10, fontName: 'Helvetica, Arial'
+      width: width, height: 350, title: '', fontSize: 10, fontName: 'Helvetica, Arial',
+      curveType: 'function'
     };
     
     var chart = new google.visualization.LineChart(document.getElementById('google-chart'));
