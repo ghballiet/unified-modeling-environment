@@ -64,5 +64,10 @@ $(document).ready(function() {
     }
   }
 
+  function genericProcessArgs() {
+    var div = $('#GenericProcessArguments-1').parent().clone();
+  }
+
   grabExogenousData();
+  genericProcessArgs();
 });

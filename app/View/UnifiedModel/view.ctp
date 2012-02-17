@@ -38,7 +38,7 @@ echo $this->Html->tag('h1', 'Add Generic Process');
 echo $this->Form->create('GenericProcess', array('controller'=>'GenericProcess', 'action'=>'create', 'inputDefaults'=>array(
   'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the process.'));
-echo $this->Form->input('num_arguments', array('type'=>'number', 'min'=>'1', 'max'=>'20'));
+echo $this->Form->input('num_arguments', array('label'=>'# of Arguments', 'type'=>'number', 'min'=>'1', 'max'=>'20', 'value'=>'1'));
 echo $this->Form->input('arguments-1', array('label'=>'Argument 1', 'options'=>$generic_entity_list));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->end('Add Process');
