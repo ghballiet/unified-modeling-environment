@@ -18,6 +18,7 @@ class ConcreteEntitiesController extends AppController {
 
   public function edit($id = null) {
     $this->layout = 'simulate';
+    $this->ConcreteEntity->id = $id;
     if($this->request->is('post') && $this->ConcreteEntity->save($this->request->data)) {
       $response = array('msg'=>'Entity updated.', 'data'=>$this->ConcreteEntity->read());
       print json_encode($response);

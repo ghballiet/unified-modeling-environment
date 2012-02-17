@@ -38,7 +38,8 @@ echo $this->Html->tag('h1', 'Add Generic Process');
 echo $this->Form->create('GenericProcess', array('controller'=>'GenericProcess', 'action'=>'create', 'inputDefaults'=>array(
   'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the process.'));
-echo $this->Form->input('arguments', array('options'=>$generic_entity_list, 'multiple'=>'checkbox'));
+echo $this->Form->input('num_arguments', array('type'=>'number', 'min'=>'1', 'max'=>'20'));
+echo $this->Form->input('arguments', array('options'=>$generic_entity_list));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->end('Add Process');
 printf('</div>');
@@ -206,7 +207,7 @@ foreach($concrete_entities as $e) {
   echo $this->Html->link('×', array('controller'=>'concrete_entities', 'action'=>'delete', $e['ConcreteEntity']['id'],
     $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
   printf('<span class="type">%s</span> ', $e['GenericEntity']['name']);
-  printf('<span class="name" contenteditable="true" data-model="ConcreteEntity" data-type="concrete_entities" data-id="%d" data-name="name">%s</span> {<br>', $e['ConcreteEntity']['id'], $e['ConcreteEntity']['name']);
+  printf('<span class="name" data-model="ConcreteEntity" data-type="concrete_entities" data-id="%d" data-name="name">%s</span> {<br>', $e['ConcreteEntity']['id'], $e['ConcreteEntity']['name']);
 
   printf('<div id="add-concrete-attribute-%s" class="reveal-modal">', $e['ConcreteEntity']['id']);
   echo $this->Html->tag('h1', 'Add Concrete Attribute');
@@ -225,7 +226,7 @@ foreach($concrete_entities as $e) {
     echo $this->Html->link('×', array('controller'=>'concrete_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
     printf('<div class="concrete-attribute">');
-    printf('.<span class="name" contenteditable="true">%s</span> = <span class="value" contenteditable="true">%s</span>;', $a['name'], $a['value']);
+    printf('.<span class="name" >%s</span> = <span class="value" >%s</span>;', $a['name'], $a['value']);
     printf('</div>');
   }
   printf('<div id="concrete-expand-%s" data-expand-id="generic-entity-%s" class="expand"></div>', $e['ConcreteEntity']['id'], $e['GenericEntity']['id']);
@@ -243,7 +244,7 @@ foreach($concrete_processes as $p) {
   printf('<div class="concrete-process" id="concrete-process-%s">', $p['ConcreteProcess']['id']);
   echo $this->Html->link('×', array('controller'=>'concrete_processes', 'action'=>'delete', $p['ConcreteProcess']['id'], $model['UnifiedModel']['id']),
     array('class'=>'btnDelete')); 
-  printf(':<span class="type">process</span> <span class="name" contenteditable="true">%s</span>(', $p['ConcreteProcess']['name']);
+  printf(':<span class="type">process</span> <span class="name" >%s</span>(', $p['ConcreteProcess']['name']);
   
   $args = array();
   // print out arguments
@@ -259,8 +260,8 @@ foreach($concrete_processes as $p) {
     printf('<div class="concrete-process-attribute" id="concrete-process-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
-    printf('.<span class="name" contenteditable="true">%s</span> = ', $a['name']);
-    printf('<span class="value" contenteditable="true" data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['id'], $a['value']);
+    printf('.<span class="name" >%s</span> = ', $a['name']);
+    printf('<span class="value"  data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['id'], $a['value']);
     printf('</div>');
   }
   printf('<div class="reveal-modal" id="add-concrete-process-attribute-%s">', $p['ConcreteProcess']['id']);
@@ -300,7 +301,7 @@ foreach($concrete_processes as $p) {
       // diff eq
       printf('d[<span class="name">%s</span>.<span class="attr">%s</span>]', $q['ConcreteEntity']['name'], $q['ConcreteAttribute']['name']);
     }
-    printf(' = <span class="value" contenteditable="true">%s</span>;', $q['ConcreteEquation']['right_hand_side']);
+    printf(' = <span class="value" >%s</span>;', $q['ConcreteEquation']['right_hand_side']);
     printf('</div>');
   }
   

@@ -57,5 +57,5 @@ printf("\n//add to variables list\n");
 // add variables
 printf("var variables={};\n");
 foreach($concrete_entities as $ce)
-  printf("variables.x%d = x%d;\n", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['id']);
+  printf("variables.x%d = %s;\n", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['name']);
 ?>
