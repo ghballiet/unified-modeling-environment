@@ -10,13 +10,9 @@ printf("// entities\n");
 // concrete entities
 printf("values[0] = {};\n");
 foreach($concrete_entities as $ce) {
-  //printf("var %s = {", $ce['ConcreteEntity']['name']);  
-  //printf("'id': %d, 'entity_name': '%s', ", $ce['ConcreteEntity']['id'], $ce['ConcreteEntity']['name']);
   foreach($ce['ConcreteAttribute'] as $ca) {
-    // printf("'%s': %s, ", $ca['name'], $ca['value']);
     printf("values[0]['%s.%s'] = %s;\n", $ce['ConcreteEntity']['name'], $ca['name'], $ca['value']);
   }
-  //printf("};\n");
 }
 
 // process attributes
@@ -57,11 +53,10 @@ foreach($arr['data'] as $h=>$row) {
     $entity = $split[0];
     $attr = $split[1];
     $val = floatval($val);
-    //$r = array('entity'=>$entity, 'attribute'=>$attr, 'value'=>$val);
-    // printf("values[%d].push(%s);\n", $i, json_encode($r));
     printf("values[%d]['%s.%s'] = %s;\n", $i, $entity, $attr, $val);
   }
 }
+
 
 printf("\n// process equations\n");
 
@@ -84,20 +79,5 @@ foreach($concrete_equations as $cq) {
     $newRhs = join(' ', $parsedTokens);
     printf("values[%d]['%s.%s'] = %s;\n", $h, $entity_name, $attr_name, $newRhs);
   }
-  /*
-  $tokens = explode(' ', $rhs);
-  $parsedTokens = array();
-  foreach($tokens as $i=>$token) {
-    $token = str_replace('?', '', $token);
-    $token = preg_replace('/^(\d+)\.(\w+)$/i', "$1.$2", $token);
-    $parsedTokens[$i] = $token;
-  }
-  $newRhs = join(' ', $parsedTokens);
-
-  $entity_id = $cq['ConcreteAttribute']['concrete_entity_id'];
-  $name = $concrete_entity_list[$entity_id];
-
-  printf("%s.%s += %s;\n", $name, $cq['ConcreteAttribute']['name'], $newRhs);
-  */
 }
 ?>

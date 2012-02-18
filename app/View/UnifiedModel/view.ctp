@@ -13,6 +13,52 @@ var concrete_processes = <? print json_encode($concrete_processes); ?>;
 var concrete_equations = <? print json_encode($concrete_equations); ?>;
 var concrete_process_arguments = <? print json_encode($concrete_process_arguments); ?>;
 var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>
+
+// empirical data
+var empirical_data = {};
+<?
+printf("empirical_data[0] = {}\n");
+// concrete entities
+foreach($concrete_entities as $ce) {
+  foreach($ce['ConcreteAttribute'] as $ca) {
+    printf("empirical_data[0]['%s.%s'] = %s;\n", $ce['ConcreteEntity']['name'], $ca['name'], $ca['value']);
+  }
+}
+// empirical data
+$ed = $empirical_data['EmpiricalObservation'];
+$lines = explode("\n", $ed['value']);
+$arr = array();
+$arr['data'] = array();
+
+foreach($lines as $i => $line) {
+  $line = str_replace("\r", '', $line);
+  $line = preg_replace('/\s\s+/', ' ', $line);
+  $tokens = split(' ', $line);
+  if($i == 0)
+    $arr['keys'] = $tokens;
+  else
+    $arr['data'][] = $tokens;
+}
+
+foreach($arr['data'] as $h=>$row) {
+  $i = $h+1;
+  printf("empirical_data[%d] = {};\n", $i);
+  foreach($concrete_entities as $ce) {
+    foreach($ce['ConcreteAttribute'] as $ca)
+      printf("empirical_data[%d]['%s.%s'] = %s;\n", $i, $ce['ConcreteEntity']['name'], $ca['name'], 
+             $ca['value']);
+  }
+
+  foreach($row as $j=>$val) {
+    $key = $arr['keys'][$j];
+    $split = split('\.', $key);
+    $entity = $split[0];
+    $attr = $split[1];
+    $val = floatval($val);
+    printf("empirical_data[%d]['%s.%s'] = %s;\n", $i, $entity, $attr, $val);
+  }
+}
+?>
 </script>
 
 <?

@@ -15,7 +15,7 @@ class EmpiricalObservationsController extends AppController {
       return false;
 
     $modelId = $this->request->data['EmpiricalObservation']['unified_model_id'];
-    $eo = $this->EmpiricalObservation->findByModelId($modelId);
+    $eo = $this->EmpiricalObservation->findByUnifiedModelId($modelId);
     if($eo != null)
       $this->EmpiricalObservation->id = $eo['EmpiricalObservation']['id'];
     else

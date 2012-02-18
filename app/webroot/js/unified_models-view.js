@@ -25,7 +25,8 @@ $(document).ready(function() {
   $('input[type="text"], textarea').live('keypress', function(e) {
     if($(this).attr('id') == 'ConcreteEquationRightHandSide' ||
        $(this).attr('id') == 'GenericEquationRightHandSide' ||
-       $(this).attr('id') == 'ExogenousValueValue')
+       $(this).attr('id') == 'ExogenousValueValue' ||
+       $(this).attr('id') == 'EmpiricalObservationValue')
       return true;
     if(e.keyCode == 32) {
       e.preventDefault();
@@ -44,6 +45,7 @@ $(document).ready(function() {
     $.post(url, {}, function(data) {
       eval(data);
       console.log('Values: ', values);
+      console.log('Facts: ', empirical_data);
       console.log('Simulation data loaded.');
       drawCharts(values);
       /*for(var i in values) {
@@ -75,7 +77,8 @@ $(document).ready(function() {
     for(var i in values[0]) {
       var table = new google.visualization.DataTable();
       table.addColumn('number', 'Time');
-      table.addColumn('number', i);
+      table.addColumn('number', 'Simulated');
+      table.addColumn('number', 'Observed');
       data[i] = table;      
     }
     // build the rest of the data tables
@@ -84,6 +87,7 @@ $(document).ready(function() {
         var row = [];
         row.push(parseInt(i));
         row.push(values[i][j]);
+        row.push(empirical_data[i][j]);
         data[j].addRows([row]);
       }
     }
