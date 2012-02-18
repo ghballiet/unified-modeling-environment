@@ -337,7 +337,13 @@ echo $this->Form->input('value', array('value'=>$ex_text));
 echo $this->Form->end('Save Data');
 ?>
     </div>
+    <div id="empirical-data" class="reveal-modal">
+<?
+echo $this->Html->tag('h1', 'Edit Empirical Data');
+?>
+    </div>
     <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>
+    <a href="#" data-reveal-id="empirical-data" class="btn">Edit Empirical Data</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));
@@ -348,12 +354,14 @@ printf('<input type="hidden" id="data-url" value="%s">', $url);
         google.load('visualization', '1', { packages: ['corechart']});
       </script>
     </div>
+    <!-- 
     <div id="simulation-data">
       <table>
         <thead><tr><th>Time</th><th>Attribute</th><th>Value</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>  
+    -->
   </div>
 </div>
 <div class="clearfix"></div>

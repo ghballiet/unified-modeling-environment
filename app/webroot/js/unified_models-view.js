@@ -45,11 +45,11 @@ $(document).ready(function() {
       eval(data);
       console.log('Values: ', values);
       console.log('Simulation data loaded.');
-      chartData(values);
-      for(var i in values) {
+      drawCharts(values);
+      /*for(var i in values) {
         i = parseInt(i);
         createRows(i, values[i]);
-      }
+      }*/
     });
   }
 
@@ -68,30 +68,36 @@ $(document).ready(function() {
     }
   }
 
-  function chartData(values) {
-    var data = new google.visualization.DataTable();
-    data.addColumn('number', 'Time');
-    var rows = [];
-    // pivot the data table    
-    for(var i in values[0])
-      data.addColumn('number', i);
+  function drawCharts(values) {
+    // we're gonna do this with arrays
+    var data = {};
+    // build the initial rows
+    for(var i in values[0]) {
+      var table = new google.visualization.DataTable();
+      table.addColumn('number', 'Time');
+      table.addColumn('number', i);
+      data[i] = table;      
+    }
+    // build the rest of the data tables
     for(var i in values) {
-      var row = [];
-      row.push(parseInt(i));
-      for(var j in values[i])
+      for(var j in values[i]) {
+        var row = [];
+        row.push(parseInt(i));
         row.push(values[i][j]);
-      rows.push(row);
-    }    
-    console.log(rows);
-    data.addRows(rows);
+        data[j].addRows([row]);
+      }
+    }
     var width = $('#right').width();
-    var options = {
-      width: width, height: 350, title: '', fontSize: 10, fontName: 'Helvetica, Arial',
-      curveType: 'function'
-    };
-    
-    var chart = new google.visualization.LineChart(document.getElementById('google-chart'));
-    chart.draw(data, options);
+    for(var i in data) {
+      var options = {
+        width: width, height: 100, title: i, fontSize: 10, fontName: 'Helvetica, Arial',
+        curveType: 'function', legend: { position: 'top' }
+      };
+      var div = $('<div />').attr('id', 'chart-' + i);
+      $('#google-chart').append(div);
+      var chart = new google.visualization.LineChart(document.getElementById('chart-' + i));
+      chart.draw(data[i], options);
+    }
   }
 
   function genericProcessArgs() {

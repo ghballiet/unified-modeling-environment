@@ -127,3 +127,9 @@ create table if not exists exogenous_values (
   value longtext,
   unified_model_id integer
 );
+
+create table if not exists empirical_observations (
+  id integer primary key autoincrement,
+  value longtext, 
+  unified_model_id integer
+);
