@@ -1,0 +1,5 @@
+California.highway_toll  California.gas_cost_per_barrel  California.gas_tax  California.gas_cost_per_gallon  California.cars_on_road  California.air_quality  California.lung_disease
+75000                    20                              1.5                 3.75                            2100                     100                     45000
+100000                   20                              1.5                 3.75                            3500                     40                      35000
+43123                    30                              0.5                 4.5                             300                      80                      20000
+114323                   40                              1.8                 5.0                             5000                     90                      10000
