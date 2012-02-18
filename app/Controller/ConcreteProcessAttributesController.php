@@ -15,5 +15,14 @@ class ConcreteProcessAttributesController extends AppController {
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
     }
   }
+
+  public function edit($id = null) {
+    $this->layout = 'simulate';
+    $this->ConcreteProcessAttribute->id = $id;
+    if($this->request->is('post') && $this->ConcreteProcessAttribute->save($this->request->data)) {
+      $response = array('msg'=>'Attribute updated.', 'data'=>$this->ConcreteProcessAttribute->read());
+      print json_encode($response);
+    }
+  }
 }
 ?>

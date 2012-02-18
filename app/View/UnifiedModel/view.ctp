@@ -12,6 +12,53 @@ var concrete_entity_list = <? print json_encode($concrete_entity_list); ?>;
 var concrete_processes = <? print json_encode($concrete_processes); ?>;
 var concrete_equations = <? print json_encode($concrete_equations); ?>;
 var concrete_process_arguments = <? print json_encode($concrete_process_arguments); ?>;
+var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>;
+
+// empirical data
+var empirical_data = {};
+<?
+printf("empirical_data[0] = {};\n");
+// concrete entities
+foreach($concrete_entities as $ce) {
+  foreach($ce['ConcreteAttribute'] as $ca) {
+    printf("empirical_data[0]['%s.%s'] = %s;\n", $ce['ConcreteEntity']['name'], $ca['name'], $ca['value']);
+  }
+}
+// empirical data
+$ed = $empirical_data['EmpiricalObservation'];
+$lines = explode("\n", $ed['value']);
+$arr = array();
+$arr['data'] = array();
+
+foreach($lines as $i => $line) {
+  $line = str_replace("\r", '', $line);
+  $line = preg_replace('/\s\s+/', ' ', $line);
+  $tokens = split(' ', $line);
+  if($i == 0)
+    $arr['keys'] = $tokens;
+  else
+    $arr['data'][] = $tokens;
+}
+
+foreach($arr['data'] as $h=>$row) {
+  $i = $h+1;
+  printf("empirical_data[%d] = {};\n", $i);
+  foreach($concrete_entities as $ce) {
+    foreach($ce['ConcreteAttribute'] as $ca)
+      printf("empirical_data[%d]['%s.%s'] = %s;\n", $i, $ce['ConcreteEntity']['name'], $ca['name'], 
+             $ca['value']);
+  }
+
+  foreach($row as $j=>$val) {
+    $key = $arr['keys'][$j];
+    $split = split('\.', $key);
+    $entity = $split[0];
+    $attr = $split[1];
+    $val = floatval($val);
+    printf("empirical_data[%d]['%s.%s'] = %s;\n", $i, $entity, $attr, $val);
+  }
+}
+?>
 </script>
 
 <?
@@ -38,7 +85,12 @@ echo $this->Html->tag('h1', 'Add Generic Process');
 echo $this->Form->create('GenericProcess', array('controller'=>'GenericProcess', 'action'=>'create', 'inputDefaults'=>array(
   'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the process.'));
-echo $this->Form->input('arguments', array('options'=>$generic_entity_list, 'multiple'=>'checkbox'));
+echo $this->Form->input('num_arguments', array('options'=>range(1,20), 'label'=>'# of Arguments'));
+echo $this->Form->input('argument-1', array('label'=>'Argument 1', 'options'=>$generic_entity_list));
+foreach(range(2, 20) as $i) {
+  echo $this->Form->input("argument-$i", array('label'=>"Argument $i", 'options'=>$generic_entity_list,
+                                               'div'=>array('class'=>'input select hidden', 'id'=>"arg_$i")));
+}
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->end('Add Process');
 printf('</div>');
@@ -62,8 +114,9 @@ echo $this->Html->tag('h1', 'Add Concrete Process');
 echo $this->Form->create('ConcreteProcess', array('controller'=>'concrete_processes', 'action'=>'create', 'inputDefaults'=>array(
   'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the process.'));
-echo $this->Form->input('arguments', array('options'=>$concrete_entity_list, 'multiple'=>'checkbox'));
 echo $this->Form->input('generic_process_id', array('options'=>$generic_process_list));
+echo $this->Form->input('num_arguments', array('type'=>'hidden'));
+echo $this->Html->tag('div', '', array('id'=>'ConcreteProcessArguments'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->end('Add Process');
 printf('</div>');
@@ -200,11 +253,13 @@ foreach($generic_processes as $p) {
     <div class="content">
       <div class="entitites">
 <?
+// concrete entities
 foreach($concrete_entities as $e) {
   printf('<div class="concrete-entity" id="concrete-entity-%s">', $e['ConcreteEntity']['id']);
   echo $this->Html->link('×', array('controller'=>'concrete_entities', 'action'=>'delete', $e['ConcreteEntity']['id'],
     $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
-  printf('<span class="type">%s</span> <span class="name">%s</span> {<br>', $e['GenericEntity']['name'], $e['ConcreteEntity']['name']);
+  printf('<span class="type">%s</span> ', $e['GenericEntity']['name']);
+  printf('<span class="name" data-model="ConcreteEntity" data-type="concrete_entities" data-id="%d" data-name="name">%s</span> {<br>', $e['ConcreteEntity']['id'], $e['ConcreteEntity']['name']);
 
   printf('<div id="add-concrete-attribute-%s" class="reveal-modal">', $e['ConcreteEntity']['id']);
   echo $this->Html->tag('h1', 'Add Concrete Attribute');
@@ -218,11 +273,12 @@ foreach($concrete_entities as $e) {
   echo $this->Form->end('Add Attribute');
   printf('</div>');
   
+  // concrete attributes
   foreach($e['ConcreteAttribute'] as $a) {
     echo $this->Html->link('×', array('controller'=>'concrete_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
     printf('<div class="concrete-attribute">');
-    printf('.<span class="name">%s</span> = <span class="value">%s</span>;', $a['name'], $a['value']);
+    printf('.<span class="name" >%s</span> = <span class="value" >%s</span>;', $a['name'], $a['value']);
     printf('</div>');
   }
   printf('<div id="concrete-expand-%s" data-expand-id="generic-entity-%s" class="expand"></div>', $e['ConcreteEntity']['id'], $e['GenericEntity']['id']);
@@ -235,17 +291,18 @@ foreach($concrete_entities as $e) {
       </div>
       <div class="processes">
 <?
+// concrete processes
 foreach($concrete_processes as $p) {
   printf('<div class="concrete-process" id="concrete-process-%s">', $p['ConcreteProcess']['id']);
   echo $this->Html->link('×', array('controller'=>'concrete_processes', 'action'=>'delete', $p['ConcreteProcess']['id'], $model['UnifiedModel']['id']),
     array('class'=>'btnDelete')); 
-  printf(':<span class="type">process</span> <span class="name">%s</span>(', $p['ConcreteProcess']['name']);
+  printf(':<span class="type">process</span> <span class="name" >%s</span>(', $p['ConcreteProcess']['name']);
   
   $args = array();
   // print out arguments
   foreach($p['ConcreteProcessArgument'] as $a) {
     $entity = $concrete_entity_list[$a['concrete_entity_id']];
-    $args[] = sprintf('<span class="arg">%s</span> ?x%s', $entity, $a['concrete_entity_id']);
+    $args[] = sprintf('<span class="arg">%s</span>', $entity);
   }
 
   printf('%s) {<br>', join($args, ', '));
@@ -255,7 +312,8 @@ foreach($concrete_processes as $p) {
     printf('<div class="concrete-process-attribute" id="concrete-process-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
-    printf('.<span class="name">%s</span> = <span class="value">%s</span>;', $a['name'], $a['value']);
+    printf('.<span class="name" >%s</span> = ', $a['name']);
+    printf('<span class="value"  data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['id'], $a['value']);
     printf('</div>');
   }
   printf('<div class="reveal-modal" id="add-concrete-process-attribute-%s">', $p['ConcreteProcess']['id']);
@@ -290,12 +348,12 @@ foreach($concrete_processes as $p) {
       array('class'=>'btnDelete'));
     if($q['ConcreteEquation']['is_algebraic'] == 1) {
       // algebraic eq
-      printf('<span class="name">?x%s.%s</span>', $q['ConcreteEntity']['id'], $q['ConcreteAttribute']['name']);
+      printf('<span class="name">%s</span>.<span class="attr">%s</span>', $q['ConcreteEntity']['name'], $q['ConcreteAttribute']['name']);
     } else {
       // diff eq
-      printf('<span class="name">d[?x%s.%s]</span>', $q['ConcreteEntity']['id'], $q['ConcreteAttribute']['name']);
+      printf('d[<span class="name">%s</span>.<span class="attr">%s</span>]', $q['ConcreteEntity']['name'], $q['ConcreteAttribute']['name']);
     }
-    printf(' = <span class="value">%s</span>;', $q['ConcreteEquation']['right_hand_side']);
+    printf(' = <span class="value" >%s</span>;', $q['ConcreteEquation']['right_hand_side']);
     printf('</div>');
   }
   
@@ -313,71 +371,55 @@ foreach($concrete_processes as $p) {
     <h2>Simulation</h2>
   </div>
   <div class="content">
-    <div class="reveal-modal" id="exogenous-values">
+    <div id="exogenous-values" class="reveal-modal">
 <?
-echo $this->Html->tag('h1', 'Exogenous Value Setup');
-$list = array();
-foreach($concrete_entities as $ce) {
-  $grp = array();
-  foreach($ce['ConcreteAttribute'] as $ca)
-    $grp[$ca['id']] = sprintf('%s.%s', $ce['ConcreteEntity']['name'], $ca['name']);
-  $list[$ce['ConcreteEntity']['name']] = $grp;
-}
-
-printf('<table class="exogenous-values">');
-printf('<tr><th></th><th>Attribute</th><th>Value</th><th></th></tr>');
-
-foreach($exogenous_values as $e) {
-  printf('<tr class="edit-exogenous-value">');
-  printf('<td class="delete">%s</td>', $this->Html->link('×', array('controller'=>'exogenous_values', 'action'=>'delete', $e['ExogenousValue']['id'], $model['UnifiedModel']['id'])));
-  echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit', 
-                                                   'inputDefaults'=>array('required'=>'true')));
-  echo $this->Form->input('id', array('type'=>'hidden', 'value'=>$e['ExogenousValue']['id']));
-  echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
-  printf('<td class="concrete-attribute">');
-  echo $this->Form->input('concrete_attribute_id', array('options'=>$list,
-                                                         'value'=>$e['ConcreteAttribute']['id']));
-  printf('</td>');
-  printf('<td class="value">');
-  echo $this->Form->input('value', array('value'=>$e['ExogenousValue']['value']));
-  printf('</td>');
-  printf('<td class="submit">');
-  echo $this->Form->end('Save');
-  printf('</td>');
-  printf('</tr>');
-}
-
-printf('<tr class="add-exogenous-value">');
-printf('<td></td>');
-echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'create', 
+$ex_text = '';
+echo $this->Html->tag('h1', 'Edit Exogenous Data');
+if($exogenous_values != null)
+  $ex_text = $exogenous_values['ExogenousValue']['value'];
+echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit',
                                                  'inputDefaults'=>array('required'=>'true')));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
-printf('<td class="concrete-attribute">');
-echo $this->Form->input('concrete_attribute_id', array('options'=>$list));
-printf('</td>');
-printf('<td class="value">');
-echo $this->Form->input('value');
-printf('</td>');
-printf('<td class="submit">');
-echo $this->Form->end('Add');
-printf('</td>');
-printf('</tr>');
-
-printf('</table>');
+echo $this->Form->input('value', array('value'=>$ex_text));
+echo $this->Form->end('Save Data');
 ?>
     </div>
-    <a href="#" data-reveal-id="exogenous-values" class="btn">Setup Exogenous Values</a>
+    <div id="empirical-data" class="reveal-modal">
+<?
+$eo_text = '';
+echo $this->Html->tag('h1', 'Edit Empirical Data');
+if($empirical_data != null)
+  $eo_text = $empirical_data['EmpiricalObservation']['value'];
+echo $this->Form->create('EmpiricalObservation', array('controller'=>'empirical_observations',
+                                                       'action'=>'edit', 'inputDefaults'=>array(
+                                                         'required'=>'true')));
+echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
+echo $this->Form->input('value', array('value'=>$eo_text));
+echo $this->Form->end('Save Data');
+?>
+    </div>
+    <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>
+    <a href="#" data-reveal-id="empirical-data" class="btn">Edit Empirical Data</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));
 printf('<input type="hidden" id="data-url" value="%s">', $url);
 ?>
+    <div id="data-selection">
+    </div>
+    <div id="google-chart">
+      <script type="text/javascript">
+        google.load('visualization', '1', { packages: ['corechart']});
+      </script>
+    </div>
+    <!-- 
     <div id="simulation-data">
       <table>
-        <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+        <thead><tr><th>Time</th><th>Attribute</th><th>Value</th></tr></thead>
         <tbody></tbody>
       </table>
-    </div>
+    </div>  
+    -->
   </div>
 </div>
 <div class="clearfix"></div>

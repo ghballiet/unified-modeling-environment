@@ -6,11 +6,20 @@ class ConcreteProcessesController extends AppController {
     if($this->request->is('post') && $data = $this->ConcreteProcess->save($this->request->data)) {
       // set arguments
       $id = $data['ConcreteProcess']['id'];
-      foreach($this->request->data['ConcreteProcess']['arguments'] as $entityId) {
+      $numArgs = intval($data['ConcreteProcess']['num_arguments']);      
+      for($i=0; $i<$numArgs; $i++) {
+        $entity_id = $data['ConcreteProcess'][sprintf('argument-%d', $i)];
         $this->ConcreteProcess->ConcreteProcessArgument->create();
-        $arg = array('ConcreteProcessArgument'=>array('concrete_process_id'=>$id, 'concrete_entity_id'=>$entityId));
+        $arg = array('ConcreteProcessArgument'=>array('concrete_process_id'=>$id,
+                                                      'concrete_entity_id'=>$entity_id));
         $this->ConcreteProcess->ConcreteProcessArgument->save($arg);
       }
+      
+      /* foreach($this->request->data['ConcreteProcess']['arguments'] as $entityId) { */
+      /*   $this->ConcreteProcess->ConcreteProcessArgument->create(); */
+      /*   $arg = array('ConcreteProcessArgument'=>array('concrete_process_id'=>$id, 'concrete_entity_id'=>$entityId)); */
+      /*   $this->ConcreteProcess->ConcreteProcessArgument->save($arg); */
+      /* } */
       $this->Session->setFlash('Process successfully saved.');
       $this->redirect(sprintf('/models/view/%s', $this->request->data['ConcreteProcess']['unified_model_id']));
     }

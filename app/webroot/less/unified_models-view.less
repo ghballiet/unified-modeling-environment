@@ -1,5 +1,5 @@
 @import "bootstrap";
-@leftWidth: 400px;
+@leftWidth: 475px;
 
 a.btn {
   display: inline-block;
@@ -127,6 +127,7 @@ div.right {
   margin-left: @leftWidth + 20px;
   background: @white;
   border: solid 1px @grayLight;
+  .box-shadow(0px 2px 3px rgba(0,0,0,.4));
   
   div.content {
     font-family: 'Ubuntu Mono', monospace;
@@ -225,5 +226,32 @@ a.expand {
     td {
       span.name { font-weight: bold; color: darken(@blue, 8); }
     }
+  }
+}
+
+#exogenous-values, #empirical-data {
+  label { display: none; }
+  #ExogenousValueValue, #EmpiricalObservationValue {
+    width: 100%;
+    line-height: 1.25em;
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    color: @gray;
+    height: 250px;
+  }
+}
+
+div.google-chart {
+  margin: 5px 0px;
+}
+
+div#data-selection {
+  padding: 1em 0px;
+  color: @gray;
+  div.data-select {
+    text-align: left;
+    width: 50%;
+    display: inline-block;
+    input { margin-right: .5em; }
   }
 }

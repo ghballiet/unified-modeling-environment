@@ -6,8 +6,12 @@ class GenericProcessesController extends AppController {
     if($this->request->is('post') && $data = $this->GenericProcess->save($this->request->data)) {
       // set arguments
       $id = $data['GenericProcess']['id'];
-      foreach($this->request->data['GenericProcess']['arguments'] as $entityId) {
+      print_r($data);
+      $num = intval($this->request->data['GenericProcess']['num_arguments']);
+      $num++;
+      for($i=1; $i<=$num; $i++) {
         $this->GenericProcess->GenericProcessArgument->create();
+        $entityId = $this->request->data['GenericProcess']['argument-' . $i];
         $arg = array('GenericProcessArgument'=>array('generic_process_id'=>$id, 'generic_entity_id'=>$entityId));
         $this->GenericProcess->GenericProcessArgument->save($arg);
       }

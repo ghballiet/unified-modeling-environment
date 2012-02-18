@@ -21,7 +21,8 @@ div.input {
     font-family: 'Signika Negative', inherit;
   }
 }
-div.input.email, div.input.password, div.input.text, div.input.select, div.input.textarea {
+div.input.email, div.input.password, div.input.text, div.input.select, div.input.textarea, 
+div.input.number {
   input, select, textarea {
     border: solid 1px @grayLighter;
     padding: .35em;
@@ -37,6 +38,7 @@ div.input.email, div.input.password, div.input.text, div.input.select, div.input
     }
   }
   select { width: 315px; }
+  &.hidden { display: none; }
 }
 
 div.submit {
