@@ -55,4 +55,4 @@ a.expand{position:absolute;margin-left:-22px;color:#cccccc;font-size:11px;displa
 #simulation-data table td span.name{font-weight:bold;color:#039ad7;}
 #exogenous-values label,#empirical-data label{display:none;}
 #exogenous-values #ExogenousValueValue,#empirical-data #ExogenousValueValue,#exogenous-values #EmpiricalObservationValue,#empirical-data #EmpiricalObservationValue{width:100%;line-height:1.25em;font-family:'Ubuntu Mono',monospace;font-size:13px;color:#555555;height:250px;}
-div.google-chart{margin:5px 0px;-webkit-box-shadow:0px 2px 3px rgba(0, 0, 0, 0.4);-moz-box-shadow:0px 2px 3px rgba(0, 0, 0, 0.4);box-shadow:0px 2px 3px rgba(0, 0, 0, 0.4);}
+div.google-chart{margin:5px 0px;}
