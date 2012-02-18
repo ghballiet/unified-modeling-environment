@@ -327,6 +327,7 @@ foreach($concrete_processes as $p) {
   <div class="content">
     <div id="exogenous-values" class="reveal-modal">
 <?
+$ex_text = '';
 echo $this->Html->tag('h1', 'Edit Exogenous Data');
 if($exogenous_values != null)
   $ex_text = $exogenous_values['ExogenousValue']['value'];
@@ -339,7 +340,16 @@ echo $this->Form->end('Save Data');
     </div>
     <div id="empirical-data" class="reveal-modal">
 <?
+$eo_text = '';
 echo $this->Html->tag('h1', 'Edit Empirical Data');
+if($empirical_data != null)
+  $eo_text = $empirical_data['EmpiricalObservation']['value'];
+echo $this->Form->create('EmpiricalObservation', array('controller'=>'empirical_observations',
+                                                       'action'=>'edit', 'inputDefaults'=>array(
+                                                         'required'=>'true')));
+echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
+echo $this->Form->input('value', array('value'=>$eo_text));
+echo $this->Form->end('Save Data');
 ?>
     </div>
     <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>

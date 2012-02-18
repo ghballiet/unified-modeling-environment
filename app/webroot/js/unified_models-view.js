@@ -91,9 +91,9 @@ $(document).ready(function() {
     for(var i in data) {
       var options = {
         width: width, height: 100, title: i, fontSize: 10, fontName: 'Helvetica, Arial',
-        curveType: 'function', legend: { position: 'top' }
+        curveType: 'function', legend: { position: 'bottom' }
       };
-      var div = $('<div />').attr('id', 'chart-' + i);
+      var div = $('<div />').attr('id', 'chart-' + i).addClass('google-chart');
       $('#google-chart').append(div);
       var chart = new google.visualization.LineChart(document.getElementById('chart-' + i));
       chart.draw(data[i], options);

@@ -151,6 +151,9 @@ class UnifiedModelsController extends AppController {
       // exogenous values
       $exogenous_values = $this->UnifiedModel->ExogenousValue->findByUnifiedModelId($id);
 
+      // empirical data
+      $empirical_data = $this->UnifiedModel->EmpiricalObservation->findByUnifiedModelId($id);
+
       $this->set('generic_entities', $generic_entities);
       $this->set('generic_attributes', $generic_attributes);
       $this->set('generic_entity_list', $generic_entity_list);
@@ -165,6 +168,7 @@ class UnifiedModelsController extends AppController {
       $this->set('concrete_process_arguments', $concrete_process_arguments);
       $this->set('concrete_process_argument_list', $concrete_process_argument_list);
       $this->set('exogenous_values', $exogenous_values);
+      $this->set('empirical_data', $empirical_data);
     }
   }
 }
