@@ -56,4 +56,4 @@ a.expand{position:absolute;margin-left:-22px;color:#cccccc;font-size:11px;displa
 #exogenous-values label,#empirical-data label{display:none;}
 #exogenous-values #ExogenousValueValue,#empirical-data #ExogenousValueValue,#exogenous-values #EmpiricalObservationValue,#empirical-data #EmpiricalObservationValue{width:100%;line-height:1.25em;font-family:'Ubuntu Mono',monospace;font-size:13px;color:#555555;height:250px;}
 div.google-chart{margin:5px 0px;}
-div.data-selection{text-align:center;}div.data-selection div.data-select{text-align:left;width:50%;display:inline-block;}div.data-selection div.data-select input{margin-right:.5em;}
+div#data-selection{text-align:center;}div#data-selection div.data-select{text-align:left;width:50%;display:inline-block;}div#data-selection div.data-select input{margin-right:.5em;}
