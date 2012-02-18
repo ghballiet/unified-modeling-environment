@@ -79,7 +79,7 @@ $(document).ready(function() {
       table.addColumn('number', 'Time');
       table.addColumn('number', 'Simulated');
       table.addColumn('number', 'Observed');
-      data[i] = table;      
+      data[i] = table;    
     }
     // build the rest of the data tables
     for(var i in values) {
@@ -97,11 +97,32 @@ $(document).ready(function() {
         width: width, height: 100, title: i, fontSize: 10, fontName: 'Helvetica, Arial',
         curveType: 'function', legend: { position: 'bottom' }
       };
-      var div = $('<div />').attr('id', 'chart-' + i).addClass('google-chart');
+      var id = i.toLowerCase().replace(/\./g, '-').replace(/_/g, '-');      
+      var div = $('<div />').attr('id', 'chart-' + id).addClass('google-chart');
       $('#google-chart').append(div);
-      var chart = new google.visualization.LineChart(document.getElementById('chart-' + i));
+      var chart = new google.visualization.LineChart(document.getElementById('chart-' + id));
       chart.draw(data[i], options);
+      // build the radio box
+      var chk = $('<input >').attr({
+        type: 'checkbox',
+        name: i,
+        id: 'chk-' + id,
+        checked: true,
+        'data-show-id': 'chart-' + id
+      }).addClass('chk-data-select');
+      var lbl = $('<label />').attr('for', 'chk-' + id);
+      lbl.html(i);
+      var wrap = $('<div />').addClass('data-select').append(chk).append(lbl);
+      $('#data-selection').append(wrap);
     }
+
+    $('input.chk-data-select').live('change', function() {
+      var id = $(this).attr('data-show-id');
+      if($(this).is(':checked'))
+        $('#' + id).show('fast');
+      else
+        $('#' + id).hide('fast');
+    });
   }
 
   function genericProcessArgs() {
