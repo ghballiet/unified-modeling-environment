@@ -39,6 +39,7 @@ class UsersController extends AppController {
     } else {
       $this->set('models', $this->User->UnifiedModel->find('all', array(
         'conditions'=>array('UnifiedModel.user_id'=>AuthComponent::user('id')))));      
+      $this->set('users', null);
     }
   }
   

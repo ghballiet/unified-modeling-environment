@@ -12,12 +12,12 @@ var concrete_entity_list = <? print json_encode($concrete_entity_list); ?>;
 var concrete_processes = <? print json_encode($concrete_processes); ?>;
 var concrete_equations = <? print json_encode($concrete_equations); ?>;
 var concrete_process_arguments = <? print json_encode($concrete_process_arguments); ?>;
-var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>
+var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>;
 
 // empirical data
 var empirical_data = {};
 <?
-printf("empirical_data[0] = {}\n");
+printf("empirical_data[0] = {};\n");
 // concrete entities
 foreach($concrete_entities as $ce) {
   foreach($ce['ConcreteAttribute'] as $ca) {

@@ -32,11 +32,14 @@ $arr['data'] = array();
 foreach($lines as $i => $line) {
   $line = str_replace("\r", '', $line);
   $line = preg_replace('/\s\s+/', ' ', $line);
+  if($line == '') 
+    continue;
   $tokens = split(' ', $line);
-  if($i == 0)
+  if($i == 0) {
     $arr['keys'] = $tokens;
-  else
-    $arr['data'][] = $tokens;
+  } else {
+      $arr['data'][] = $tokens;
+  }
 }
 
 foreach($arr['data'] as $h=>$row) {
@@ -70,6 +73,7 @@ foreach($concrete_equations as $cq) {
     $entity_name = $concrete_entity_list[$entity_id];
     $attr_name = $cq['ConcreteAttribute']['name'];
     $rhs = preg_replace('/\s\s+/', ' ', $rhs);
+    $rhs = str_replace('?','', $rhs);
     $tokens = explode(' ', $rhs);
     $parsedTokens = array();
     foreach($tokens as $j=>$token) {
