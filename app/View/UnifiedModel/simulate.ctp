@@ -81,7 +81,7 @@ foreach($concrete_equations as $cq) {
       $parsedTokens[$j] = sprintf($token, $h);
     }
     $newRhs = join(' ', $parsedTokens);
-    printf("values[%d]['%s.%s'] = %s;\n", $h, $entity_name, $attr_name, $newRhs);
+    printf("values[%d]['%s.%s'] += %s;\n", $h, $entity_name, $attr_name, $newRhs);
   }
 }
 ?>
