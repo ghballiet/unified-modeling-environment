@@ -167,7 +167,91 @@ $(document).ready(function() {
     $('#ConcreteProcessNumArguments').val(count);
   }
 
+  function setupEditEvents() {
+    $('div.concrete-process-attribute').click(function() {
+      $(this).editConcreteProcessAttribute();
+    });
+
+    $('div.concrete-attribute').click(function() {
+      $(this).editConcreteAttribute();
+    });
+  }
+
+  function showModal(map) {
+    console.log(map);
+    var div = $('<div />').addClass('reveal-modal');
+    var title = $('<h1 />').html(map.title);
+    var close = $('<a />').html('&#215;').addClass('close-reveal-modal').attr('href','#');
+    var form = $('<form />').attr({
+      method: 'post',
+      action: '/unified-modeling/' + map.controller + '/edit/' + map.fields.id.value
+    });
+    div.append(close).append(title).append(form);
+    $('#content').prepend(div);
+    for(var i in map.fields) {
+      var field = map.fields[i];
+      var row = $('<div />').addClass('input').addClass(field.type);
+      var lbl = $('<label />').html(field.label);
+      var input = $('<input >').attr({
+        type: field.type,
+        name: 'data[' + map.type + '][' + i + ']'
+      }).val(field.value);
+      row.append(lbl).append(input);
+      form.append(row);
+    }
+    var subDiv = $('<div />').addClass('submit');
+    var submit = $('<input >').attr('type', 'submit').val('Save');
+    subDiv.html(submit);
+    form.append(subDiv);
+    div.reveal();
+  }
+
+  // ---- extension functions here ----  
+  $.fn.editConcreteProcessAttribute = function() {
+    var attr = $(this).attr('id');
+    var type = $(this).attr('class');
+    var id = parseInt(attr.replace(type + '-', ''));
+    var name = $(this).find('span.name').html();
+    var value = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'ConcreteProcessAttribute', 
+      title: 'Edit Concrete Process Attribute',
+      controller: 'concrete_process_attributes',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        name: { label: 'Name', type: 'text', value: name },
+        value: { label: 'Value', type: 'text', value: value },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+  };
+
+  $.fn.editConcreteAttribute = function() {
+    var attr = $(this).attr('id');
+    var type = $(this).attr('class');
+    var id = parseInt(attr.replace(type + '-', ''));
+    var name = $(this).find('span.name').html();
+    var value = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'ConcreteAttribute',
+      title: 'Edit Concrete Attribute',
+      controller: 'concrete_attributes', 
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        name: { label: 'Name', type: 'text', value: name },
+        value: { label: 'Value', type: 'text', value: value },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+  }
+
+  // ---- entry point ----
   grabExogenousData();
   genericProcessArgs();
   concreteProcessArgs();
+  setupEditEvents();
 });

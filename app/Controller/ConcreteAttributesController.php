@@ -15,5 +15,14 @@ class ConcreteAttributesController extends AppController {
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
     }
   }
+
+  public function edit($id = null) {
+    $this->ConcreteAttribute->id = $id;
+    if($this->request->is('post') && $this->ConcreteAttribute->save($this->request->data)) {
+      $this->Session->setFlash('Attribute successfully saved.');
+      $this->redirect(array('controller'=>'unified_models', 'action'=>'view', 
+                            $this->request->data['ConcreteAttribute']['unified_model_id']));
+    }
+  }
 }
 ?>

@@ -1,5 +1,6 @@
 <script type="text/javascript">
 // pretty much all the data, as JSON
+var model = <? print json_encode($model); ?>;
 var generic_entities = <? print json_encode($generic_entities); ?>;
 var generic_attributes = <? print json_encode($generic_attributes); ?>;
 var generic_entity_list = <? print json_encode($generic_entity_list); ?>;
@@ -174,7 +175,7 @@ foreach($generic_processes as $p) {
   printf('<div class="generic-process" id="generic-process-%s">', $p['GenericProcess']['id']);
   echo $this->Html->link('×', array('controller'=>'generic_processes', 'action'=>'delete', $p['GenericProcess']['id'],
     $model['UnifiedModel']['id']), array('class'=>'btnDelete'));      
-  printf(':<span class="type">process</span> <span class="name">%s</span>(', $p['GenericProcess']['name']);
+  printf('<span class="type">process</span> <span class="name">%s</span>(', $p['GenericProcess']['name']);
   
   $args = array();
   // print out arguments
@@ -277,7 +278,7 @@ foreach($concrete_entities as $e) {
   foreach($e['ConcreteAttribute'] as $a) {
     echo $this->Html->link('×', array('controller'=>'concrete_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
-    printf('<div class="concrete-attribute">');
+    printf('<div class="concrete-attribute" id="concrete-attribute-%s">', $a['id']);
     printf('.<span class="name" >%s</span> = <span class="value" >%s</span>;', $a['name'], $a['value']);
     printf('</div>');
   }
@@ -296,7 +297,7 @@ foreach($concrete_processes as $p) {
   printf('<div class="concrete-process" id="concrete-process-%s">', $p['ConcreteProcess']['id']);
   echo $this->Html->link('×', array('controller'=>'concrete_processes', 'action'=>'delete', $p['ConcreteProcess']['id'], $model['UnifiedModel']['id']),
     array('class'=>'btnDelete')); 
-  printf(':<span class="type">process</span> <span class="name" >%s</span>(', $p['ConcreteProcess']['name']);
+  printf('<span class="type">process</span> <span class="name" >%s</span>(', $p['ConcreteProcess']['name']);
   
   $args = array();
   // print out arguments
