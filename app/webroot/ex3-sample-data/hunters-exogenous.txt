@@ -1,8 +1,5 @@
 Game_and_Fish.Hunting_licenses  Hunters.Num_hunters  Deer.Population
 50                              0                    0
-150                             0                    0
-30                              0                    0
-250                             0                    0
-11                              0                    0
-180                             0                    0
-40                              0                    0
+60                              0                    0
+70                              0                    0
+80                              0                    0

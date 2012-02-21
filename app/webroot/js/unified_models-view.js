@@ -95,7 +95,7 @@ $(document).ready(function() {
     for(var i in data) {
       var options = {
         width: width, height: 100, title: i, fontSize: 10, fontName: 'Helvetica, Arial',
-        curveType: 'function', legend: { position: 'bottom' }
+        legend: { position: 'bottom' }
       };
       var id = i.toLowerCase().replace(/\./g, '-').replace(/_/g, '-');      
       var div = $('<div />').attr('id', 'chart-' + id).addClass('google-chart');
