@@ -15,5 +15,13 @@ class ConcreteEquationsController extends AppController {
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
     }
   }
+
+  public function edit($id = null) {
+    if($this->request->is('post') && $this->ConcreteEquation->save($this->request->data)) {
+      $this->Session->setFlash('Equation succesfully saved.');
+      $this->redirect(array('controller'=>'unified_models', 'action'=>'view',
+                            $this->request->data['ConcreteEquation']['unified_model_id']));
+    }
+  }
 }
 ?>

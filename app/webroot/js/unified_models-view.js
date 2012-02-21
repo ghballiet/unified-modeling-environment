@@ -26,7 +26,8 @@ $(document).ready(function() {
     if($(this).attr('id') == 'ConcreteEquationRightHandSide' ||
        $(this).attr('id') == 'GenericEquationRightHandSide' ||
        $(this).attr('id') == 'ExogenousValueValue' ||
-       $(this).attr('id') == 'EmpiricalObservationValue')
+       $(this).attr('id') == 'EmpiricalObservationValue' || 
+       $(this).attr('name') == 'data[ConcreteEquation][rhs]')
       return true;
     if(e.keyCode == 32) {
       e.preventDefault();
@@ -259,7 +260,8 @@ $(document).ready(function() {
       controller: 'concrete_equations',
       fields: {
         id: { label: '', type: 'hidden', value: id },
-        rhs: { label: 'Right Hand Side', type: 'text', value: rhs }              
+        rhs: { label: 'Right Hand Side', type: 'text', value: rhs },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
       }
     };
     showModal(map);
