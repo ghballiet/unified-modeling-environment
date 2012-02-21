@@ -349,7 +349,8 @@ foreach($concrete_processes as $p) {
       array('class'=>'btnDelete'));
     if($q['ConcreteEquation']['is_algebraic'] == 1) {
       // algebraic eq
-      printf('<span class="name">%s</span>.<span class="attr">%s</span>', $q['ConcreteEntity']['name'], $q['ConcreteAttribute']['name']);
+      printf('<span class="name" id="%s">%s</span>.<span class="attr">%s</span>', $q['ConcreteEntity']['id'], $q['ConcreteEntity']['name'], 
+             $q['ConcreteAttribute']['name']);
     } else {
       // diff eq
       printf('d[<span class="name">%s</span>.<span class="attr">%s</span>]', $q['ConcreteEntity']['name'], $q['ConcreteAttribute']['name']);

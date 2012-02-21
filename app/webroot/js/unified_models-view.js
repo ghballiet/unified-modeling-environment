@@ -168,13 +168,9 @@ $(document).ready(function() {
   }
 
   function setupEditEvents() {
-    $('div.concrete-process-attribute').click(function() {
-      $(this).editConcreteProcessAttribute();
-    });
-
-    $('div.concrete-attribute').click(function() {
-      $(this).editConcreteAttribute();
-    });
+    $('div.concrete-process-attribute').click(function() { $(this).editConcreteProcessAttribute(); });
+    $('div.concrete-attribute').click(function() { $(this).editConcreteAttribute(); });
+    $('div.concrete-equation').click(function() { $(this).editConcreteEquation(); });
   }
 
   function showModal(map) {
@@ -248,6 +244,26 @@ $(document).ready(function() {
     };
     showModal(map);
   }
+
+  $.fn.editConcreteEquation = function() {
+    var attr = $(this).attr('id');
+    var type = $(this).attr('class');
+    var id = parseInt(attr.replace(type + '-', ''));
+    var name = $(this).find('span.name') + '.' + $(this).find('span.attr').html();
+    console.log($(this));
+    var rhs = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);    
+    var map = {
+      type: 'ConcreteEquation',
+      title: 'Edit Concrete Equation',
+      controller: 'concrete_equations',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        rhs: { label: 'Right Hand Side', type: 'text', value: rhs }              
+      }
+    };
+    showModal(map);
+  };
 
   // ---- entry point ----
   grabExogenousData();
