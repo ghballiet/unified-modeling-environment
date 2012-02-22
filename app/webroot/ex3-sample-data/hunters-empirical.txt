@@ -1,5 +1,5 @@
-Game_and_Fish.Hunting_licenses  Hunters.Num_hunters  Deer.Population
-50                              50                   10000
-60                              60                   985
-70                              70                   970
-80                              80                   955
+Deer.Population
+1000
+985
+970
+955
