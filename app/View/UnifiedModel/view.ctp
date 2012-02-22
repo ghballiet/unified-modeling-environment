@@ -191,7 +191,7 @@ foreach($generic_processes as $p) {
     printf('<div class="generic-process-attribute" id="generic-process-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'generic_process_attributes', 'action'=>'delete', $a['id'],
       $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
-    printf('.<span class="name">%s</span> = <span class="value">%s</span>;<br>', $a['name'], $a['value']);
+    printf('<span class="name">%s</span> = <span class="value">%s</span>;<br>', $a['name'], $a['value']);
     printf('</div>');
   }
   printf('<a href="#" class="btn" data-reveal-id="add-generic-process-attribute-%s">&plus;Attribute</a><br>', $p['GenericProcess']['id']);
@@ -313,7 +313,7 @@ foreach($concrete_processes as $p) {
     printf('<div class="concrete-process-attribute" id="concrete-process-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
-    printf('.<span class="name" >%s</span> = ', $a['name']);
+    printf('<span class="name" >%s</span> = ', $a['name']);
     printf('<span class="value"  data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['id'], $a['value']);
     printf('</div>');
   }
