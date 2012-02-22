@@ -87,8 +87,16 @@ $(document).ready(function() {
       for(var j in values[i]) {
         var row = [];
         row.push(parseInt(i));
-        row.push(values[i][j]);
-        row.push(empirical_data[i][j]);
+        var v = values[i][j];
+        // variables which appear on the left hand side of an equation
+        // get graphed as simulated data, not observed
+        if($.inArray(j, lhs_variables) == -1) {
+          row.push(empirical_data[i][j]);
+          row.push(parseFloat(v.toFixed(2)));
+        } else {
+          row.push(parseFloat(v.toFixed(2)));
+          row.push(empirical_data[i][j]);
+        }
         data[j].addRows([row]);
       }
     }

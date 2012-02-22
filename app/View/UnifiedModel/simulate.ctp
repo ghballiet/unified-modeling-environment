@@ -62,7 +62,7 @@ foreach($arr['data'] as $h=>$row) {
 
 
 printf("\n// process equations\n");
-
+printf("lhs_variables = [];\n");
 // concrete equations
 foreach($concrete_equations as $cq) {
   // build terms
@@ -83,5 +83,7 @@ foreach($concrete_equations as $cq) {
     $newRhs = join(' ', $parsedTokens);
     printf("values[%d]['%s.%s'] += %s;\n", $h, $entity_name, $attr_name, $newRhs);
   }
+  printf("if($.inArray('%s.%s', lhs_variables) == -1) lhs_variables.push('%s.%s');\n",
+         $entity_name, $attr_name, $entity_name, $attr_name);
 }
 ?>
