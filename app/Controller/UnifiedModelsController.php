@@ -16,7 +16,7 @@ class UnifiedModelsController extends AppController {
     }
   }
 
-  public function lisp($id = null) {
+  public function lisp_generic($id = null) {
     $this->layout = 'simulate';
     $this->UnifiedModel->id = $id;
     $model = $this->UnifiedModel->read();
