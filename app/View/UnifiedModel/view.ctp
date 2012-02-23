@@ -379,8 +379,7 @@ $ex_text = '';
 echo $this->Html->tag('h1', 'Edit Exogenous Data');
 if($exogenous_values != null)
   $ex_text = $exogenous_values['ExogenousValue']['value'];
-echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit',
-                                                 'inputDefaults'=>array('required'=>'true')));
+echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->input('value', array('value'=>$ex_text));
 echo $this->Form->end('Save Data');
@@ -393,8 +392,7 @@ echo $this->Html->tag('h1', 'Edit Empirical Data');
 if($empirical_data != null)
   $eo_text = $empirical_data['EmpiricalObservation']['value'];
 echo $this->Form->create('EmpiricalObservation', array('controller'=>'empirical_observations',
-                                                       'action'=>'edit', 'inputDefaults'=>array(
-                                                         'required'=>'true')));
+                                                       'action'=>'edit'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->input('value', array('value'=>$eo_text));
 echo $this->Form->end('Save Data');

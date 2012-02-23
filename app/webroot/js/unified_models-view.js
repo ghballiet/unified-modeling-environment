@@ -27,7 +27,7 @@ $(document).ready(function() {
        $(this).attr('id') == 'GenericEquationRightHandSide' ||
        $(this).attr('id') == 'ExogenousValueValue' ||
        $(this).attr('id') == 'EmpiricalObservationValue' || 
-       $(this).attr('name') == 'data[ConcreteEquation][rhs]')
+       $(this).attr('name') == 'data[ConcreteEquation][right_hand_side]')
       return true;
     if(e.keyCode == 32) {
       e.preventDefault();
@@ -261,14 +261,14 @@ $(document).ready(function() {
     var name = $(this).find('span.name') + '.' + $(this).find('span.attr').html();
     console.log($(this));
     var rhs = $(this).find('span.value').html();
-    var modelId = parseInt(model.UnifiedModel.id);    
+    var modelId = parseInt(model.UnifiedModel.id); 
     var map = {
       type: 'ConcreteEquation',
       title: 'Edit Concrete Equation',
       controller: 'concrete_equations',
       fields: {
         id: { label: '', type: 'hidden', value: id },
-        rhs: { label: 'Right Hand Side', type: 'text', value: rhs },
+        right_hand_side: { label: 'Right Hand Side', type: 'text', value: rhs },
         unified_model_id: { label: '', type: 'hidden', value: modelId }
       }
     };

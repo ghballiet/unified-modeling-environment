@@ -17,6 +17,7 @@ class ConcreteEquationsController extends AppController {
   }
 
   public function edit($id = null) {
+    $this->ConcreteEquation->id = $id;
     if($this->request->is('post') && $this->ConcreteEquation->save($this->request->data)) {
       $this->Session->setFlash('Equation succesfully saved.');
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view',
