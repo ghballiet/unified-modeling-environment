@@ -181,7 +181,7 @@ foreach($generic_processes as $p) {
   // print out arguments
   foreach($p['GenericProcessArgument'] as $a) {
     $entity = $generic_entity_list[$a['generic_entity_id']];
-    $args[] = sprintf('<span class="arg">%s</span> ?x%s', $entity, $a['generic_entity_id']);
+    $args[] = sprintf('<span class="arg">%s</span> ?x%s', $entity, $a['id']);
   }
 
   printf('%s) {<br>', join($args, ', '));

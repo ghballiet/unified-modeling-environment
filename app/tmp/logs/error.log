@@ -5975,3 +5975,74 @@
 #1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
 #2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2012-02-24 02:40:39 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 02:40:39 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 02:49:44 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 03:33:51 Error: [PDOException] SQLSTATE[HY000]: General error: 1 no such column: GenericEntity.unified_model_id
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(434): PDO->prepare('SELECT "Generic...', Array)
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(403): DboSource->_execute('SELECT "Generic...', Array)
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(647): DboSource->execute('SELECT "Generic...', Array, Array)
+#3 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(1040): DboSource->fetchAll('SELECT "Generic...', false)
+#4 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericAttribute), Array)
+#5 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(27): Model->find('list', Array)
+#6 [internal function]: UnifiedModelsController->lisp_generic('36')
+#7 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#8 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#9 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#10 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-02-24 03:33:53 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 03:33:53 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 03:34:40 Error: [PDOException] SQLSTATE[HY000]: General error: 1 no such column: GenericEntity.unified_model_id
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(434): PDO->prepare('SELECT "Generic...', Array)
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(403): DboSource->_execute('SELECT "Generic...', Array)
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(647): DboSource->execute('SELECT "Generic...', Array, Array)
+#3 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(1040): DboSource->fetchAll('SELECT "Generic...', false)
+#4 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericAttribute), Array)
+#5 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(27): Model->find('list', Array)
+#6 [internal function]: UnifiedModelsController->lisp_generic('36')
+#7 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#8 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#9 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#10 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-02-24 03:34:40 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 03:34:41 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 07:12:21 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 07:12:21 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
