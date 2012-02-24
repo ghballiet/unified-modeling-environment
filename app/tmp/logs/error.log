@@ -6046,3 +6046,37 @@
 #1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
 #2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2012-02-24 12:40:13 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 12:40:13 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 14:25:33 Error: [PDOException] SQLSTATE[HY000]: General error: 1 near "findListByUnifiedModelId": syntax error
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(434): PDO->prepare('findListByUnifi...', Array)
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(403): DboSource->_execute('findListByUnifi...', Array)
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(647): DboSource->execute('findListByUnifi...', Array, Array)
+#3 /d1/www/html/cll/ume/lib/Cake/Model/Datasource/DboSource.php(589): DboSource->fetchAll('findListByUnifi...', Array, Array)
+#4 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(720): DboSource->query('findListByUnifi...', Array, Object(GenericEntity))
+#5 [internal function]: Model->__call('findListByUnifi...', Array)
+#6 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(29): GenericEntity->findListByUnifiedModelId('36')
+#7 [internal function]: UnifiedModelsController->lisp_generic('36')
+#8 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#9 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#10 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#11 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2012-02-24 14:25:34 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 14:25:34 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

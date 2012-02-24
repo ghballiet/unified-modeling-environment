@@ -26,7 +26,8 @@ class UnifiedModelsController extends AppController {
     $generic_processes = $this->UnifiedModel->GenericProcess->findAllByUnifiedModelId($id);
     $generic_equations = $this->UnifiedModel->GenericProcess->GenericEquation->find('all', array(
       'conditions'=>array('GenericProcess.unified_model_id'=>$id)));
-
+    $generic_entity_list = $this->UnifiedModel->GenericEntity->find('list', array('conditions'=>array(
+       'GenericEntity.unified_model_id'=>$id)));
 
     // grab the variables, by entity id
     $generic_variables = array();
@@ -43,12 +44,17 @@ class UnifiedModelsController extends AppController {
 
     // grab the constants, by entity id
     $generic_constants = array();
-    // TODO: loop through generic entities, and grab attributes that 
-    // are not in the generic_variable_list
     foreach($generic_variable_list as $eid => $gv) {
       $res = $this->UnifiedModel->GenericEntity->GenericAttribute->find('all', array('conditions'=>array(
         'GenericEntity.id'=>$eid, 'NOT' => array('GenericAttribute.id'=>$gv))));
       $generic_constants[$eid] = $res;
+    }
+
+    // build the equation list by process id
+    $generic_equation_list = array();
+    foreach($generic_processes as $gp) {
+      $res = $this->UnifiedModel->GenericProcess->GenericEquation->findAllByGenericProcessId($gp['GenericProcess']['id']);
+      $generic_equation_list[$gp['GenericProcess']['id']] = $res;
     }
     
     $this->set('model', $model);
@@ -58,6 +64,8 @@ class UnifiedModelsController extends AppController {
     $this->set('generic_equations', $generic_equations);
     $this->set('generic_variables', $generic_variables);
     $this->set('generic_constants', $generic_constants);
+    $this->set('generic_equation_list', $generic_equation_list);
+    $this->set('generic_entity_list', $generic_entity_list);
   }
 
   public function simulate($id = null) {
@@ -135,9 +143,10 @@ class UnifiedModelsController extends AppController {
           $params = array();
           $attrs = $this->UnifiedModel->GenericEntity->GenericAttribute->find('all', array('conditions'=>array(
             'GenericEntity.id'=>$arg['GenericEntity']['id'])));
-          foreach($attrs as $attr)
-            $params[$attr['GenericAttribute']['id']] = sprintf('?x%s.%s', 
+          foreach($attrs as $attr) {
+            $params[sprintf('%s:%s', $attr['GenericAttribute']['id'], $arg['GenericProcessArgument']['id'])] = sprintf('?x%s.%s', 
               $arg['GenericProcessArgument']['id'], $attr['GenericAttribute']['name']);
+          }
           $arr[sprintf('%s ?x%s', $arg['GenericEntity']['name'], $arg['GenericProcessArgument']['id'])] = 
             $params;
         }

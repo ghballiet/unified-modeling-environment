@@ -209,8 +209,7 @@ foreach($generic_processes as $p) {
   // equation stuff goes here
   printf('<div id="add-generic-equation-%s" class="reveal-modal">', $p['GenericProcess']['id']);
   echo $this->Html->tag('h1', 'Add Generic Equation');
-  echo $this->Form->create('GenericEquation', array('controller'=>'generic_equations', 'action'=>'create', 'inputDefaults'=>array(
-    'required'=>'true')));
+  echo $this->Form->create('GenericEquation', array('controller'=>'generic_equations', 'action'=>'create'));
   echo $this->Form->input('is_algebraic', array('label'=>'Algebraic Equation'));
   $opts = $generic_process_arguments[$p['GenericProcess']['id']];
   echo $this->Form->input('generic_attribute_id', array('label'=>'Left-Hand Side', 'options'=>$opts));

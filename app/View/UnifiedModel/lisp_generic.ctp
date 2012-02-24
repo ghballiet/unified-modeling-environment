@@ -42,7 +42,12 @@ foreach($generic_processes as $i=>$gp) {
   if($i!=0)
     printf("   ");
   printf('(:name "%s"', $gp['GenericProcess']['name']);
-  printf(")");
+  printf("\n    :equations (");
+  foreach($generic_equation_list[$gp['GenericProcess']['id']] as $ge) {
+    $eid = $ge['GenericProcessArgument']['generic_entity_id'];
+    // add the equations here
+  }
+  printf("))");
   if($i != sizeof($generic_processes) - 1)
     printf("\n");
 }

@@ -57,7 +57,8 @@ create table if not exists generic_equations (
   is_algebraic boolean,
   generic_attribute_id int,
   right_hand_side varchar(500),
-  generic_process_id int
+  generic_process_id int,
+  generic_process_argument_id int
 );
 
 create table if not exists concrete_equations (
