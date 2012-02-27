@@ -6434,3 +6434,121 @@
 #1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
 #2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2012-02-27 02:32:13 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/ConnectionManager.php(101): DboSource->__construct(Array)
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3241): ConnectionManager::getDataSource('default')
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1030): Model->setDataSource('default')
+#3 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('unified_models')
+#4 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#5 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#6 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(106): Model->read()
+#7 [internal function]: UnifiedModelsController->view('36')
+#8 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#9 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#10 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#11 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2012-02-27 02:33:20 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/ConnectionManager.php(101): DboSource->__construct(Array)
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3241): ConnectionManager::getDataSource('default')
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1030): Model->setDataSource('default')
+#3 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('unified_models')
+#4 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#5 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#6 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(106): Model->read()
+#7 [internal function]: UnifiedModelsController->view('36')
+#8 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#9 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#10 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#11 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2012-02-27 02:33:22 Error: [MissingConnectionException] Database connection "Mysql" is missing, or could not be created.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/ConnectionManager.php(101): DboSource->__construct(Array)
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3241): ConnectionManager::getDataSource('default')
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1030): Model->setDataSource('default')
+#3 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('unified_models')
+#4 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#5 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#6 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(106): Model->read()
+#7 [internal function]: UnifiedModelsController->view('36')
+#8 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#9 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#10 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#11 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#12 {main}
+2012-02-27 02:33:38 Error: [MissingTableException] Database table unified_models for model UnifiedModel was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('unified_models')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UnifiedModelsController.php(106): Model->read()
+#4 [internal function]: UnifiedModelsController->view('36')
+#5 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-27 02:33:46 Error: [MissingTableException] Database table users for model User was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UsersController.php(28): Model->read()
+#4 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(605): UsersController->beforeFilter()
+#5 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(101): Controller->startupProcess()
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#7 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-02-27 02:33:47 Error: [MissingTableException] Database table users for model User was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UsersController.php(28): Model->read()
+#4 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(605): UsersController->beforeFilter()
+#5 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(101): Controller->startupProcess()
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#7 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-02-27 02:34:12 Error: [MissingTableException] Database table users for model User was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UsersController.php(28): Model->read()
+#4 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(605): UsersController->beforeFilter()
+#5 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(101): Controller->startupProcess()
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#7 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-02-27 02:34:12 Error: [MissingTableException] Database table users for model User was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UsersController.php(28): Model->read()
+#4 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(605): UsersController->beforeFilter()
+#5 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(101): Controller->startupProcess()
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#7 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-02-27 02:34:21 Error: [MissingTableException] Database table users for model User was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UsersController.php(28): Model->read()
+#4 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(605): UsersController->beforeFilter()
+#5 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(101): Controller->startupProcess()
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#7 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-02-27 02:34:21 Error: [MissingTableException] Database table users for model User was not found.
+#0 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(2483): Model->getDataSource()
+#2 /d1/www/html/cll/ume/lib/Cake/Model/Model.php(1436): Model->find('first', Array)
+#3 /d1/www/html/cll/ume/app/Controller/UsersController.php(28): Model->read()
+#4 /d1/www/html/cll/ume/lib/Cake/Controller/Controller.php(605): UsersController->beforeFilter()
+#5 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(101): Controller->startupProcess()
+#6 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#7 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#8 {main}
+2012-02-27 02:35:42 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

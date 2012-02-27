@@ -100,5 +100,13 @@ foreach($generic_processes as $i=>$gp) {
 ?>)
 
  ;; ---- constraints ----
-)
+ (<?
+foreach($generic_processes as $i=>$gp) {
+  if($i != 0)
+    printf("  ");
+  printf('(:name req-%d :type exactly-one :items ((:gprocess "%s")))', $i, $gp['GenericProcess']['name']);
+  if($i != sizeof($generic_processes) -1)
+    printf("\n");
+}
+?>))
 </pre>
