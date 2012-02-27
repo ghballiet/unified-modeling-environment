@@ -137,8 +137,8 @@ class UnifiedModelsController extends AppController {
         
         // add arguments
         $arr = array();
-        $args = $this->UnifiedModel->GenericProcess->GenericProcessArgument->find('all', array('conditions'=>array(
-          'GenericProcessArgument.generic_process_id'=>$gp['GenericProcess']['id'])));
+        $args = $this->UnifiedModel->GenericProcess->GenericProcessArgument->find('all', 
+          array('conditions'=>array('GenericProcessArgument.generic_process_id'=>$gp['GenericProcess']['id'])));
         foreach($args as $arg) {
           $params = array();
           $attrs = $this->UnifiedModel->GenericEntity->GenericAttribute->find('all', array('conditions'=>array(

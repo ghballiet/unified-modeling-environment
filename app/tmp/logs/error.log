@@ -6080,3 +6080,357 @@
 #1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
 #2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2012-02-24 23:51:41 Error: [MissingDatasourceConfigException] The datasource configuration "default" was not found in database.php
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/ConnectionManager.php(94): ConnectionManager::_getConnectionObject('default')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3241): ConnectionManager::getDataSource('default')
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(1030): Model->setDataSource('default')
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#4 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(1223): Model->getDataSource()
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/Helper/FormHelper.php(197): Model->schema()
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/Helper/FormHelper.php(450): FormHelper->_introspectModel('User', 'fields')
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/app/View/User/login.ctp(4): FormHelper->create('User', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/View.php(595): include('/Applications/X...')
+#9 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/View.php(362): View->_render('/Applications/X...')
+#10 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(900): View->render(NULL, NULL)
+#11 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(111): Controller->render()
+#12 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#13 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#14 {main}
+2012-02-24 23:51:41 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 23:51:41 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 23:52:35 Error: [MissingDatasourceConfigException] The datasource configuration "default" was not found in database.php
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/ConnectionManager.php(94): ConnectionManager::_getConnectionObject('default')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3241): ConnectionManager::getDataSource('default')
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(1030): Model->setDataSource('default')
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#4 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(1223): Model->getDataSource()
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/Helper/FormHelper.php(197): Model->schema()
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/Helper/FormHelper.php(450): FormHelper->_introspectModel('User', 'fields')
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/app/View/User/login.ctp(4): FormHelper->create('User', Array)
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/View.php(595): include('/Applications/X...')
+#9 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/View.php(362): View->_render('/Applications/X...')
+#10 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(900): View->render(NULL, NULL)
+#11 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(111): Controller->render()
+#12 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#13 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#14 {main}
+2012-02-24 23:52:35 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 23:52:35 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 23:53:35 Error: [MissingTableException] Database table users for model User was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('users')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(1223): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/Helper/FormHelper.php(197): Model->schema()
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/Helper/FormHelper.php(450): FormHelper->_introspectModel('User', 'fields')
+#4 /Applications/XAMPP/xamppfiles/htdocs/ume/app/View/User/login.ctp(4): FormHelper->create('User', Array)
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/View.php(595): include('/Applications/X...')
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/View/View.php(362): View->_render('/Applications/X...')
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(900): View->render(NULL, NULL)
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(111): Controller->render()
+#9 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#10 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#11 {main}
+2012-02-24 23:53:35 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-24 23:53:35 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:01:25 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:01:25 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:02:38 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:02:38 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:02:48 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:05:33 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 00:06:28 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:39:55 Error: [MissingActionException] Action GenericProcessController::view() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(GenericProcessesController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:39:55 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:39:55 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:00 Error: [MissingActionException] Action GenericProcessController::models() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(GenericProcessesController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:01 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:01 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:03 Error: [MissingActionException] Action GenericProcessController::model() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(GenericProcessesController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:03 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:04 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:05 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:06 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:06 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:08 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:08 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:14 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:15 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('2')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:15 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('2')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:16 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:40:17 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:40:17 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:41:44 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('1')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:41:44 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('1')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:41:47 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:41:47 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:42:48 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:42:49 Error: [MissingTableException] Database table equations for model Equation was not found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(3265): Model->setSource('equations')
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Datasource/DboSource.php(1026): Model->getDataSource()
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Model/Model.php(2483): DboSource->read(Object(GenericProcessArgument), Array)
+#3 /Applications/XAMPP/xamppfiles/htdocs/ume/app/Controller/UnifiedModelsController.php(141): Model->find('all', Array)
+#4 [internal function]: UnifiedModelsController->view('4')
+#5 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Controller/Controller.php(473): ReflectionMethod->invokeArgs(Object(UnifiedModelsController), Array)
+#6 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#7 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#8 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+2012-02-25 02:46:25 Error: [MissingActionException] Action UnifiedModelController::generic_lisp() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UnifiedModelsController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:46:25 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-25 02:46:25 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-26 22:44:53 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-26 22:44:53 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-02-26 22:45:00 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /Applications/XAMPP/xamppfiles/htdocs/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /Applications/XAMPP/xamppfiles/htdocs/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

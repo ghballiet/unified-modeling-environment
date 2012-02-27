@@ -60,15 +60,16 @@
 class DATABASE_CONFIG {
   
   public $default = array(
-   'datasource' => 'Database/Sqlite',
+   'datasource' => 'Database/Mysql',
    'persistent' => false,
    'host' => 'localhost',
-   'login' => '',
+   'login' => 'root',
    'password' => '',
-   'database' => 'unified-modeling.db',
+   'database' => 'ume',
    'prefix' => '',
-   //'encoding' => 'utf8',                                                                                                                                                       
+   //'encoding' => 'utf8',
   );
+  
 
   /*
 	public $default = array(
