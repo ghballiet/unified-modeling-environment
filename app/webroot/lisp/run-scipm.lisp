@@ -1,6 +1,6 @@
 ;; runs scipm
 
-(load "~/.emacs.d/quicklisp/setup.lisp") ;; loads quicklisp
+(load "quicklisp/setup.lisp") ;; loads quicklisp
 (ql:quickload :mt19937)			 ;; loads MT19937
 (ql:quickload :bordeaux-threads)
 (load "sb-callback/sb-callback.asd")
