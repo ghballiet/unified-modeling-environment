@@ -1,0 +1,78 @@
+(in-package :scipm)
+
+(create-instance-library
+ chemical-kinetics
+ :generic-library ( :name chemical-kinetics )
+ :data-file-list ( "chem.data" )
+ :entities
+ ((:name "f6p"
+	 :generic-type "C"
+	 :variables ((:type "conc"
+		      :aggregator sum
+		      :data-name "f6p")
+		     (:type "pos-flux"
+	              :aggregator prod)
+		     (:type "neg-flux"
+	              :aggregator prod))
+         :constants ((:type "neg-rate")
+		     (:type "pos-rate")))
+
+  (:name "dhap"
+	 :generic-type "C"
+	 :variables ((:type "conc"
+			    :aggregator sum
+			    :data-name "dhap")
+		     (:type "pos-flux"
+	              :aggregator prod)
+		     (:type "neg-flux"
+	              :aggregator prod))
+         :constants ((:type "neg-rate")
+		     (:type "pos-rate")))
+
+  (:name "g3p"
+	 :generic-type "C"
+	 :variables ((:type "conc" 
+			    :aggregator sum
+			    :data-name "g3p")
+		     (:type "pos-flux"
+	              :aggregator prod)
+		     (:type "neg-flux"
+	              :aggregator prod))
+         :constants ((:type "neg-rate")
+		     (:type "pos-rate")))
+
+  (:name "3pg"
+	 :generic-type "C"
+	 :variables ((:type "conc"
+			    :aggregator sum
+			    :data-name "3pg")
+		     (:type "pos-flux"
+	              :aggregator prod)
+		     (:type "neg-flux"
+	              :aggregator prod))
+         :constants ((:type "neg-rate")
+		     (:type "pos-rate")))
+
+  (:name "g6p"
+	 :generic-type "C"
+	 :variables ((:type "conc"
+			    :aggregator sum
+			    :data-name "g6p")
+		     (:type "pos-flux"
+	              :aggregator prod)
+		     (:type "neg-flux"
+	              :aggregator prod))
+         :constants ((:type "neg-rate")
+		     (:type "pos-rate")))
+
+  (:name "f16bp"
+	 :generic-type "C"
+	 :variables ((:type "conc"
+			    :aggregator sum
+			    :data-name "f16bp")
+		     (:type "pos-flux"
+	              :aggregator prod)
+		     (:type "neg-flux"
+	              :aggregator prod))
+         :constants ((:type "neg-rate")
+		     (:type "pos-rate")))))

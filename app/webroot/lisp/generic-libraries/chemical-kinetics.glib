@@ -1,0 +1,127 @@
+(in-package :scipm)
+
+(create-generic-library CHEMICAL-KINETICS
+  :entity-list
+      ((:TYPE "C"
+        :VARIABLES (
+          (:NAME "neg-flux"
+           :AGGREGATORS '(PROD))
+          (:NAME "pos-flux"
+           :AGGREGATORS '(PROD))
+          (:NAME "conc"
+           :AGGREGATORS '(SUM)))
+        :CONSTANTS (
+          (:NAME "neg-rate"
+           :UPPER-BOUND 10.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "pos-rate"
+           :UPPER-BOUND 10.0d0
+           :LOWER-BOUND 0.0d0)))
+
+        (:TYPE "E"
+        :VARIABLES (
+          (:NAME "conc"
+           :AGGREGATORS '(SUM))))
+)
+  :process-list
+      ((:NAME "core-kinetics"
+        :EQUATIONS 
+          ((ODE
+            :VARIABLE "C.conc"
+            :ORDER 1
+            :RHS (- (* "C.pos-rate" "C.pos-flux") (* "C.neg-rate" "C.neg-flux"))))
+        :ENTITY-ROLES 
+          ((:NAME "C"
+            :TYPES ("C"))))
+
+        (:NAME "irreversible"
+        :CONSTANTS (
+          (:NAME "kinetic-order-2"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-1"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0))
+        :EQUATIONS 
+          ((ALG
+            :VARIABLE "C1.neg-flux"
+            :RHS (EXPT "C1.conc" "kinetic-order-1"))
+            (ALG
+            :VARIABLE "C2.pos-flux"
+            :RHS (EXPT "C1.conc" "kinetic-order-2")))
+        :ENTITY-ROLES 
+          ((:NAME "C2"
+            :TYPES ("C"))
+            (:NAME "C1"
+            :TYPES ("C"))))
+
+        (:NAME "reversible"
+        :CONSTANTS (
+          (:NAME "kinetic-order-22n"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-22p"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-21n"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-21p"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-12n"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-11n"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-12p"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0)
+          (:NAME "kinetic-order-11p"
+           :UPPER-BOUND 1.0d0
+           :LOWER-BOUND 0.0d0))
+        :EQUATIONS 
+          ((ALG
+            :VARIABLE "C1.pos-flux"
+            :RHS (* (EXPT "C1.conc" "kinetic-order-11p")
+                    (EXPT "C2.conc" "kinetic-order-12p")))
+            (ALG
+            :VARIABLE "C1.neg-flux"
+            :RHS (* (EXPT "C1.conc" "kinetic-order-11n")
+                    (EXPT "C2.conc" "kinetic-order-12n")))
+            (ALG
+            :VARIABLE "C2.pos-flux"
+            :RHS (* (EXPT "C1.conc" "kinetic-order-21p")
+                    (EXPT "C2.conc" "kinetic-order-22p")))
+            (ALG
+            :VARIABLE "C2.neg-flux"
+            :RHS (* (EXPT "C1.conc" "kinetic-order-21n")
+                    (EXPT "C2.conc" "kinetic-order-22n"))))
+        :ENTITY-ROLES 
+          ((:NAME "C2"
+            :TYPES ("C"))
+            (:NAME "C1"
+            :TYPES ("C"))))
+)
+
+  :constraint-list
+
+      ((:NAME CORE-COMPONENTS
+        :TYPE EXACTLY-ONE
+        :ITEMS 
+          ((:GPROCESS "core-kinetics"
+             :MODIFIERS  ((:id A :entity-role-name "C") ))))
+
+        (:NAME LINKS
+        :TYPE AT-MOST-ONE
+        :ITEMS 
+          ((:GPROCESS "irreversible"
+            :MODIFIERS  ((:id A :entity-role-name "C1") (:id B :entity-role-name "C2") ))
+	    (:GPROCESS "irreversible"		  
+            :MODIFIERS  ((:id B :entity-role-name "C1") (:id A :entity-role-name "C2") ))
+            (:GPROCESS "reversible"
+             :MODIFIERS  ((:id A :entity-role-name "C1") (:id B :entity-role-name "C2") ))
+            (:GPROCESS "reversible"
+             :MODIFIERS  ((:id B :entity-role-name "C1") (:id A :entity-role-name "C2") ))))
+))

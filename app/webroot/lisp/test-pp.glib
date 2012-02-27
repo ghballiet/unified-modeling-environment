@@ -1,0 +1,18 @@
+(in-package :scipm)
+
+(create-generic-library
+ test-pp
+
+ :entity-list
+ ((:type "environment"
+   :variables ((:name "conc" :aggregators (sum)))
+   :constants ((:name "trees" :lower-bound 1 :upper-bound 8)
+               (:name "leaves-per-tree" :lower-bound 5 :upper-bound 5))))
+
+ :process-list
+ ((:name "number-leaves"
+   :equations ((ODE :variable "E.conc" :rhs (* "E.trees" "E.leaves-per-tree")))
+   :entity-roles ((:name "E" :types ("environment")))))
+
+ :constraint-list
+ ((:name single-eq :type exactly-one :items ((:gprocess "number-leaves")))))

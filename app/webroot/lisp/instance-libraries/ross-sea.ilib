@@ -1,0 +1,63 @@
+(in-package :scipm)
+
+
+(create-instance-library
+ ross-sea
+ :generic-library ( :name aquatic-ecosystem )
+ :data-file-list ( "ross-yr1" )
+ :entities
+ ((:name "phyto" 
+   :generic-type "producer"
+   :variables ((:type "conc" :aggregator sum :data-name "P")
+	       (:type "growth_rate" :aggregator prod)
+	       (:type "growth_lim" :aggregator min))
+   :constants ((:type "max_growth" :initial-value 0.487125d0)
+               (:type "exude_rate" :initial-value 0.177867d0)
+               (:type "death_rate" :initial-value 0.0264094d0)
+               (:type "ik_max" :initial-value 80.0d0)
+               (:type "sinking_rate" :initial-value 0.0693623d0)
+               (:type "biomin" :initial-value 0.03d0)
+               (:type "bioinhib" :initial-value 200d0)))
+
+  (:name "zoo" 
+   :generic-type "grazer"
+   :variables ((:type "conc" :initial-value 1.63d0 :aggregator sum )
+               (:type "grazing_rate" :aggregator prod))
+   :constants ((:type "assim_eff" :initial-value 0.740011d0)
+               (:type "death_rate" :initial-value 0.299996d0)
+               (:type "respiration_rate" :initial-value 0.0399966d0)
+               (:type "sinking_rate" :initial-value 0.1d0)
+               (:type "gmax" :initial-value 0.376574d0)
+               (:type "glim" :initial-value 20d0)
+               (:type "gcap" :initial-value 250d0)
+               (:type "attack_rate" :initial-value 1d0)))
+
+   (:name "nitrate" 
+    :generic-type "no3"
+    :variables ((:type "conc" :aggregator sum :data-name "NO3")
+                (:type "mixing_rate" :aggregator prod))
+    :constants ((:type "toCratio" :initial-value 6.6d0)
+                (:type "avg_deep_conc" :initial-value 31d0)))
+
+   (:name "iron" 
+    :generic-type "fe"
+    :variables ((:type "conc" :initial-value 0.000530d0 :aggregator sum)
+                (:type "mixing_rate" :aggregator prod))
+    :constants ((:type "toCratio" :initial-value 264858d0)
+                (:type "avg_deep_conc" :initial-value 0.000440237d0)))
+
+   (:name "det" 
+    :generic-type "detritus"
+    :variables ((:type "conc" :initial-value 0.085737763654344268d0 :aggregator sum ))
+    :constants ((:type "remin_rate" :initial-value 0.04d0)
+                (:type "sinking_rate" :initial-value 0.00552667d0)))
+
+   (:name "env" 
+    :generic-type "environment"
+    :variables ((:type "temp" :aggregator sum :data-name "SST" :exogenous t)
+                (:type "mintemp" :aggregator sum :data-name "MINTEMP" :exogenous t)
+                (:type "maxtemp" :aggregator sum :data-name "MAXTEMP" :exogenous t)
+                (:type "PUR" :aggregator sum :data-name "PUR" :exogenous t)
+                (:type "ice" :aggregator sum :data-name "ice" :exogenous t))
+    :constants ((:type "beta" :initial-value 0.5d0)))))
+                                          

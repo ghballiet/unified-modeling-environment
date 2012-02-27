@@ -1,0 +1,216 @@
+;;; Compiled by f2cl version 2.0 beta Date: 2006/05/05 20:28:21 
+;;; Using Lisp CLISP 2.38 (2006-01-24) (built on guru.build.karan.org)
+;;; Options: ((:prune-labels nil) (:auto-save t) (:relaxed-array-decls t)
+;;;  (:coerce-assigns :as-needed) (:array-type ':array) (:array-slicing t)
+;;;  (:declare-common nil) (:float-format single-float))
+
+(in-package :common-lisp-user)
+
+
+(|COMMON-LISP|::|DEFUN| |FORTRAN-TO-LISP|::|DS7IPR|
+ (|FORTRAN-TO-LISP|::|P| |FORTRAN-TO-LISP|::|IP| |FORTRAN-TO-LISP|::|H|)
+ (|COMMON-LISP|::|DECLARE|
+  (|COMMON-LISP|::|TYPE| (|F2CL-LIB|::|INTEGER4|) |FORTRAN-TO-LISP|::|P|)
+  (|COMMON-LISP|::|TYPE|
+   (|COMMON-LISP|::|ARRAY| |F2CL-LIB|::|INTEGER4| (|COMMON-LISP|::|*|))
+   |FORTRAN-TO-LISP|::|IP|)
+  (|COMMON-LISP|::|TYPE|
+   (|COMMON-LISP|::|ARRAY| |COMMON-LISP|::|DOUBLE-FLOAT| (|COMMON-LISP|::|*|))
+   |FORTRAN-TO-LISP|::|H|))
+
+;(incf *ds7ipr*)
+
+ (|F2CL-LIB|::|WITH-MULTI-ARRAY-DATA|
+  ((|FORTRAN-TO-LISP|::|H| |COMMON-LISP|::|DOUBLE-FLOAT|
+    |FORTRAN-TO-LISP|::|H-%DATA%| |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+   (|FORTRAN-TO-LISP|::|IP| |F2CL-LIB|::|INTEGER4|
+    |FORTRAN-TO-LISP|::|IP-%DATA%| |FORTRAN-TO-LISP|::|IP-%OFFSET%|))
+  (|COMMON-LISP|::|PROG|
+   ((|FORTRAN-TO-LISP|::|T$| 0.0d0) (|FORTRAN-TO-LISP|::|I| 0.)
+    (|FORTRAN-TO-LISP|::|J| 0.) (|FORTRAN-TO-LISP|::|J1| 0.)
+    (|FORTRAN-TO-LISP|::|JM| 0.) (|FORTRAN-TO-LISP|::|K| 0.)
+    (|FORTRAN-TO-LISP|::|K1| 0.) (|FORTRAN-TO-LISP|::|KK| 0.)
+    (|FORTRAN-TO-LISP|::|KM| 0.) (|FORTRAN-TO-LISP|::|KMJ| 0.)
+    (|FORTRAN-TO-LISP|::|L| 0.) (|FORTRAN-TO-LISP|::|M| 0.))
+   (|COMMON-LISP|::|DECLARE|
+    (|COMMON-LISP|::|TYPE| (|COMMON-LISP|::|DOUBLE-FLOAT|)
+     |FORTRAN-TO-LISP|::|T$|)
+    (|COMMON-LISP|::|TYPE| (|F2CL-LIB|::|INTEGER4|) |FORTRAN-TO-LISP|::|M|
+     |FORTRAN-TO-LISP|::|L| |FORTRAN-TO-LISP|::|KMJ| |FORTRAN-TO-LISP|::|KM|
+     |FORTRAN-TO-LISP|::|KK| |FORTRAN-TO-LISP|::|K1| |FORTRAN-TO-LISP|::|K|
+     |FORTRAN-TO-LISP|::|JM| |FORTRAN-TO-LISP|::|J1| |FORTRAN-TO-LISP|::|J|
+     |FORTRAN-TO-LISP|::|I|))
+   (|F2CL-LIB|::|FDO|
+    (|FORTRAN-TO-LISP|::|I| 1.
+     (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|I| 1.))
+    ((|COMMON-LISP|::|>| |FORTRAN-TO-LISP|::|I| |FORTRAN-TO-LISP|::|P|)
+     |COMMON-LISP|::|NIL|)
+    (|COMMON-LISP|::|TAGBODY|
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|J|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|IP-%DATA%|
+       (|FORTRAN-TO-LISP|::|I|) ((1. |FORTRAN-TO-LISP|::|P|))
+       |FORTRAN-TO-LISP|::|IP-%OFFSET%|))
+     (|COMMON-LISP|::|IF|
+      (|COMMON-LISP|::|=| |FORTRAN-TO-LISP|::|J| |FORTRAN-TO-LISP|::|I|)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL90|))
+     (|COMMON-LISP|::|SETF|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|IP-%DATA%|
+       (|FORTRAN-TO-LISP|::|I|) ((1. |FORTRAN-TO-LISP|::|P|))
+       |FORTRAN-TO-LISP|::|IP-%OFFSET%|)
+      (|F2CL-LIB|::|IABS| |FORTRAN-TO-LISP|::|J|))
+     (|COMMON-LISP|::|IF| (|COMMON-LISP|::|<| |FORTRAN-TO-LISP|::|J| 0.)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL90|))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|K| |FORTRAN-TO-LISP|::|I|)
+     |FORTRAN-TO-LISP|::|LABEL10|
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|J1| |FORTRAN-TO-LISP|::|J|)
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|K1| |FORTRAN-TO-LISP|::|K|)
+     (|COMMON-LISP|::|IF|
+      (|COMMON-LISP|::|<=| |FORTRAN-TO-LISP|::|J| |FORTRAN-TO-LISP|::|K|)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL20|))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|J1| |FORTRAN-TO-LISP|::|K|)
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|K1| |FORTRAN-TO-LISP|::|J|)
+     |FORTRAN-TO-LISP|::|LABEL20|
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KMJ|
+      (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|K1| |FORTRAN-TO-LISP|::|J1|))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|L|
+      (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|J1| 1.))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|JM|
+      (|COMMON-LISP|::|THE| |F2CL-LIB|::|INTEGER4|
+       (|COMMON-LISP|::|TRUNCATE|
+        (|COMMON-LISP|::|*| |FORTRAN-TO-LISP|::|J1| |FORTRAN-TO-LISP|::|L|)
+        2.)))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KM|
+      (|COMMON-LISP|::|THE| |F2CL-LIB|::|INTEGER4|
+       (|COMMON-LISP|::|TRUNCATE|
+        (|COMMON-LISP|::|*| |FORTRAN-TO-LISP|::|K1|
+         (|COMMON-LISP|::|-| |FORTRAN-TO-LISP|::|K1| 1.))
+        2.)))
+     (|COMMON-LISP|::|IF| (|COMMON-LISP|::|<=| |FORTRAN-TO-LISP|::|L| 0.)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL40|))
+     (|F2CL-LIB|::|FDO|
+      (|FORTRAN-TO-LISP|::|M| 1.
+       (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|M| 1.))
+      ((|COMMON-LISP|::|>| |FORTRAN-TO-LISP|::|M| |FORTRAN-TO-LISP|::|L|)
+       |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP|::|TAGBODY|
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|JM|
+        (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|JM| 1.))
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|T$|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KM|
+        (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|KM| 1.))
+       (|COMMON-LISP|::|SETF|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|KM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+       (|COMMON-LISP|::|SETF|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|KM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+        |FORTRAN-TO-LISP|::|T$|)
+       |FORTRAN-TO-LISP|::|LABEL30|))
+     |FORTRAN-TO-LISP|::|LABEL40|
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KM|
+      (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|KM| 1.))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KK|
+      (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|KM| |FORTRAN-TO-LISP|::|KMJ|))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|JM|
+      (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|JM| 1.))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|T$|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+       (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+     (|COMMON-LISP|::|SETF|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+       (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+       (|FORTRAN-TO-LISP|::|KK|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+     (|COMMON-LISP|::|SETF|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+       (|FORTRAN-TO-LISP|::|KK|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+      |FORTRAN-TO-LISP|::|T$|)
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|J1| |FORTRAN-TO-LISP|::|L|)
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|L|
+      (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|KMJ| 1.))
+     (|COMMON-LISP|::|IF| (|COMMON-LISP|::|<=| |FORTRAN-TO-LISP|::|L| 0.)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL60|))
+     (|F2CL-LIB|::|FDO|
+      (|FORTRAN-TO-LISP|::|M| 1.
+       (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|M| 1.))
+      ((|COMMON-LISP|::|>| |FORTRAN-TO-LISP|::|M| |FORTRAN-TO-LISP|::|L|)
+       |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP|::|TAGBODY|
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|JM|
+        (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|JM| |FORTRAN-TO-LISP|::|J1|
+         |FORTRAN-TO-LISP|::|M|))
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|T$|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KM|
+        (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|KM| 1.))
+       (|COMMON-LISP|::|SETF|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|KM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+       (|COMMON-LISP|::|SETF|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|KM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+        |FORTRAN-TO-LISP|::|T$|)
+       |FORTRAN-TO-LISP|::|LABEL50|))
+     |FORTRAN-TO-LISP|::|LABEL60|
+     (|COMMON-LISP|::|IF|
+      (|COMMON-LISP|::|>=| |FORTRAN-TO-LISP|::|K1| |FORTRAN-TO-LISP|::|P|)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL80|))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|L|
+      (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|P| |FORTRAN-TO-LISP|::|K1|))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|K1|
+      (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|K1| 1.))
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KM| |FORTRAN-TO-LISP|::|KK|)
+     (|F2CL-LIB|::|FDO|
+      (|FORTRAN-TO-LISP|::|M| 1.
+       (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|M| 1.))
+      ((|COMMON-LISP|::|>| |FORTRAN-TO-LISP|::|M| |FORTRAN-TO-LISP|::|L|)
+       |COMMON-LISP|::|NIL|)
+      (|COMMON-LISP|::|TAGBODY|
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|KM|
+        (|F2CL-LIB|::|INT-ADD| |FORTRAN-TO-LISP|::|KM| |FORTRAN-TO-LISP|::|K1|
+         |FORTRAN-TO-LISP|::|M|))
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|JM|
+        (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|KM|
+         |FORTRAN-TO-LISP|::|KMJ|))
+       (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|T$|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+       (|COMMON-LISP|::|SETF|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|JM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|KM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|))
+       (|COMMON-LISP|::|SETF|
+        (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|H-%DATA%|
+         (|FORTRAN-TO-LISP|::|KM|) ((1. 1.)) |FORTRAN-TO-LISP|::|H-%OFFSET%|)
+        |FORTRAN-TO-LISP|::|T$|)
+       |FORTRAN-TO-LISP|::|LABEL70|))
+     |FORTRAN-TO-LISP|::|LABEL80|
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|K| |FORTRAN-TO-LISP|::|J|)
+     (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|J|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|IP-%DATA%|
+       (|FORTRAN-TO-LISP|::|K|) ((1. |FORTRAN-TO-LISP|::|P|))
+       |FORTRAN-TO-LISP|::|IP-%OFFSET%|))
+     (|COMMON-LISP|::|SETF|
+      (|F2CL-LIB|::|FREF| |FORTRAN-TO-LISP|::|IP-%DATA%|
+       (|FORTRAN-TO-LISP|::|K|) ((1. |FORTRAN-TO-LISP|::|P|))
+       |FORTRAN-TO-LISP|::|IP-%OFFSET%|)
+      (|F2CL-LIB|::|INT-SUB| |FORTRAN-TO-LISP|::|J|))
+     (|COMMON-LISP|::|IF|
+      (|COMMON-LISP|::|>| |FORTRAN-TO-LISP|::|J| |FORTRAN-TO-LISP|::|I|)
+      (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL10|))
+     |FORTRAN-TO-LISP|::|LABEL90|))
+   |FORTRAN-TO-LISP|::|LABEL999|
+   (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|END_LABEL|)
+   |FORTRAN-TO-LISP|::|END_LABEL|
+   (|COMMON-LISP|::|RETURN|
+    (|COMMON-LISP|::|VALUES| |COMMON-LISP|::|NIL| |COMMON-LISP|::|NIL|
+     |COMMON-LISP|::|NIL|)))))
+

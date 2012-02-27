@@ -1,0 +1,23 @@
+;; predator-prey stuff
+
+(in-package :scipm)
+
+(create-instance-library
+ pp-lynx-instance
+ :generic-library (:name pplynx)
+ :data-file-list ("lynx-sim")
+ :entities
+ ((:name "rabbit"
+	 :generic-type "prey"
+	 :variables ((:type "population"
+			    :aggregator sum
+			    :data-name "rabbits"))
+	 :constants ((:type "birth_rate")
+		     (:type "death_rate")))
+  (:name "lynx"
+	 :generic-type "predator"
+	 :variables ((:type "population"
+			    :aggregator sum
+			    :data-name "rabbits"))
+	 :constants ((:type "birth_rate")
+		     (:type "death_rate")))))

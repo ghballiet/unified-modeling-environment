@@ -1,0 +1,66 @@
+Necessary constraints produce literals and disjunctions.  These are
+already in CNF form.  All literals (i.e., leaves in the AND/OR tree)
+will be positive.  If the constraint produces any literals that hang
+directly off the root conjunct, set those variables to TRUE and use
+unit propagation to simplify the entire tree.  We cannot do any
+preprocessing with the disjuncts.
+
+At-most/Exactly one constraints produce one or more mutually exclusive
+subtrees.  These are two levels deep with an XOR at the root of each
+subtree and conjuncts that include at most one positive literal.
+These constraints are problematic for CNF conversion.  We can use a
+variable substitution method for conversion here.
+
+Each always-together constraint produces a biconditional.  Usually
+a<-->b is replaced with (a->b)^(b->a) or (~avb)^(~bva).  This is the
+same as (~a^~b)v(a^b), which leaves us with a single XOR relationship
+instead of two separate ones.  This can simplify the search code.  The
+current code goes one step farther and produces only a single
+implication for each always-together constraint.
+
+
+---------------------
+
+
+Transformations to CNF:
+
+Necessary: do nothing special.
+
+At-most/Exactly one: each conjunction consists of a list of literals
+where at most one is positive.  this simplifies the conversion step
+considerably and leads to a predictable number of clauses.
+
+Algorithm:
+1.  Assign a gensym to each XOR conjunction.
+2.  Create a disjunct of those gensyms and add it to the root conjunct.
+3.  For each XOR conjunction X, do the following.
+  a.  For each literal Y in X, do the following.
+    i.  Create a disjunct of the form (OR (NOT gensym) Y)
+   ii.  Add this disjunct to the root conjunct.
+  b.  Create a disjunct that contains X's gensym and the negation of all 
+      the literals in X.
+  c.  Add this disjunct to the root conjunct. 
+
+A conjunction with N literals will produce N+1 clauses in addition to
+the modified XOR conjunction created in step 2.  This conversion
+process is O(N^2) where N is the number of variables involved in the
+mutual exclusion.  For exactly-one constraints the total number of
+clauses will be (N+1)^2+1.  For at-most-one constraints, the number will
+be (N+1)^2+N+2 due to the additional "all false" case.
+
+
+Always-Together: the or-distribution rule works fine here.  the
+antecedent contains only literals and the consequent is already in
+CNF.  So, we use the following apporach to generate a predictable
+number of clauses.
+
+Algorithm:
+1.  For each literal L in the antecedent, do the following.
+  a.  For each disjunction D in the consequent, do the following.
+    i.  Add L to D.
+   ii.  Add this disjunct to the root conjunct.
+
+A formula with N literals in the antecedent and M disjunctions in the
+consequent will produce N*M clauses.  For this constraint, N dominates
+M, so the total number of new clauses captured only in terms of the
+size of the antecedent is O(N^2).

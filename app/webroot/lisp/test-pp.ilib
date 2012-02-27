@@ -1,0 +1,10 @@
+(in-package :scipm)
+
+(create-instance-library 
+ test-pp
+ :generic-library (:name test-pp)
+ :data-file-list ("test-pp")
+ :entities
+ ((:name "alpha"
+   :generic-type "environment" 
+   :variables ((:type "conc" :aggregator sum :data-name "leaf")))))

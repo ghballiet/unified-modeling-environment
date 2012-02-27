@@ -1,0 +1,339 @@
+(in-package :scipm)
+
+(create-generic-library 
+ pplib
+;; build the entities
+
+;; generic-entity grazer
+;; variables conc{sum}
+ :entity-list
+ ((:type "grazer"
+   :variables ((:name "conc"
+		:aggregators (sum))
+	       (:name "grazing_rate"
+		:aggregators (sum)))
+   :constants ((:name "assim_eff"
+		:lower-bound 0.001
+		:upper-bound 0.8)
+	       (:name "gmax"
+		:lower-bound 0.0001
+		:upper-bound 1)
+	       (:name "gcap"
+		:lower-bound 10
+		:upper-bound 10000)
+	       (:name "attack_rate"
+		:lower-bound 0.3
+		:upper-bound 10)))
+
+;; generic-entity producer
+;; variables conc{sum}
+  (:type "producer"
+   :variables ((:name "conc"
+	        :aggregators (sum)))))
+
+ :process-list
+ ((:name "grazing"
+   :equations ((ODE
+		:variable "G.conc"
+		:rhs (* "G.assim_eff" "G.grazing_rate" "G.conc"))
+	       (ODE
+		:variable "P.conc"
+		:rhs (* -1 "G.grazing_rate" "G.conc")))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;; Lotka-Volterra predation
+  (:name "lotka-volterra"
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.gmax" "P.conc")))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;; Holling disk equation
+  (:name "holling-disk-equation"
+       ;; "h" is the extra handling time: L.Gross says - Handling
+       ;; time is defined as the time spent pursuing, subduing, and
+       ;; consuming each prey item plus the time spent preparing to
+       ;; search for the next prey item (including effects of satiation)
+       ;; :: SRB - I don't know if this is appropriate
+       ;; if h < 1 then the max of the response function exceeds 1
+   :constants ((:name "h"
+		:lower-bound 1
+		:upper-bound 5))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (/ (* "G.attack_rate" "P.conc") 
+		       (+ 1 (* "G.attack_rate" "h" "P.conc")))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Holling type III equation
+  (:name "holling-type-3"
+   :constants ((:name "h"
+		:lower-bound 1
+		:upper-bound 5))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (/ (* "G.attack_rate" "P.conc" "P.conc") 
+		       (+ 1 (* "G.attack_rate" "h" "P.conc" "P.conc")))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Generalized Gause
+;;reported in Rosenzweig 1971, a generalization of lotka-volterra
+  (:name "generalized-gause"
+   :constants ((:name "alpha"
+		:lower-bound 0.0001 ; alpha = 0, then function reduces
+		:upper-bound 0.9999 ; alpha = 1, then it equals lotka-volterra
+))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.gmax" (expt "P.conc" "alpha"))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Monod
+;;from Arrigo et al. 1998 (CIAO model)
+  (:name "monod"
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (max 0.0d0 (* "G.gmax" (/ "P.conc" 
+					    (+ "G.gcap" "P.conc"))))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Ivlev
+;;this appears in Rozensweig 1971 w/o a reference to Ivlev
+  (:name "ivlev"
+   :constants ((:name "delta"
+		:lower-bound 0.001
+		:upper-bound 1)) ;; technically could be greater than 1
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.gmax" (- 1 (exp (* -1 "P.conc" "delta"))))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Ratio Dependent (2) 
+;;See Jost and Ellner 2000
+  (:name "ratio-dependent-2"
+	 :constants ((:name "h"
+		      :lower-bound 1
+		      :upper-bound 5 
+			    ))
+	 :equations ((ALG
+		      :variable "G.grazing_rate"
+		      :rhs (* "G.attack_rate" (/ "P.conc" 
+						(+ "G.conc" (* "G.attack_rate" "h" "P.conc"))))))
+	 :entity-roles ((:name "G"
+		    :types ("grazer"))
+		   (:name "P"
+		    :types ("producer"))))
+
+;;Ratio Dependent (3) 
+;;See Jost and Ellner 2000
+  (:name "ratio-dependent-3"
+   :constants ((:name "h"
+		      :lower-bound 1
+		      :upper-bound 5))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.attack_rate" (/ (* "P.conc" "P.conc")
+					  (+ (* "G.conc" "G.conc") 
+					   (* "G.attack_rate" "h" "P.conc" "P.conc"))))))
+   :entity-roles ((:name "G"
+	     :types ("grazer"))
+	    (:name "P"
+	     :types ("producer"))))
+
+;;Watts
+;;See Jost and Ellner 2000
+  (:name "watts"
+   :constants (( ;; higher value increases grazing rate
+		:name "delta"
+		:lower-bound 0.01
+		:upper-bound 0.5)
+	       ( ;; higher value retards grazing rate
+		:name "m"
+		:lower-bound 0.0001
+		:upper-bound 0.9999))
+	 ;; range taken from the the alpha parameter of the generalized_gause process,
+	 ;; since watts is a generalization of ivlev analogous to the generalized_gause
+	 ;; generalization of lotka_volterra
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.gmax" (- 1 (exp (* -1 "delta" (/ "P.conc" 
+								 (expt "G.conc" "m"))))))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Hassell Varley 1
+;;See Jost and Ellner 2000
+  (:name "hassell-varley-1"
+   :constants (( ;; higher value retards growth
+		:name "sigma"
+		:lower-bound 1
+		:upper-bound 100))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.gmax" "P.conc" (expt "G.conc" (* -1 "sigma")))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Hassell Varley 2
+;;See Jost and Ellner 2000
+  (:name "hassell-varley-2"
+   :constants ((:name "sigma"
+		:lower-bound 0.0001
+		:upper-bound 0.9999)
+	       (:name "h"
+	        :lower-bound 1
+		:upper-bound 5))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.attack_rate" (/ "P.conc"
+					  (+ (expt "G.conc" "sigma") 
+					   (* "G.attack_rate" "h" "P.conc"))))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+;;Deangelis Beddington
+;;See Jost and Ellner 2000
+  (:name "deangelis-beddington"
+   :constants ((:name "delta"
+		:lower-bound 0
+		:upper-bound 1)
+	       (:name "h"
+		:lower-bound 1
+		:upper-bound 5))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.attack_rate" (/ "P.conc"
+					  (+ 1 (* "delta" "G.conc")
+					   (* "G.attack_rate" "h" "P.conc"))))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+
+;;Crowley Martin
+;;See Jost and Ellner 2000
+  (:name "crowley-martin"
+   :constants ((:name "delta"
+		:lower-bound 0
+		:upper-bound 1)
+	       (:name "h"
+		:lower-bound 1
+		:upper-bound 5))
+   :equations ((ALG
+		:variable "G.grazing_rate"
+		:rhs (* "G.attack_rate" (/ "P.conc"
+					  (* (+ 1 (* "G.attack_rate" "h" "P.conc"))
+					   (+ 1 (* "delta" "G.conc")))))))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))
+	     (:name "P"
+	      :types ("producer"))))
+
+
+;;generic-process exp-loss{loss}
+;;constants loss_rate[0,2]
+;;entities G{grazer}
+;;equations d[G.conc,t,1] = -1 * loss_rate * G.conc
+  (:name "exponential-loss"
+   :constants ((:name "loss_rate"
+		:upper-bound 2
+		:lower-bound 0))
+   :equations ((ODE
+		;; note that we don't know the actual type of 
+		;; g, so we can't access the variable field
+		;; directly, so we just reference it with a string
+		:variable "G.conc"
+		;; each variable and each constant is just referred
+		;; to by its string name.  we'll resolve these into
+		;; the real-life values later in the process
+		;; not that we'll just replace members of this
+		;; equation with the actual variables.
+		:rhs (* -1 "loss_rate" "G.conc")))
+   :entity-roles ((:name "G"
+	      :types ("grazer"))))
+
+
+;;generic-process exp-growth{growth}
+;;constants growth_rate[0,2]
+;;entities P{producer}
+;;equations d[P.conc,t,1] = growth_rate * G.conc
+  (:name "exponential-growth"
+   :constants ((:name "growth_rate"
+		:upper-bound 3
+		:lower-bound 0))
+   :equations ((ODE
+		:variable "P.conc"
+		:rhs (* "growth_rate" "P.conc")))
+  ;:conditions ('(> "P.conc" 0))
+   :entity-roles  ((:name "P"
+	       :types ("producer"))))
+
+;;generic-process log-growth{growth}
+;;constants growth_rate[0,2], k[0,0.5]
+;;entities P{producer}
+;;equations d[P.conc,t,1] = growth_rate * G.conc * (1 - k * P.conc)
+  (:name "logistic-growth"
+   :constants ((:name "growth_rate"
+		:upper-bound 3
+		:lower-bound 0)
+	       (:name "saturation"
+		:upper-bound 0.1
+	        :lower-bound 0))
+   :equations ((ODE
+		:variable "P.conc"
+		:rhs (* "growth_rate" "P.conc" (- 1 (* "saturation" "P.conc")))))
+   :entity-roles  ((:name "P"
+	       :types ("producer")))))
+
+;;;; XXX: including all the predation processes kills the CNF 
+;;;;      conversion code.  DNF works fine.
+ :constraint-list 
+ ((:name grazing-req
+   :type exactly-one
+   :items ((:gprocess "grazing")))
+  (:name death-req
+   :type exactly-one
+   :items ((:gprocess "exponential-loss")))
+  (:name predation-req
+   :type exactly-one
+   :items ((:gprocess "lotka-volterra")                        ;h1-pred
+           (:gprocess "holling-disk-equation")                 ;h2-pred
+	   (:gprocess "holling-type-3")                        ;h3-pred
+           (:gprocess "generalized-gause")                     ;gen-gause
+	   (:gprocess "monod")
+	   (:gprocess "ivlev")
+	   (:gprocess "ratio-dependent-2")
+	   (:gprocess "ratio-dependent-3")
+	   (:gprocess "watts")
+	   (:gprocess "hassell-varley-1")                      ;hv-1
+	   (:gprocess "hassell-varley-2")                      ;hv-2
+	   (:gprocess "deangelis-beddington")
+	   (:gprocess "crowley-martin")))))

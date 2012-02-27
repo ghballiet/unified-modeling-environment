@@ -1,0 +1,612 @@
+(in-package :scipm)
+
+;;;;; ROSS SEA LIBRARY
+
+;;;; taken from Chunki Park's thesis version w/ PDE terms removed
+;;;; 7/27/2011
+
+;;;; NOTES:
+;;;;
+;;;; The use of "exp" and "log" slow this code down substantially due
+;;;; to memory and time inefficient implementations in CLISP.
+
+;;;; this is the updated version of the ross sea library that no
+;;;; longer includes a remineralization process for nitrate and has
+;;;; the LHS of the nutrient limitation equations fixed to
+;;;; P.growth_lim.
+
+;;;; Updates
+
+;;;; 04/07/2009 - Update parameter's bounds (P.bioinhib, Z.assim_eff)
+;;;;              Update light_limit process (while matching python library)
+;;;; 03/11/2009 - Remove TWO unimportant grazing processes (lotka-voltera, hassell-varley1)
+;;;;              Remove depth_exp2 process
+;;;; 03/10/2009 - Update grazing processes (total number of processes = 13)
+;;;;              Update limited growth (total number of processes = 3)
+;;;;              Update death rate (total number of processes = 2)
+;;;;              Update nutrient limitation (total number of processes = 3)
+
+
+
+(create-generic-library AQUATIC-ECOSYSTEM
+  :entity-list
+      ((:type "producer"
+        :variables (
+		   (:name "conc" :aggregators (sum))
+		   (:name "growth_rate" :aggregators (prod))
+		   (:name "growth_lim" :aggregators (min)))
+       	:constants (
+		   (:name "max_growth" :upper-bound 0.8d0 :lower-bound 0.4d0)
+		   (:name "exude_rate" :upper-bound 0.2d0 :lower-bound 0.001d0)
+		   (:name "death_rate" :upper-bound 0.04d0 :lower-bound 0.02d0)
+                   (:name "ik_max" :upper-bound 100d0 :lower-bound 1d0)
+                   (:name "sinking_rate" :upper-bound 0.25d0 :lower-bound 0.0001d0)
+                   (:name "biomin" :upper-bound 0.04d0 :lower-bound 0.02d0)
+		   (:name "bioinhib" :upper-bound 1500d0 :lower-bound 200d0)))
+		    		    
+       (:type "grazer"
+        :variables (
+		   (:name "conc" :aggregators (sum))
+		   (:name "grazing_rate" :aggregators (prod)))
+       	:constants (
+		   (:name "assim_eff" :upper-bound 0.4d0 :lower-bound 0.05d0)
+                   (:name "death_rate" :upper-bound 0.3d0 :lower-bound 0.001d0)
+                   (:name "respiration_rate" :upper-bound 0.04d0 :lower-bound 0.01d0)
+                   (:name "sinking_rate" :upper-bound 0.25d0 :lower-bound 0.001d0)
+		   (:name "gmax" :upper-bound 0.5d0 :lower-bound 0.3d0)
+                   (:name "glim" :upper-bound 21d0 :lower-bound 19d0)
+		   (:name "gcap" :upper-bound 301d0 :lower-bound 199d0)
+		   (:name "attack_rate" :upper-bound 10d0 :lower-bound 0.3d0)))
+
+      (:type "no3"
+       :variables (
+       		  (:name "conc" :aggregators (sum))
+           	  (:name "mixing_rate" :aggregators (sum)))
+       :constants (
+		  (:name "toCratio" :upper-bound 6.7d0 :lower-bound 6.6d0)
+		  (:name "avg_deep_conc" :upper-bound 32d0 :lower-bound 31d0)))
+      (:type "fe"
+       :variables (
+		   (:name "conc" :aggregators (sum))
+                   (:name "mixing_rate" :aggregators (sum)))
+       :constants (
+		  (:name "toCratio" :upper-bound 450000d0 :lower-bound 3000d0)
+		  (:name "avg_deep_conc" :upper-bound 0.00045d0 :lower-bound 0.00035d0)))
+
+      (:type "detritus"
+       :variables (
+		  (:name "conc" :aggregators (sum)))
+       :constants (
+		  (:name "remin_rate" :upper-bound 0.04d0 :lower-bound 0.03d0)
+		  (:name "sinking_rate" :upper-bound 0.1d0 :lower-bound 0.00001d0)))
+      
+      (:type "environment"
+       :variables (
+		  (:name "temp" :aggregators (sum))
+		  (:name "mintemp" :aggregators (sum))
+		  (:name "maxtemp" :aggregators (sum))
+                  (:name "PUR" :aggregators (sum))
+		  (:name "ice" :aggregators (sum)))
+       :constants (
+		  (:name "beta" :upper-bound 1d0 :lower-bound 0.001d0))))
+
+  :process-list
+      ((:name "growth"
+      	:equations ((ODE
+			:variable "P.conc"
+			:rhs (* "P.growth_rate" "P.conc")))
+	:entity-roles ((:name "P"
+			:types ("producer"))))
+
+
+       (:Name "exudation"
+        :equations ((ODE
+			:variable "P.conc"
+			:rhs (* -1 "P.exude_rate" "P.growth_rate" "P.conc")))
+       :entity-roles ((:name "P" :types ("producer"))))
+
+       (:name "nutrient_uptake"
+        :type "nutrient_uptake"
+       	:equations ((ODE
+			:variable "N.conc"
+			:rhs (* -1 (/ 1 (* "N.toCratio" 12.0107)) "P.growth_rate" "P.conc")))
+       :entity-roles ((:name "P" :types ("producer"))
+		      (:name "N" :types ("no3" "fe"))))
+
+;;;============================================================================
+;;; New limited_growth terms (#=3)
+;;;============================================================================
+
+        ;; P.growth_lim is a minimum of light and nutrient limitations
+	(:name "limited_growth"
+       	 :equations ((ALG
+			:variable "P.growth_rate"
+			:rhs (* (- 1 "E.ice") "P.max_growth" 
+			     	(exp (* 0.06933 "E.temp"))
+				"P.growth_lim")))
+       	 :entity-roles ((:name "P" :types ("producer"))
+	 	       	(:name "E" :types ("environment"))))
+
+        ;; K : The range is set to accomodate the ross sea
+	;; phytoplankton - but may need to be adjusted.  
+	(:name "pearl_verhulst_logistic"
+         :constants ((:name "K" :upper-bound 10000d0 :lower-bound 20d0))
+         :equations ((ALG
+			 :variable "P.growth_rate"
+			 :rhs (* "P.max_growth" (- 1 (/ "P.conc" "K")))))
+         :entity-roles ((:name "P" :types ("producer"))))
+
+        ;; K : The range is set to accomodate the ross sea
+	;; phytoplankton - but may need to be adjusted.  
+	(:name "gompertz_logistic"
+         :constants ((:name "K" :upper-bound 10000d0 :lower-bound 1d0))
+       	 ;; The equation is referenced in Rosenzweig 1971
+       	 :equations ((ALG
+			 :variable "P.growth_rate"
+			 :rhs (* "P.max_growth" (- (log "K") (log "P.conc")))))
+       	 :entity-roles ((:name "P" :types ("producer"))))
+
+	(:name "light_lim_no_photoinhib"
+         :constants ((:name "a" :upper-bound 15d0 :lower-bound 5d0))
+         :equations ((ALG
+	 	         :variable "P.growth_lim"
+	 		 :rhs (- 1
+				 (exp  (/ (- "E.PUR") 
+					  (/ "P.ik_max"
+					     (+ 1 (* "a" (exp (* "E.PUR" 
+								   (exp (- 1.089d0 (* 2.12d0 (log "P.ik_max" 10))))))))))))))
+	 :entity-roles ((:name "P" :types ("producer"))
+                        (:name "E" :types ("environment"))))
+
+	(:name "light_lim_photoinhib"
+         :constants ((:name "a" :upper-bound 15d0 :lower-bound 5d0))
+       	 :equations ((ALG
+	 	         :variable "P.growth_lim"
+			 :rhs (* (- 1d0
+				    (exp (/ (- "E.PUR") 
+					    (/ "P.ik_max"
+					       (+ 1d0 (* "a" (exp (* "E.PUR" 
+	                                                             (exp (- 1.089d0 (* 2.12d0 (log "P.ik_max" 10))))))))))))
+				 (exp (/ (* (- 1d0) "E.PUR") "P.bioinhib")))))
+         :entity-roles ((:name "P" :types ("producer"))
+                        (:name "E" :types ("environment"))))
+
+	(:name "monod_lim"
+	       ;; k : this is based on Kmu_max estimates for NO3 in Schoemann et al. 2005; 
+       	       ;;     based on Tagliabue and Arrigo (2005) this range should work for Fe too.
+         :constants ((:name "k" :upper-bound 0.001d0 :lower-bound 0.000001d0))
+       	 :equations ((ALG
+			 :variable "P.growth_lim"
+			 :rhs (/ "N.conc" (+ "N.conc" "k"))))
+	 :entity-roles ((:name "P" :types ("producer"))
+		        (:name "N" :types ("no3" "fe"))))
+
+        (:name "monod_2nd"
+       	 :constants ((:name "k" :upper-bound 0.001d0 :lower-bound 0.000001d0))
+       	 :equations ((ALG
+			 :variable "P.growth_lim"
+			 :rhs (/ (* "N.conc" "N.conc") (+ (* "N.conc" "N.conc") "k"))))
+	 :entity-roles ((:name "P" :types ("producer"))
+		        (:name "N" :types ("no3" "fe"))))
+
+	(:name "nut_lim_exp"
+	       ;; k : recall that the parameter in this equation has the inverse interpretation 
+       	       ;;     from the monod 1/2 saturation constant.
+       	 :constants ((:name "k" :upper-bound 1d0 :lower-bound 0.000001d0))
+       	 :equations ((ALG
+			 :variable "P.growth_lim"
+			 :rhs (- 1.0d0 (exp (* -1.0d0 "k" "N.conc")))))
+	 :entity-roles ((:name "P" :types ("producer"))
+		        (:name "N" :types ("no3" "fe"))))
+
+;;;;; DEATH ;;;;;
+
+;;;============================================================================
+;;; New death terms (#=2)
+;;;============================================================================
+
+	(:name "death_exp"
+       	 :equations ((ODE
+			 :variable "S.conc"
+			 :rhs (* -1 "S.death_rate" "S.conc"))
+		     (ODE
+			 :variable "D.conc"
+			 :rhs (* (- 1 "E.beta") "S.death_rate" "S.conc")))
+         :entity-roles ((:name "S" :types ("producer" "grazer"))
+		        (:name "D" :types ("detritus"))
+		        (:name "E" :types ("environment"))))
+#|
+	(:name "death_exp2"
+       	 :equations ((ODE
+			 :variable "S.conc"
+			 :rhs (* -1 "S.death_rate" (* "S.conc" "S.conc")))
+		     (ODE
+			 :variable "D.conc"
+			 :rhs (* (- 1 "E.beta") "S.death_rate" (* "S.conc" "S.conc"))))
+         :entity-roles ((:name "S" :types ("producer" "grazer"))
+		        (:name "D" :types ("detritus"))
+		        (:name "E" :types ("environment"))))
+|#
+;;;;; REMINERALIZATION ;;;;;
+
+	(:name "remineralization"
+       	 :equations ((ODE
+			 :variable "D.conc"
+			 :rhs (* -1 "D.remin_rate" "D.conc")))
+	 :entity-roles ((:name "D" :types ("detritus"))))
+
+	(:name "nutrient_remin"
+       	 :equations ((ODE
+			 :variable "N.conc"
+			 :rhs (* "D.remin_rate" (/ 1.0d0 (* 12.0107 "N.toCratio")) "D.conc")))
+         :entity-roles ((:name "D" :types ("detritus"))
+ 		        (:name "N" :types ("fe"))))
+
+	(:name "nutrient_mixing"
+       	 :equations ((ODE
+			 :variable "N.conc"
+                         :rhs (* "N.mixing_rate" (- "N.avg_deep_conc" "N.conc"))))
+         :entity-roles ((:name "N" :types ("no3" "fe"))))
+                         
+	(:name "respiration"
+       	 :equations ((ODE
+			 :variable "Z.conc"
+			 :rhs (* -1 "Z.respiration_rate" "Z.conc")))
+         :entity-roles ((:name "Z" :types ("grazer"))))
+
+	(:name "sinking"
+       	 :equations ((ODE
+			 :variable "V.conc"
+			 :rhs (* -1 "V.sinking_rate" "V.conc")))
+         :entity-roles ((:name "V" :types ("producer" "grazer" "detritus"))))
+
+;;;;; GRAZING ;;;;;
+
+;; Commented out for four previous grazing terms (Mar 10, 2009) - CKP
+#|
+	(:name "holling_type_1"
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (* "Z.gmax" "P.conc")))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "holling_type_2"
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (max 0 (/ (* "Z.gmax" "P.conc")
+				       (+ "Z.gcap" "P.conc")))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "holling_type_2_mod"
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (max 0 (/ (* "Z.gmax" 
+					  (- "P.conc" "P.biomin" "Z.glim"))
+				       (+ "Z.gcap" 
+					(- "P.conc" "P.biomin" "Z.glim"))))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "ivlev"
+       	 :constants ((:name "delta" :upper-bound 0.5d0 :lower-bound 0.01d0))
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (max 0 (* "Z.gmax" 
+				       (- 1 (exp (* -1 "delta" "P.conc")))))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+|#
+
+;;;============================================================================
+;;; New grazing Rate terms (#=13)
+;;;============================================================================
+
+	(:name "lotka_volterra"
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (* "Z.gmax" "P.conc")))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+
+	;; A generalization of lotka-volterra (reported in Rosenzweig 1971) 
+	;;
+	;; This process uses c_pow (c-type function)
+	(:name "generalized_gause"
+       	       ;; if alpha = 0 then the function reduces, if alpha = 1
+               ;; then it equals the lotka_volterra function
+       	 :constants ((:name "alpha" :upper-bound 0.9999d0 :lower-bound 0.0001d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (* "Z.gmax" (expt "P.conc" "alpha"))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	;; this comes from Arrigo et al. 1998 (CIAO model)
+	;; (holling-type-2 in the previous version of scipm)
+	(:name "monod"
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (max 0 (/ (* "Z.gmax" "P.conc")
+				       (+ "Z.gcap" "P.conc")))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	;; this comes from Arrigo et al. 1998 (CIAO model)
+	;; (holling-type-2-mod in the previous version of scipm)
+	(:name "monod_mod"
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (max 0 (/ (* "Z.gmax" 
+					  (- "P.conc" "P.biomin" "Z.glim"))
+				       (+ "Z.gcap" 
+					(- "P.conc" "P.biomin" "Z.glim"))))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	;; this is Holling's Disk equation
+	(:name "holling_type_2"
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling tme is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+	 :constants ((:name "h" :upper-bound 5d0 :lower-bound 1d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc") (+ 1 (* "Z.attack_rate" "h" "P.conc")))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "holling_type_3"
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling tme is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+      	 :constants ((:name "h" :upper-bound 5d0 :lower-bound 1d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc" "P.conc") 
+                                  (+ 1 (* "Z.attack_rate" "h" "P.conc" "P.conc")))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+
+	;; the Ivlev also appears in Rozensweig 1971 -- with out a reference to Ivlev.
+	(:name "ivlev"
+       	 :constants ((:name "delta" :upper-bound 1d0 :lower-bound 0.001d0)) ;; delta could be greater than 1
+       	 :equations ((ALG
+			 :variable "Z.grazing_rate"
+			 :rhs (* "Z.gmax" 
+				       (- 1 (exp (* -1 "delta" "P.conc"))))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "ratio_dependent_2"
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling tme is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+       	 :constants ((:name "h" :upper-bound 5d0 :lower-bound 1d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc") (+ "Z.conc" (* "Z.attack_rate" "h" "P.conc")))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "ratio_dependent_3"
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling tme is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+       	 :constants ((:name "h" :upper-bound 5d0 :lower-bound 1d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc" "P.conc") 
+                                  (+ (* "Z.conc" "Z.conc") (* "Z.attack_rate" "h" "P.conc" "P.conc")))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	;; This process uses c_pow (c-type function)
+	(:name "watts"
+	       ;; delta : higher value increases grazing rate
+       	       ;; m : higher value retards grazing rate
+	       ;;     range taken from the the alpha parameter of the
+       	       ;;     generalized_gause process, since watts is a
+       	       ;;     generalization of ivlev analogous to the
+       	       ;;     generalized_gause generalization of
+       	       ;;     lotka_volterra
+	 :constants ((:name "delta" :upper-bound 0.5d0 :lower-bound 0.01d0)
+                     (:name "m" :upper-bound 0.9999d0 :lower-bound 0.0001d0))
+                                
+               ;; the assumption here is that Z interfere with their
+               ;; own grazing; thus, more Z implies less grazing.
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (* "Z.gmax" 
+				 (- 1 (exp (/ (* -1 "delta" "P.conc") 
+					      (expt "Z.conc" "m")))))))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	;; This process uses c_pow (c-type function)
+	(:name "hassell_varley_1"
+	       ;; sigma : higher value retards growth -- SRB not sure of appropriate range
+       	 :constants ((:name "sigma" :upper-bound 100d0 :lower-bound 1d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (* "Z.gmax" "P.conc" (expt "Z.conc" (* -1.0 "sigma"))))) 
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	;; This process uses c_pow (c-type function)
+	(:name "hassell_varley_2"
+	       ;; sigma : higher value retards growth -- SRB not sure of appropriate range
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling time is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+       	 :constants ((:name "sigma" :upper-bound 0.9999d0 :lower-bound 0.0001d0)
+                     (:name "h" :upper-bound 5d0 :lower-bound 1d0))       
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc")
+                                  (+ (expt "Z.conc" "sigma") (* "Z.attack_rate" "h" "P.conc"))))) 
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "deangelis_beddington"
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling time is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+       	 :constants ((:name "delta" :upper-bound 1.0d0 :lower-bound 0.0d0)
+                     (:name "h" :upper-bound 5d0 :lower-bound 1d0))       
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc")
+                                  (+ 1.0d0  (* "Z.attack_rate" "h" "P.conc") (* "delta" "Z.conc"))))) 
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "crowley_martin"
+	       ;; h : this is the extra handling time: L.Gross says -
+       	       ;; Handling time is defined as the time spent pursuing,
+       	       ;; subduing, and consuming each prey item plus the time spent
+       	       ;; preparing to search for the next prey item (including
+       	       ;; effects of satiation) :: SRB - I don't know if this is
+       	       ;; appropriate if h < 1 then the max of the response function
+       	       ;; exceeds 1.
+       	 :constants ((:name "delta" :upper-bound 1.0d0 :lower-bound 0.0d0)
+                     (:name "h" :upper-bound 5d0 :lower-bound 1d0))
+       	 :equations ((ALG
+                         :variable "Z.grazing_rate"
+                         :rhs (/ (* "Z.attack_rate" "P.conc")
+                                  (* (+ 1.0d0  (* "Z.attack_rate" "h" "P.conc"))
+                                     (+ 1.0d0 (* "delta" "Z.conc")))))) 
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))))
+
+	(:name "grazing"
+       	 :equations ((ODE
+			 :variable "Z.conc"
+			 :rhs (* "Z.assim_eff" "Z.grazing_rate" "Z.conc"))
+		     (ODE
+			 :variable "P.conc"
+			 :rhs (* -1 "Z.grazing_rate" "Z.conc"))
+		     (ODE
+			 :variable "D.conc"
+			 :rhs (* (- 1 "E.beta")
+				(- 1 "Z.assim_eff")
+				"Z.grazing_rate" "Z.conc")))
+	 :entity-roles ((:name "Z" :types ("grazer"))
+		        (:name "P" :types ("producer"))
+		        (:name "D" :types ("detritus"))
+		        (:name "E" :types ("environment"))))
+
+	(:name "linear_temp_control"
+	 :constants ((:name "max_mixing_rate" :upper-bound 1.0d0 :lower-bound 0.000001d0))       
+       	 :equations ((ALG
+                         :variable "N.mixing_rate"
+                         :rhs (* "max_mixing_rate" (/ (- "E.maxtemp" "E.temp") (- "E.maxtemp" "E.mintemp")))))
+	 :entity-roles ((:name "N" :types ("no3" "fe"))
+                        (:name "E" :types ("environment")))))
+
+   :constraint-list (
+       (:name grazing-rate-mutex
+        :type exactly-one
+	:items (;(:gprocess "lotka_volterra")
+                 (:gprocess "generalized_gause") ; pow
+                 (:gprocess "monod")
+                 (:gprocess "monod_mod")
+                 (:gprocess "holling_type_2")
+                 (:gprocess "holling_type_3")
+                 (:gprocess "ivlev")
+                 (:gprocess "ratio_dependent_2")
+                 (:gprocess "ratio_dependent_3")
+                 (:gprocess "watts") ; pow
+                ;(:gprocess "hassell_varley_1") ; pow
+                 (:gprocess "hassell_varley_2") ; pow
+                 (:gprocess "deangelis_beddington")
+                 (:gprocess "crowley_martin")))
+                          
+       (:name fundamentals
+        :type necessary
+        :items ( (:gprocess "remineralization")
+                 (:gprocess "nutrient_remin")
+                 (:gprocess "grazing")
+                 (:gprocess "respiration")
+                ;(:gprocess "nutrient_mixing")
+                ;; growth's subtree
+                 (:gprocess "growth")
+                ;(:gprocess "nutrient_uptake")
+                 (:gprocess "exudation")
+                ;(:gprocess "sinking")
+		 ))
+
+       ;; without death-exp2, this is necessary
+       (:name death
+        :type necessary
+        :items ( (:gprocess "death_exp"
+                  :modifiers ((:id X :entity-role-name "S")))))
+
+       (:name nutrient-uptake
+        :type necessary
+        :items ((:gprocess "nutrient_uptake"
+                :modifiers ((:id X :entity-role-name "N")))))
+
+       (:name nutrient-mixing
+        :type necessary
+        :items ((:gprocess "nutrient_mixing"
+                 :modifiers ((:id X :entity-role-name "N")))
+                (:gprocess "linear_temp_control"
+                 :modifiers ((:id X :entity-role-name "N")))))
+
+       (:name sinking
+        :type necessary 
+	:items ((:gprocess "sinking"
+                 :modifiers ((:id X :entity-role-name "V")))))
+
+       (:name growth-rate-mutex
+        :type exactly-one
+        :items ((:gprocess "limited_growth")
+                (:gprocess "pearl_verhulst_logistic")
+                (:gprocess "gompertz_logistic")))
+     
+       (:name nutrient-limitation
+        :type exactly-one
+        :items ((:gprocess "monod_lim"
+                 :modifiers ((:id X :entity-role-name "N")))
+                (:gprocess "monod_2nd"
+                 :modifiers ((:id X :entity-role-name "N")))
+                (:gprocess "nut_lim_exp"
+                 :modifiers ((X :entity-role-name "N")))
+                (:gprocess "pearl_verhulst_logistic")
+                (:gprocess "gompertz_logistic")))
+
+       (:name light-limitation
+        :type exactly-one
+        :items ((:gprocess "light_lim_no_photoinhib")
+                (:gprocess "light_lim_photoinhib")
+                (:gprocess "pearl_verhulst_logistic")
+                (:gprocess "gompertz_logistic")))
+))

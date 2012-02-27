@@ -1,0 +1,24 @@
+;; sundials configuration:
+;; ./configure --prefix=`pwd` --enable-examples --disable-fcmix --disable-mpi
+;;   * prefix installs sundials into its own build directory
+;;   * enable-examples lets us quickly test the build
+;;   * disable-fcmix gets rid of any fortran routines (optional)
+;;   * disable-mpi gets rid of parallel code (optional)
+;; make; make install
+
+;; dynamiclib on OS X = shared on linux
+gcc -O3 -dynamiclib -o cvode_interface.so cvode_c_interface.c -Lsundials -Isundials\
+-lsundials_cvodes -lsundials_nvecserial
+
+;; this is the command for Linux
+libtool --mode=link gcc -O3 -shared -o cvode_interface.so cvode_c_interface.c -Lsundials -Isundials -lsundials_cvodes -lsundials_nvecserial  
+
+
+;; AllegroCL 8.1 is different
+;; http://www.franz.com/support/documentation/8.1/doc/foreign-functions.htm#ff-on-macosx-1
+
+gcc -O3 -dynamiclib -c cvode_c_interface.c -o cvode_c_interface.o -Lsundials
+
+ld -bundle /usr/lib/bundle1.o -flat_namespace -undefined suppress -o cvode_c_interface.dylib cvode_c_interface.o -lsundials_cvodes -lsundials_nvecserial -Lsundials
+
+

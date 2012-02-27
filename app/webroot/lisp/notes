@@ -1,0 +1,68 @@
+the following files are from Matt's version:
+solution-generator
+process-set
+logic
+search
+
+i replaced these with:
+structure-generator
+constraint
+logic-generator
+
+i added:
+interface
+
+problems:
+1- we should implement an exhaustive or, at least, systematic
+   search through the structure space.
+2- initial conditions for variables must be treated as parameters.
+   this code is balked by a need for a central method of turning
+   parameter estimation on and off by individual parameters.
+3- model-output-search must be completed to store a full record of
+   the model search for each run of scipm.
+4- we must make sure that entity-based parameters are fully supported
+   again after code was written that assumed all parameters belonged
+   to processes.
+5- we need a central interface for spawning scipm
+6- the languages for library and run-file expression must be improved
+   if possible.  in particular, "in order" arithmetic should be allowed.
+7- any and all improvements in run time should be investigated and 
+   either implemented or ruled out with explanation.
+8- direct support for partial models and model revision
+9- full incorporation of sensitivity analysis 
+10- add teacher forcing and expand beyond "all observable" case
+11- add r2 calculations
+12- support a fixed random seed for reproducible runs
+
+problem importance:
+first tier  - 4 and 5
+second tier - 1 and 2
+third tier  - 3 and 8 
+fourth tier - 7 and 6
+fifth tier  - 9
+
+We can release the code into the wild after all first tier 
+considerations are met, but realistically, we need to address
+the second tier considerations before relying on the code for
+research.  Tiers three and four are important for enhanced 
+usability outside of ISLE and dedicated computational 
+researchers.  The fifth tier is expanded functionality.
+
+#4 - complete.  parameter estimation now returns an associated
+     list of the form ((constant . value) ...)
+#5 - complete.  see run-scipm-random for an initial version of
+     the scipm interface.  this should be improved over time
+     to support HIPM-like behavior.  print-model is a step in
+     this direction.
+
+testing:
+- multiple data sets
+- 
+
+
+9/8/2008: SC-IPM can now convert its constraints into CNF and use
+          WalkSAT to generate candidate structures.  This solution may
+          be slower than the random AND-OR search in some cases.  With
+          constraints in CNF, we can now implement a DPLL-based
+          solution to All-SAT, which will exhaustively search the
+          space of candidate structures.

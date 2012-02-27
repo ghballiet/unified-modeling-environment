@@ -1,0 +1,46 @@
+;; lynx and rabbit generic model
+
+(in-package :scipm)
+
+;; create the library
+(create-generic-library 
+ pplynx
+ :entity-list
+ ((:type "prey"
+	 :variables ((:name "population" :aggregators (sum)))
+	 :constants ((:name "birth_rate"
+			    :lower-bound 1.00
+			    :upper-bound 5.00)
+		     (:name "death_rate"
+			    :lower-bound 1.00
+			    :upper-bound 4.00)))
+  (:type "predator"
+	 :variables ((:name "population" :aggregators (sum)))
+	 :constants ((:name "birth_rate"
+			    :lower-bound 1.00
+			    :upper-bound 3.00)
+		     (:name "death_rate"
+			    :lower-bound 1.00
+			    :upper-bound 3.00))))
+ 
+ :process-list
+ ((:name "birth"
+	 :equations ((ODE
+		      :variable "P.population"
+		      :rhs (* "P.population" "P.birth_rate")))
+	 :entity-roles ((:name "P"
+			       :types ("prey" "predator"))))
+  (:name "death"
+	 :equations ((ODE
+		      :variable "P.population"
+		      :rhs (* "P.population" "P.death_rate")))
+	 :entity-roles ((:name "P" :types ("prey" "predator"))))
+  (:name "predation"
+	 :equations ((ODE
+		      :variable "P.population"
+		      :rhs (- "P.population" 1.0))
+		     (ODE
+		      :variable "R.population"
+		      :rhs (+ "R.population" 1.0)))
+	 :entity-roles ((:name "P" :types ("prey"))
+			(:name "R" :types ("predator"))))))

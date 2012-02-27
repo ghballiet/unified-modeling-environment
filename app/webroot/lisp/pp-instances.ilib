@@ -1,0 +1,54 @@
+(in-package :scipm)
+
+(create-instance-library
+ pp-instances
+ :generic-library ( :name pplib )
+ :data-file-list ( "pp-sim" )
+ :entities
+ ((:name "aurelia"
+   :generic-type "producer"
+   :variables (( :type "conc"
+		 :aggregator sum
+		 :data-name "aurelia" )))
+  (:name "nasutum"
+   :generic-type "grazer"
+   :variables (( :type "conc"
+		 :aggregator sum
+		 :data-name "nasutum" )
+	       ( :type "grazing_rate"
+		 :aggregator sum ))
+   :constants (( :type "assim_eff" )
+	       ( :type "gmax" )
+	       ( :type "gcap" )
+	       ( :type "attack_rate" )))))
+
+#|
+generic-library :: ( generic-library-desc )
+generic-library-desc :: ( :name string
+		        [ :version number ]
+			[ :modify-constraints ( [ constraint-name-symbol | constraint-defn ]* ) ]
+			[ :modify-entities ( entity-defn* ) ]
+			[ :modify-processes ( [ process-name-string | process-defn ]* ) ] )
+entities :: ( entity-instance-defn+ )
+entity-instance-defn :: ( :name string
+		          :generic-type string
+		          :variables ( variable-instance-defn* )
+		          :constants ( constant-instance-defn* )
+		          :comment string )
+variable-instance-defn :: ( :type string
+		          [ :initial-value float ]
+			  [ :upper-bound float ]
+			  [ :lower-bound float ]
+			  [ :comment string ]
+			  [ :units string ]
+		            :data-name string
+			  [ :exogenous boolean <= default false ]
+			  [ :aggregator sum | prod | min | max ] )     <= default sum
+
+constant-instance-defn :: ( :type string
+		          [ :initial-value float ]
+			  [ :upper-bound float ]
+			  [ :lower-bound float ]
+			  [ :comment string ]
+			  [ :units string ] )
+|#

@@ -1,0 +1,73 @@
+;;; Compiled by f2cl version 2.0 beta Date: 2006/05/05 20:28:21 
+;;; Using Lisp CLISP 2.38 (2006-01-24) (built on guru.build.karan.org)
+;;; Options: ((:prune-labels nil) (:auto-save t) (:relaxed-array-decls t)
+;;;  (:coerce-assigns :as-needed) (:array-type ':array) (:array-slicing t)
+;;;  (:declare-common nil) (:float-format single-float))
+
+(in-package :common-lisp-user)
+
+
+(|COMMON-LISP|::|DEFUN| |FORTRAN-TO-LISP|::|DH2RFG|
+  (|FORTRAN-TO-LISP|::|A| |FORTRAN-TO-LISP|::|B| |FORTRAN-TO-LISP|::|X|
+   |FORTRAN-TO-LISP|::|Y| |FORTRAN-TO-LISP|::|Z|)
+  (|COMMON-LISP|::|DECLARE|
+   (|COMMON-LISP|::|TYPE| (|COMMON-LISP|::|DOUBLE-FLOAT|)
+    |FORTRAN-TO-LISP|::|Z| |FORTRAN-TO-LISP|::|Y| |FORTRAN-TO-LISP|::|X|
+    |FORTRAN-TO-LISP|::|B| |FORTRAN-TO-LISP|::|A|))
+(|COMMON-LISP|::|LET| ((|FORTRAN-TO-LISP|::|ZERO| #1=0.0d0))
+ (|COMMON-LISP|::|DECLARE|
+  (|COMMON-LISP|::|TYPE| (|COMMON-LISP|::|DOUBLE-FLOAT|)
+   |FORTRAN-TO-LISP|::|ZERO|))
+ 
+;(incf *dh2rfg*)
+
+  (|COMMON-LISP|::|PROG|
+   ((|FORTRAN-TO-LISP|::|A1| #1#) (|FORTRAN-TO-LISP|::|B1| #1#)
+    (|FORTRAN-TO-LISP|::|C| #1#) (|FORTRAN-TO-LISP|::|T$| #1#)
+    (|FORTRAN-TO-LISP|::|DH2RFG| #1#))
+   (|COMMON-LISP|::|DECLARE|
+    (|COMMON-LISP|::|TYPE| (|COMMON-LISP|::|DOUBLE-FLOAT|)
+     |FORTRAN-TO-LISP|::|DH2RFG| |FORTRAN-TO-LISP|::|T$| |FORTRAN-TO-LISP|::|C|
+     |FORTRAN-TO-LISP|::|B1| |FORTRAN-TO-LISP|::|A1|))
+   (|COMMON-LISP|::|IF|
+    (|COMMON-LISP|::|/=| |FORTRAN-TO-LISP|::|B| |FORTRAN-TO-LISP|::|ZERO|)
+    (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL10|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|X| |FORTRAN-TO-LISP|::|ZERO|)
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|Y| |FORTRAN-TO-LISP|::|ZERO|)
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|Z| |FORTRAN-TO-LISP|::|ZERO|)
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|DH2RFG| |FORTRAN-TO-LISP|::|A|)
+   (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|LABEL999|)
+   |FORTRAN-TO-LISP|::|LABEL10|
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|T$|
+    (|COMMON-LISP|::|+| (|COMMON-LISP|::|ABS| |FORTRAN-TO-LISP|::|A|)
+     (|COMMON-LISP|::|ABS| |FORTRAN-TO-LISP|::|B|)))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|A1|
+    (|COMMON-LISP|::|/| |FORTRAN-TO-LISP|::|A| |FORTRAN-TO-LISP|::|T$|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|B1|
+    (|COMMON-LISP|::|/| |FORTRAN-TO-LISP|::|B| |FORTRAN-TO-LISP|::|T$|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|C|
+    (|F2CL-LIB|::|FSQRT|
+     (|COMMON-LISP|::|+| (|COMMON-LISP|::|EXPT| |FORTRAN-TO-LISP|::|A1| 2.)
+      (|COMMON-LISP|::|EXPT| |FORTRAN-TO-LISP|::|B1| 2.))))
+   (|COMMON-LISP|::|IF|
+    (|COMMON-LISP|::|>| |FORTRAN-TO-LISP|::|A1| |FORTRAN-TO-LISP|::|ZERO|)
+    (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|C|
+     (|COMMON-LISP|::|-| |FORTRAN-TO-LISP|::|C|)))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|A1|
+    (|COMMON-LISP|::|-| |FORTRAN-TO-LISP|::|A1| |FORTRAN-TO-LISP|::|C|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|Z|
+    (|COMMON-LISP|::|/| |FORTRAN-TO-LISP|::|B1| |FORTRAN-TO-LISP|::|A1|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|X|
+    (|COMMON-LISP|::|/| |FORTRAN-TO-LISP|::|A1| |FORTRAN-TO-LISP|::|C|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|Y|
+    (|COMMON-LISP|::|/| |FORTRAN-TO-LISP|::|B1| |FORTRAN-TO-LISP|::|C|))
+   (|COMMON-LISP|::|SETF| |FORTRAN-TO-LISP|::|DH2RFG|
+    (|COMMON-LISP|::|*| |FORTRAN-TO-LISP|::|T$| |FORTRAN-TO-LISP|::|C|))
+   |FORTRAN-TO-LISP|::|LABEL999|
+   (|COMMON-LISP|::|GO| |FORTRAN-TO-LISP|::|END_LABEL|)
+   |FORTRAN-TO-LISP|::|END_LABEL|
+   (|COMMON-LISP|::|RETURN|
+    (|COMMON-LISP|::|VALUES| |FORTRAN-TO-LISP|::|DH2RFG| |COMMON-LISP|::|NIL|
+     |COMMON-LISP|::|NIL| |FORTRAN-TO-LISP|::|X| |FORTRAN-TO-LISP|::|Y|
+     |FORTRAN-TO-LISP|::|Z|)))))
+

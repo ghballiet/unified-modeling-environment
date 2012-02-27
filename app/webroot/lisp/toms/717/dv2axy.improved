@@ -1,0 +1,25 @@
+;;; Compiled by f2cl version 2.0 beta Date: 2006/05/05 20:28:21 
+;;; Using Lisp CLISP 2.38 (2006-01-24) (built on guru.build.karan.org)
+;;; Options: ((:prune-labels nil) (:auto-save t) (:relaxed-array-decls t)
+;;;  (:coerce-assigns :as-needed) (:array-type ':array) (:array-slicing t)
+;;;  (:declare-common nil) (:float-format single-float))
+
+(in-package :common-lisp-user)
+
+;;;;  ***  SET W = A*X + Y  --  W, X, Y = P-VECTORS, A = SCALAR  ***
+
+(let ((indx))
+  (defun fortran-to-lisp::|DV2AXY|
+    (P W A X Y)
+    (declare
+     (TYPE (|F2CL-LIB|::|INTEGER4|) P)
+     (TYPE (ARRAY DOUBLE-FLOAT (*)) Y X W)
+     (TYPE (DOUBLE-FLOAT) A))
+    
+;;(incf *dv2axy*)
+    (setf indx 0)
+    (while (< indx P)
+      (setf (aref w indx)
+	    (+ (* a (aref x indx)) (aref y indx)))
+      (incf indx))))
+

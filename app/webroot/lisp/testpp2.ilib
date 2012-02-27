@@ -1,0 +1,14 @@
+(in-package :scipm)
+
+(create-instance-library
+ testpp2
+ :generic-library (:name testpp2)
+ :data-file-list ("testpp2")
+ :entities
+ ((:name "aurelia"
+   :generic-type "environment"
+   :variables ((:type "grass" :aggregator sum :data-name "grass")))
+  (:name "nasutum"
+   :generic-type "grazer"
+   :variables ((:type "conc" :aggregator sum :data-name "conc"))
+   :constants ((:type "grazing_rate")))))
