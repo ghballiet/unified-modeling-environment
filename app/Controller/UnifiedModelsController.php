@@ -68,6 +68,51 @@ class UnifiedModelsController extends AppController {
     $this->set('generic_entity_list', $generic_entity_list);
   }
 
+  public function lisp_concrete($id = null) {
+    $this->layout = 'simulate';
+    $this->UnifiedModel->id = $id;
+    $model = $this->UnifiedModel->read();
+    $concrete_entities = $this->UnifiedModel->ConcreteEntity->findAllByUnifiedModelId($id);
+    $concrete_entity_list = $this->UnifiedModel->ConcreteEntity->find('list', array('conditions'=>
+      array('ConcreteEntity.unified_model_id'=>$id)));
+    $concrete_processes = $this->UnifiedModel->ConcreteProcess->findAllByUnifiedModelId($id);
+    $concrete_equations = $this->UnifiedModel->ConcreteProcess->ConcreteEquation->find('all', array('conditions'=>
+      array('ConcreteProcess.unified_model_id'=>$id)));
+
+
+    // grab the variables, by entity id
+    $concrete_variables = array();
+    $concrete_variable_list = array();
+    foreach($concrete_equations as $ce) {
+      $eid = $ce['ConcreteAttribute']['concrete_entity_id'];
+      if(!array_key_exists($eid, $concrete_variables))
+        $concrete_variables[$eid] = array();
+      if(!array_key_exists($eid, $concrete_variable_list))
+        $concrete_variable_list[$eid] = array();
+      $concrete_variables[$eid][] = $ce;
+      $concrete_variable_list[$eid][] = $ce['ConcreteAttribute']['id'];
+    }
+
+    // grab the constants, by entity id
+    $concrete_constants = array();
+    foreach($concrete_entity_list as $eid=>$ename) {
+      $cv = array();
+      if(isset($concrete_variable_list[$eid]))
+        $cv = $concrete_variable_list[$eid];
+      $res = $this->UnifiedModel->ConcreteEntity->ConcreteAttribute->find('all', array('conditions'=>array(
+        'ConcreteEntity.id'=>$eid, 'NOT' => array('ConcreteAttribute.id'=>$cv))));
+      $concrete_constants[$eid] = $res;        
+    }
+    
+    $this->set('model', $model);
+    $this->set('concrete_entities', $concrete_entities);
+    $this->set('concrete_processes', $concrete_processes);
+    $this->set('concrete_equations', $concrete_equations);
+    $this->set('concrete_variables', $concrete_variables);
+    $this->set('concrete_variable_list', $concrete_variable_list);
+    $this->set('concrete_constants', $concrete_constants);
+  }
+
   public function simulate($id = null) {
     $this->layout = 'simulate';
     $this->UnifiedModel->id = $id;
