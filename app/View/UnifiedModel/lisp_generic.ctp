@@ -80,7 +80,11 @@ foreach($generic_processes as $i=>$gp) {
         $rhs_str = sprintf('(%s %s %s)', $operand, $rhs_str, $arg);
       }
     }
-    printf('(ODE :variable "%s.%s" :rhs %s)', $var, $attr, $rhs_str);
+    if($ge['GenericEquation']['is_algebraic'] == 1)
+      printf('(ALG ');
+    else
+      printf('(ODE ');
+    printf(':variable "%s.%s" :rhs %s)', $var, $attr, $rhs_str);
     if($j != sizeof($generic_equation_list[$gp['GenericProcess']['id']]) - 1)
       printf("\n");
   }
@@ -93,17 +97,18 @@ foreach($generic_processes as $i=>$gp) {
     if($l != sizeof($gp['GenericProcessArgument']) - 1)
       printf("\n");
   }
-  printf(")");
+  printf("))");
   if($i != sizeof($generic_processes) - 1)
     printf("\n");
 }
-?>)
+ ?>)
 
- ;; ---- constraints ----
- (<?
+  ;; ---- constraints ----
+  :constraint-list
+  (<?
 foreach($generic_processes as $i=>$gp) {
   if($i != 0)
-    printf("  ");
+    printf("   ");
   printf('(:name req-%d :type exactly-one :items ((:gprocess "%s")))', $i, $gp['GenericProcess']['name']);
   if($i != sizeof($generic_processes) -1)
     printf("\n");

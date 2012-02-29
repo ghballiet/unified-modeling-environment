@@ -180,6 +180,7 @@ $(document).ready(function() {
     $('div.concrete-process-attribute').click(function() { $(this).editConcreteProcessAttribute(); });
     $('div.concrete-attribute').click(function() { $(this).editConcreteAttribute(); });
     $('div.concrete-equation').click(function() { $(this).editConcreteEquation(); });
+    $('div.generic-process-attribute').click(function() { $(this).editGenericProcessAttribute(); });
   }
 
   function showModal(map) {
@@ -233,6 +234,27 @@ $(document).ready(function() {
     showModal(map);
   };
 
+  $.fn.editGenericProcessAttribute = function() {
+    var attr = $(this).attr('id');
+    var type = $(this).attr('class');
+    var id = parseInt(attr.replace(type + '-', ''));
+    var name = $(this).find('span.name').html();
+    var value = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'GenericProcessAttribute',
+      title: 'Edit Generic Process Attribute',
+      controller: 'generic_process_attributes',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        name: { label: 'Name', type: 'text', value: name },
+        value: { label: 'Value', type: 'text', value: value },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+  }
+
   $.fn.editConcreteAttribute = function() {
     var attr = $(this).attr('id');
     var type = $(this).attr('class');
@@ -276,7 +298,7 @@ $(document).ready(function() {
   };
 
   // ---- entry point ----
-  grabExogenousData();
+  // grabExogenousData();
   genericProcessArgs();
   concreteProcessArgs();
   setupEditEvents();

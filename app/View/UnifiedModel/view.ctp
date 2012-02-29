@@ -274,6 +274,14 @@ foreach($concrete_entities as $e) {
   printf('</div>');
   
   // concrete attributes
+  // first, grab the ones from the generic entity
+  /*$attrs = $attributes_by_concrete_entity[$e['ConcreteEntity']['id']];
+  foreach($attrs as $a) {
+    printf('<div class="concrete-attribute">');
+    printf('.<span clas"name">%s</span> = <span class="value">%s</span>;', $a['GenericAttribute']['name'],
+           $a['GenericAttribute']['value']);
+    printf('</div>');
+  }*/
   foreach($e['ConcreteAttribute'] as $a) {
     echo $this->Html->link('×', array('controller'=>'concrete_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
       array('class'=>'btnDelete'));
@@ -282,8 +290,8 @@ foreach($concrete_entities as $e) {
     printf('</div>');
   }
   printf('<div id="concrete-expand-%s" data-expand-id="generic-entity-%s" class="expand"></div>', $e['ConcreteEntity']['id'], $e['GenericEntity']['id']);
-  printf('<a class="expand" data-expand-id="concrete-expand-%s">&#x25bc;</a>', $e['ConcreteEntity']['id']);
-  printf('<a href="#" class="btn" data-reveal-id="add-concrete-attribute-%s">&plus;Attribute</a><br>', $e['ConcreteEntity']['id']);
+  // printf('<a class="expand" data-expand-id="concrete-expand-%s">&#x25bc;</a>', $e['ConcreteEntity']['id']);
+  // printf('<a href="#" class="btn" data-reveal-id="add-concrete-attribute-%s">&plus;Attribute</a><br>', $e['ConcreteEntity']['id']);
   printf('}');
   printf('</div>');
 }
@@ -398,7 +406,8 @@ echo $this->Form->end('Save Data');
 ?>
     </div>
     <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>
-    <a href="#" data-reveal-id="empirical-data" class="btn">Edit Empirical Data</a>
+    <!-- <a href="#" data-reveal-id="empirical-data" class="btn">Edit Empirical Data</a> -->
+    <a href="#" class="btn">Simulate</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));

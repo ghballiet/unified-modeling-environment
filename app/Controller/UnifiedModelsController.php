@@ -203,6 +203,14 @@ class UnifiedModelsController extends AppController {
         'ConcreteEntity.unified_model_id'=>$id)));
       $concrete_processes = $this->UnifiedModel->ConcreteProcess->find('all', array('conditions'=>array(
         'ConcreteProcess.unified_model_id'=>$id)));
+
+      // ---- generic attributes by concrete entity id ----
+      $attributes_by_concrete_entity = array();
+      foreach($concrete_entities as $ce) {
+        $attrs = $this->UnifiedModel->GenericEntity->GenericAttribute->findAllByGenericEntityId($ce['GenericEntity']['id']);
+        $attributes_by_concrete_entity[$ce['ConcreteEntity']['id']] = $attrs;
+      }
+
       $concrete_equations = array();
       $concrete_process_arguments = array();      
       foreach($concrete_processes as $gp) {
@@ -269,6 +277,7 @@ class UnifiedModelsController extends AppController {
       $this->set('concrete_process_argument_list', $concrete_process_argument_list);
       $this->set('exogenous_values', $exogenous_values);
       $this->set('empirical_data', $empirical_data);
+      $this->set('attributes_by_concrete_entity', $attributes_by_concrete_entity);
     }
   }
 }
