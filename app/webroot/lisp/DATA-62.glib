@@ -1,0 +1,22 @@
+(in-package :scipm)
+
+(create-generic-library data-62
+  ;; ---- entities ----
+  :entity-list
+  ((:type "state"
+    :variables ((:name "cars_on_road" :aggregators (sum)))
+    :constants ((:name "highway_toll" :lower-bound 3 :upper-bound 3)
+                (:name "gas_tax" :lower-bound 1 :upper-bound 1)
+                (:name "gas_cost_per_gallon" :lower-bound 3.25 :upper-bound 3.25)
+                (:name "pollution" :lower-bound 50 :upper-bound 50)
+                (:name "lung_disease" :lower-bound 30000 :upper-bound 30000))))
+
+  ;; ---- processes ----
+  :process-list
+  ((:name "car_increase"
+    :equations ((ODE :variable "x85.cars_on_road" :rhs (* "x85.cars_on_road" "cars_on_road_growth_factor")))
+    :entity-roles ((:name "x85" :types ("state")))))
+
+  ;; ---- constraints ----
+  :constraint-list
+  ((:name req-0 :type exactly-one :items ((:gprocess "car_increase")))))

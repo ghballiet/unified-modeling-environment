@@ -1,4 +1,3 @@
-<pre>
 (in-package :scipm)
 
 (create-generic-library data-<? echo $model['UnifiedModel']['id']; ?>
@@ -6,17 +5,23 @@
   ;; ---- entities ----
   :entity-list
   (<?
-foreach($generic_entities as $ge) {
+foreach($generic_entities as $l=>$ge) {
+  if($l!=0)
+    printf("   ");
   printf("(:type \"%s\"\n", $ge['GenericEntity']['name']);
   
   
   // ---- variables ----
   $varlist = array();
   printf("    :variables (");
-  foreach($generic_variables[$ge['GenericEntity']['id']] as $i=>$gv) {
-    if(!in_array($gv['GenericAttribute']['name'], $varlist))
-      $varlist[] = $gv['GenericAttribute']['name'];
+  
+  if(isset($generic_variables[$ge['GenericEntity']['id']])) {
+    foreach($generic_variables[$ge['GenericEntity']['id']] as $i=>$gv) {
+      if(!in_array($gv['GenericAttribute']['name'], $varlist))
+        $varlist[] = $gv['GenericAttribute']['name'];
+    }
   }
+
   foreach($varlist as $j=>$var) {
     if($j != 0)
       printf("                ");
@@ -28,15 +33,19 @@ foreach($generic_entities as $ge) {
 
   // ---- constants ----
   printf("    :constants (");
-  foreach($generic_constants[$ge['GenericEntity']['id']] as $i=>$gc) {
-    if($i != 0)
-      printf("                ");
-    printf('(:name "%s" :lower-bound %s :upper-bound %s)', $gc['GenericAttribute']['name'], 
-           $gc['GenericAttribute']['value'], $gc['GenericAttribute']['value']);
-    if($i != sizeof($generic_constants[$gc['GenericEntity']['id']]) - 1)
-      printf("\n");
+  if(isset($generic_constants[$ge['GenericEntity']['id']])) {
+    foreach($generic_constants[$ge['GenericEntity']['id']] as $i=>$gc) {
+      if($i != 0)
+        printf("                ");
+      printf('(:name "%s" :lower-bound %s :upper-bound %s)', $gc['GenericAttribute']['name'], 
+             $gc['GenericAttribute']['value'], $gc['GenericAttribute']['value']);
+      if($i != sizeof($generic_constants[$gc['GenericEntity']['id']]) - 1)
+        printf("\n");
+    }    
   }
   printf("))");
+  if($l != sizeof($generic_entities) -1)
+    printf("\n");
 }
    ?>)
 
@@ -57,6 +66,12 @@ foreach($generic_processes as $i=>$gp) {
     $attr = $ge['GenericAttribute']['name'];
     $rhs = $ge['GenericEquation']['right_hand_side'];
     $rhs = str_replace('?', '', $rhs);
+
+    // loop through process attributes, replacing with values
+    foreach($gp['GenericProcessAttribute'] as $gpa) {
+      $rhs = str_replace($gpa['name'], $gpa['value'], $rhs);
+    }
+
     $tokens = split(' ', $rhs);
     $rhs_str = '';
     $vars = array();
@@ -114,4 +129,3 @@ foreach($generic_processes as $i=>$gp) {
     printf("\n");
 }
 ?>))
-</pre>

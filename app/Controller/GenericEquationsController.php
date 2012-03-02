@@ -1,6 +1,6 @@
 <?
 class GenericEquationsController extends AppController {
-  public $name = 'GenericEquation';
+  public $name = 'GenericEquation';  
   
   public function create() {
     $data = $this->request->data;
@@ -19,7 +19,15 @@ class GenericEquationsController extends AppController {
   public function delete($id = null, $model = null) {
     if($this->GenericEquation->delete($id)) {
       $this->Session->setFlash('Equation successfully deleted.');
-			$this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
+      $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
+    }
+  }
+
+  public function edit($id = null) {
+    $this->GenericEquation->id = $id;
+    if($this->request->is('post') && $this->GenericEquation->save($this->request->data)) {
+      $this->Session->setFlash('Equation succesfully updated.');
+      $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $this->request->data['GenericEquation']['unified_model_id']));
     }
   }
 }

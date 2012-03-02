@@ -1,0 +1,4 @@
+lisp-implementation-type: SBCL
+lisp-implementation-version: 1.0.38-2.el5
+machine-type: X86
+machine-version: Intel(R) Pentium(R) 4 CPU 2.80GHz

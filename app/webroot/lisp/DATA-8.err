@@ -1,0 +1,120 @@
+unhandled TYPE-ERROR in thread #<SB-THREAD:THREAD "initial thread" RUNNING
+                                 {B112A01}>:
+  The value NIL is not of type HASH-TABLE.
+
+0: (SB-DEBUG::MAP-BACKTRACE #<CLOSURE (LAMBDA #) {B2BE03D}>)[:EXTERNAL]
+1: (SB-DEBUG:BACKTRACE 128 #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDERR* {90B18F9}>)
+2: (SB-DEBUG::DEBUGGER-DISABLED-HOOK
+    #<TYPE-ERROR {B2BC5E9}>
+    #<unavailable argument>)
+3: (SB-DEBUG::RUN-HOOK SB-EXT:*INVOKE-DEBUGGER-HOOK* #<TYPE-ERROR {B2BC5E9}>)
+4: (INVOKE-DEBUGGER #<TYPE-ERROR {B2BC5E9}>)
+5: (ERROR TYPE-ERROR)[:EXTERNAL]
+6: (SB-KERNEL::OBJECT-NOT-TYPE-ERROR-HANDLER
+    #<unavailable argument>
+    #.(SB-SYS:INT-SAP #XB7CA1728)
+    #<SB-ALIEN-INTERNALS:ALIEN-VALUE :SAP #XB7CA13FC :TYPE (*
+                                                            (STRUCT
+                                                             SB-VM::OS-CONTEXT-T-STRUCT))>
+    (464 16))
+7: (SB-KERNEL:INTERNAL-ERROR
+    #.(SB-SYS:INT-SAP #XB7CA13FC)
+    #<unavailable argument>)
+8: ("foreign function: #x806325B")
+9: ("foreign function: #x8051868")
+10: ("foreign function: #x8055F6B")
+11: ("foreign function: #x805615B")
+12: (SB-IMPL::GETHASH3 "calories_expended" NIL NIL)[:EXTERNAL]
+13: (MAKE-VARIABLE-HASH
+     ((:TYPE "calories_expended" :AGGREGATOR SUM :DATA-NAME
+       "Human_Body.calories_expended")
+      (:TYPE "calories_consumed" :AGGREGATOR SUM :DATA-NAME
+       "Human_Body.calories_consumed")
+      (:TYPE "body_fat" :AGGREGATOR SUM :DATA-NAME "Human_Body.body_fat"))
+     #S(GENERIC-ENTITY
+        :TYPE "genericentity"
+        :VARIABLES NIL
+        :CONSTANTS NIL
+        :COMMENT NIL))
+14: (PREPARE-ENTITY-INSTANCE-ARGS
+     (:TYPE "Human_Body" :GENERIC-TYPE "genericentity" :VARIABLES
+      ((:TYPE "calories_expended" :AGGREGATOR SUM :DATA-NAME
+        "Human_Body.calories_expended")
+       (:TYPE "calories_consumed" :AGGREGATOR SUM :DATA-NAME
+        "Human_Body.calories_consumed")
+       (:TYPE "body_fat" :AGGREGATOR SUM :DATA-NAME "Human_Body.body_fat"))
+      :CONSTANTS
+      ((:TYPE "num_pushups_performed" :INITIAL-VALUE 0)
+       (:TYPE "num_doughnuts_eaten" :INITIAL-VALUE 0)))
+     #S(LIBRARY
+        :NAME "DATA-8"
+        :VERSION NIL
+        :MODIFIED NIL
+        :PROCESSES (GENERIC-PROCESS generic_process[(x62[(genericentity)])]:
+                  conditions NIL
+                  constants NIL
+                  equations )
+        :ENTITIES (#S(GENERIC-ENTITY
+                      :TYPE "genericentity"
+                      :VARIABLES NIL
+                      :CONSTANTS NIL
+                      :COMMENT NIL))
+        :CONSTRAINTS (Constraint:REQ-0, (type=EXACTLY-ONE)
+                        Items: #S(CONSTRAINT-MODIFIER
+                                  :GPROCESS GENERIC-PROCESS generic_process[(x62[(genericentity)])]:
+                  conditions NIL
+                  constants NIL
+                  equations
+                                  :MODIFIERS NIL)
+                      )))
+15: ((LAMBDA ()))
+16: (SB-INT:SIMPLE-EVAL-IN-LEXENV
+     (CREATE-INSTANCE-LIBRARY DATA-8 :GENERIC-LIBRARY (:NAME DATA-8)
+                              :DATA-FILE-LIST ("DATA-8") :ENTITIES
+                              ((:TYPE "Human_Body" :GENERIC-TYPE
+                                "genericentity" :VARIABLES
+                                ((:TYPE "calories_expended" :AGGREGATOR SUM
+                                  :DATA-NAME "Human_Body.calories_expended")
+                                 (:TYPE "calories_consumed" :AGGREGATOR SUM
+                                  :DATA-NAME "Human_Body.calories_consumed")
+                                 (:TYPE "body_fat" :AGGREGATOR SUM :DATA-NAME
+                                  "Human_Body.body_fat"))
+                                :CONSTANTS
+                                ((:TYPE "num_pushups_performed" :INITIAL-VALUE
+                                  0)
+                                 (:TYPE "num_doughnuts_eaten" :INITIAL-VALUE
+                                  0)))))
+     #<NULL-LEXENV>)
+17: (SB-FASL::LOAD-AS-SOURCE
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-8.ilib" {B23A9C9}>
+     NIL
+     NIL)
+18: ((FLET SB-FASL::LOAD-STREAM)
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-8.ilib" {B23A9C9}>
+     NIL)
+19: (LOAD #P"DATA-8.ilib")[:EXTERNAL]
+20: (INSTANCE-LIBRARY :DATA-8 NIL NIL)
+21: (RUN-SCIPM-RANDOM :DATA-8)[:EXTERNAL]
+22: (SB-INT:SIMPLE-EVAL-IN-LEXENV
+     (RUN-SCIPM-RANDOM :DATA-8 :NMODELS 1)
+     #<NULL-LEXENV>)
+23: (SB-FASL::LOAD-AS-SOURCE
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-8.lisp" {B11AD29}>
+     NIL
+     NIL)
+24: ((FLET SB-FASL::LOAD-STREAM)
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-8.lisp" {B11AD29}>
+     NIL)
+25: (LOAD
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-8.lisp" {B11AD29}>)[:EXTERNAL]
+26: (SB-IMPL::PROCESS-SCRIPT
+     "/d1/www/html/cll/ume/app/webroot/lisp/DATA-8.lisp")
+27: (SB-IMPL::TOPLEVEL-INIT)
+28: ((LABELS SB-IMPL::RESTART-LISP))
+
+unhandled condition in --disable-debugger mode, quitting

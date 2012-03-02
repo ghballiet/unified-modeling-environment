@@ -1,0 +1,90 @@
+; in: LAMBDA (TIME Y-ARR DYDT-ARR)
+;     (car_increase(x85:{NIL}))
+; 
+; caught ERROR:
+;   illegal function call
+; 
+; compilation unit finished
+;   caught 1 ERROR condition
+unhandled SB-INT:COMPILED-PROGRAM-ERROR in thread #<SB-THREAD:THREAD
+                                                    "Component:2;Thread:1" RUNNING
+                                                    {B244C41}>:
+  Execution of a form compiled with errors.
+Form:
+  (car_increase(x85:{NIL}))
+Compile-time error:
+  illegal function call
+
+0: (SB-DEBUG::MAP-BACKTRACE #<CLOSURE (LAMBDA #) {B27E705}>)[:EXTERNAL]
+1: (SB-DEBUG:BACKTRACE 128 #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDERR* {90B18F9}>)
+2: (SB-DEBUG::DEBUGGER-DISABLED-HOOK
+    #<SB-INT:COMPILED-PROGRAM-ERROR {B27C799}>
+    #<unavailable argument>)
+3: (SB-DEBUG::RUN-HOOK
+    SB-EXT:*INVOKE-DEBUGGER-HOOK*
+    #<SB-INT:COMPILED-PROGRAM-ERROR {B27C799}>)
+4: (INVOKE-DEBUGGER #<SB-INT:COMPILED-PROGRAM-ERROR {B27C799}>)
+5: (ERROR SB-INT:COMPILED-PROGRAM-ERROR)[:EXTERNAL]
+6: ((LAMBDA (TIME Y-ARR DYDT-ARR))
+    #<unavailable argument>
+    #<unavailable argument>
+    #<unavailable argument>)
+7: (SIM-MODEL-RK4 1.0d0 #(50000.0d0) 1.0d0)
+8: (COMBINED-SIM-RK4
+    #S(DATA
+       :NAMES (T CALIFORNIA.CARS_ON_ROAD)
+       :VALUES #(#(0 50000) #(1 0) #(2 0))
+       :ID-NAME NIL))[:EXTERNAL]
+9: (PE-SIMULATE
+    #<FUNCTION RK4-DATA-INIT>
+    #<FUNCTION COMBINED-SIM-RK4>
+    #<FUNCTION RK4-SIM-ERROR?>
+    (#S(DATA
+        :NAMES (T CALIFORNIA.CARS_ON_ROAD)
+        :VALUES #(#(0 50000) #(1 0) #(2 0))
+        :ID-NAME NIL)))
+10: (PE-717
+     #S(MODEL
+        :NAME MODEL-1
+        :ENTITIES (NIL{state})
+        :PROCESSES (car_increase(x85:{NIL}))
+        :COMMENT NIL)
+     (#S(DATA
+         :NAMES (T CALIFORNIA.CARS_ON_ROAD)
+         :VALUES #(#(0 50000) #(1 0) #(2 0))
+         :ID-NAME NIL))
+     #((NIL{state} . lung_disease = 30000.0) (NIL{state} . pollution = 50.0)
+       (NIL{state} . gas_cost_per_gallon = 3.25) (NIL{state} . gas_tax = 1.0)
+       (NIL{state} . highway_toll = 3.0))
+     #<FUNCTION COMBINED-SIM-RK4>
+     #<FUNCTION RK4-DATA-INIT>
+     #<FUNCTION RK4-SIM-ERROR?>
+     #<unavailable argument>
+     #<unavailable argument>
+     #<unavailable argument>)[:EXTERNAL]
+11: ((FLET VALID-PARAMETERIZED-MODEL)
+     #S(MODEL
+        :NAME MODEL-1
+        :ENTITIES (NIL{state})
+        :PROCESSES (car_increase(x85:{NIL}))
+        :COMMENT NIL))
+12: ((LAMBDA ()))
+13: ((LAMBDA ()))
+14: ((FLET #:WITHOUT-INTERRUPTS-BODY-[BLOCK362]367))
+15: ((FLET SB-THREAD::WITH-MUTEX-THUNK))
+16: ((FLET #:WITHOUT-INTERRUPTS-BODY-[CALL-WITH-MUTEX]300))
+17: (SB-THREAD::CALL-WITH-MUTEX
+     #<CLOSURE (FLET SB-THREAD::WITH-MUTEX-THUNK) {B7415235}>
+     #S(SB-THREAD:MUTEX
+        :NAME "thread result lock"
+        :%OWNER #<SB-THREAD:THREAD "Component:2;Thread:1" RUNNING {B244C41}>
+        :STATE 1)
+     #<SB-THREAD:THREAD "Component:2;Thread:1" RUNNING {B244C41}>
+     T)
+18: (SB-THREAD::INITIAL-THREAD-FUNCTION)
+19: ("foreign function: #x806325B")
+20: ("foreign function: #x80517ED")
+21: ("foreign function: #x805B64B")
+22: ("foreign function: #xD5D832")
+
+unhandled condition in --disable-debugger mode, quitting

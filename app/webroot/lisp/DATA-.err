@@ -1,0 +1,42 @@
+unhandled SB-INT:SIMPLE-FILE-ERROR in thread #<SB-THREAD:THREAD
+                                               "initial thread" RUNNING
+                                               {B112A01}>:
+  Couldn't load #P"DATA-56.ilib": file does not exist.
+
+0: (SB-DEBUG::MAP-BACKTRACE #<CLOSURE (LAMBDA #) {B2394CD}>)[:EXTERNAL]
+1: (SB-DEBUG:BACKTRACE 128 #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDERR* {90B18F9}>)
+2: (SB-DEBUG::DEBUGGER-DISABLED-HOOK
+    #<SB-INT:SIMPLE-FILE-ERROR "~@<Couldn't load ~S: file does not exist.~@:>"
+      {B237679}>
+    #<unavailable argument>)
+3: (SB-DEBUG::RUN-HOOK
+    SB-EXT:*INVOKE-DEBUGGER-HOOK*
+    #<SB-INT:SIMPLE-FILE-ERROR "~@<Couldn't load ~S: file does not exist.~@:>"
+      {B237679}>)
+4: (INVOKE-DEBUGGER
+    #<SB-INT:SIMPLE-FILE-ERROR "~@<Couldn't load ~S: file does not exist.~@:>"
+      {B237679}>)
+5: (ERROR SB-INT:SIMPLE-FILE-ERROR)[:EXTERNAL]
+6: (LOAD #P"DATA-56.ilib")[:EXTERNAL]
+7: (INSTANCE-LIBRARY :DATA-56 NIL NIL)
+8: (RUN-SCIPM-RANDOM :DATA-56)[:EXTERNAL]
+9: (SB-INT:SIMPLE-EVAL-IN-LEXENV
+    (RUN-SCIPM-RANDOM :DATA-56 :NMODELS 1)
+    #<NULL-LEXENV>)
+10: (SB-FASL::LOAD-AS-SOURCE
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-.lisp" {B11AD21}>
+     NIL
+     NIL)
+11: ((FLET SB-FASL::LOAD-STREAM)
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-.lisp" {B11AD21}>
+     NIL)
+12: (LOAD
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-.lisp" {B11AD21}>)[:EXTERNAL]
+13: (SB-IMPL::PROCESS-SCRIPT "/d1/www/html/cll/ume/app/webroot/lisp/DATA-.lisp")
+14: (SB-IMPL::TOPLEVEL-INIT)
+15: ((LABELS SB-IMPL::RESTART-LISP))
+
+unhandled condition in --disable-debugger mode, quitting

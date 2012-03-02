@@ -1,0 +1,31 @@
+; in: LAMBDA NIL
+;     (LET* ((SCIPM::OUTPUT-RESULT
+;             (CAR (SCIPM::KEYWORD-VALUE :MODEL-RESULTS SCIPM::*RESULTS*)))
+;            (SCIPM::OUTPUT-DATA (CAR (CADDDR SCIPM::OUTPUT-RESULT)))
+;            (SCIPM::OUTPUT-MODEL (CAR SCIPM::OUTPUT-RESULT))
+;            (SCIPM::OUTPUT-ROWS NIL)
+;            (SCIPM::ROW-COUNT 0))
+;       (FORMAT T "var data = {};~%")
+;       (FORMAT T "data.id_name = '~A';~%"
+;               (SCIPM::DATA-ID-NAME SCIPM::OUTPUT-DATA))
+;       (FORMAT T "data.names = ~A;~%"
+;               (SCIPM::JOIN-INTO-STRING (SCIPM::DATA-NAMES SCIPM::OUTPUT-DATA)))
+;       (FORMAT T "data.values = [];~%")
+;       (LOOP SCIPM::FOR SCIPM::I SCIPM::ACROSS (SCIPM::DATA-VALUES
+;                                                SCIPM::OUTPUT-DATA)
+;             DO (LET ((SCIPM::ROW NIL))
+;                  (LOOP SCIPM::FOR SCIPM::J SCIPM::ACROSS SCIPM::I
+;                        DO (PUSH SCIPM::J SCIPM::ROW))
+;                  (SETQ SCIPM::ROW #)
+;                  (FORMAT T "data.values[~A] = ~A;~%" SCIPM::ROW-COUNT
+;                          (SCIPM::JOIN-INTO-STRING SCIPM::ROW))
+;                  (SETQ SCIPM::ROW-COUNT #))))
+; 
+; caught STYLE-WARNING:
+;   The variable OUTPUT-MODEL is defined but never used.
+; 
+; caught STYLE-WARNING:
+;   The variable OUTPUT-ROWS is defined but never used.
+; 
+; compilation unit finished
+;   caught 2 STYLE-WARNING conditions

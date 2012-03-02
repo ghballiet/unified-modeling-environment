@@ -1,0 +1,23 @@
+(in-package :scipm)
+
+(create-generic-library data-59
+  ;; ---- entities ----
+  :entity-list
+  ((:type "Organism"
+    :variables ((:name "metabloic_rate" :aggregators (sum))
+                (:name "pushups_per_day" :aggregators (sum))
+                (:name "donuts_available" :aggregators (sum)))
+    :constants ((:name "body_fat" :lower-bound 0.5 :upper-bound 0.5)
+                (:name "calories_need" :lower-bound 2000 :upper-bound 2000))))
+
+  ;; ---- processes ----
+  :process-list
+  ((:name "Exercise"
+    :equations ((ODE :variable "x80.metabloic_rate" :rhs (* (* 0.25 "x80.pushups_per_day") "x80.body_fat"))
+                (ODE :variable "x80.pushups_per_day" :rhs (* 0.5 "x80.pushups_per_day"))
+                (ODE :variable "x80.donuts_available" :rhs (/ "x80.calories_need" 100)))
+    :entity-roles ((:name "x80" :types ("Organism")))))
+
+  ;; ---- constraints ----
+  :constraint-list
+  ((:name req-0 :type exactly-one :items ((:gprocess "Exercise")))))

@@ -1,0 +1,95 @@
+unhandled TYPE-ERROR in thread #<SB-THREAD:THREAD
+                                 "Component:2;Thread:1" RUNNING {B243579}>:
+  The value NIL is not of type (MOD 536870909).
+
+0: (SB-DEBUG::MAP-BACKTRACE #<CLOSURE (LAMBDA #) {B2E204D}>)[:EXTERNAL]
+1: (SB-DEBUG:BACKTRACE 128 #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDERR* {90B18F9}>)
+2: (SB-DEBUG::DEBUGGER-DISABLED-HOOK
+    #<TYPE-ERROR {B2E0421}>
+    #<unavailable argument>)
+3: (SB-DEBUG::RUN-HOOK SB-EXT:*INVOKE-DEBUGGER-HOOK* #<TYPE-ERROR {B2E0421}>)
+4: (INVOKE-DEBUGGER #<TYPE-ERROR {B2E0421}>)
+5: (ERROR TYPE-ERROR)[:EXTERNAL]
+6: (SB-KERNEL::OBJECT-NOT-TYPE-ERROR-HANDLER
+    #<unavailable argument>
+    #.(SB-SYS:INT-SAP #XB7414CE0)
+    #<SB-ALIEN-INTERNALS:ALIEN-VALUE :SAP #XB74149DC :TYPE (*
+                                                            (STRUCT
+                                                             SB-VM::OS-CONTEXT-T-STRUCT))>
+    (144 16))
+7: (SB-KERNEL:INTERNAL-ERROR
+    #.(SB-SYS:INT-SAP #XB74149DC)
+    #<unavailable argument>)
+8: ("foreign function: #x806325B")
+9: ("foreign function: #x8051868")
+10: ("foreign function: #x8055F6B")
+11: ("foreign function: #x805615B")
+12: (DATUM-VALUE
+     #(0 1 2)
+     HUMAN.DONUTS_AVAILABLE
+     #S(DATA
+        :NAMES (T HUMAN.METABLOIC_RATE HUMAN.PUSHUPS_PER_DAY)
+        :VALUES #(#(0 1 2) #(1 2 1) #(2 1 1) #(3 1 2) #(4 1 1))
+        :ID-NAME NIL))
+13: (CVODE-INITIAL-DATA-VALUES
+     #S(DATA
+        :NAMES (T HUMAN.METABLOIC_RATE HUMAN.PUSHUPS_PER_DAY)
+        :VALUES #(#(0 1 2) #(1 2 1) #(2 1 1) #(3 1 2) #(4 1 1))
+        :ID-NAME NIL))
+14: (RK4-DATA-INIT
+     #S(DATA
+        :NAMES (T HUMAN.METABLOIC_RATE HUMAN.PUSHUPS_PER_DAY)
+        :VALUES #(#(0 1 2) #(1 2 1) #(2 1 1) #(3 1 2) #(4 1 1))
+        :ID-NAME NIL))
+15: (PE-SIMULATE
+     #<FUNCTION RK4-DATA-INIT>
+     #<FUNCTION COMBINED-SIM-RK4>
+     #<FUNCTION RK4-SIM-ERROR?>
+     (#S(DATA
+         :NAMES (T HUMAN.METABLOIC_RATE HUMAN.PUSHUPS_PER_DAY)
+         :VALUES #(#(0 1 2) #(1 2 1) #(2 1 1) #(3 1 2) #(4 1 1))
+         :ID-NAME NIL)))
+16: (PE-717
+     #S(MODEL
+        :NAME MODEL-1
+        :ENTITIES (NIL{Organism})
+        :PROCESSES (Exercise(x80:{NIL}))
+        :COMMENT NIL)
+     (#S(DATA
+         :NAMES (T HUMAN.METABLOIC_RATE HUMAN.PUSHUPS_PER_DAY)
+         :VALUES #(#(0 1 2) #(1 2 1) #(2 1 1) #(3 1 2) #(4 1 1))
+         :ID-NAME NIL))
+     #((NIL{Organism} . calories_need = 2000.0)
+       (NIL{Organism} . body_fat = 0.5))
+     #<FUNCTION COMBINED-SIM-RK4>
+     #<FUNCTION RK4-DATA-INIT>
+     #<FUNCTION RK4-SIM-ERROR?>
+     #<unavailable argument>
+     #<unavailable argument>
+     #<unavailable argument>)[:EXTERNAL]
+17: ((FLET VALID-PARAMETERIZED-MODEL)
+     #S(MODEL
+        :NAME MODEL-1
+        :ENTITIES (NIL{Organism})
+        :PROCESSES (Exercise(x80:{NIL}))
+        :COMMENT NIL))
+18: ((LAMBDA ()))
+19: ((LAMBDA ()))
+20: ((FLET #:WITHOUT-INTERRUPTS-BODY-[BLOCK362]367))
+21: ((FLET SB-THREAD::WITH-MUTEX-THUNK))
+22: ((FLET #:WITHOUT-INTERRUPTS-BODY-[CALL-WITH-MUTEX]300))
+23: (SB-THREAD::CALL-WITH-MUTEX
+     #<CLOSURE (FLET SB-THREAD::WITH-MUTEX-THUNK) {B7415235}>
+     #S(SB-THREAD:MUTEX
+        :NAME "thread result lock"
+        :%OWNER #<SB-THREAD:THREAD "Component:2;Thread:1" RUNNING {B243579}>
+        :STATE 1)
+     #<SB-THREAD:THREAD "Component:2;Thread:1" RUNNING {B243579}>
+     T)
+24: (SB-THREAD::INITIAL-THREAD-FUNCTION)
+25: ("foreign function: #x806325B")
+26: ("foreign function: #x80517ED")
+27: ("foreign function: #x805B64B")
+28: ("foreign function: #xD5D832")
+
+unhandled condition in --disable-debugger mode, quitting

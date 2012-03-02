@@ -1,0 +1,27 @@
+(in-package :scipm)
+
+(create-generic-library
+ testpp2
+
+ ;; ---- entities ----
+ :entity-list
+ ((:type "grazer"
+   :variables ((:name "conc" :aggregators (sum)))
+   :constants ((:name "grazing_rate" :lower-bound 1.5 :upper-bound 1.5)))
+  (:type "environment"
+   :variables ((:name "grass" :aggregators (sum)))))
+ 
+ ;; ---- processes ----
+ :process-list
+ ((:name "grazing"
+   :equations 
+   ((ODE :variable "G.conc" :rhs (* "G.conc" "G.grazing_rate"))
+    (ODE :variable "E.grass" :rhs (* -1 "G.grazing_rate" "G.conc")))
+   :entity-roles
+   ((:name "G" :types ("grazer"))
+    (:name "E" :types ("environment")))))
+
+  :constraint-list
+  ((:name grazing-req
+    :type exactly-one
+    :items ((:gprocess "grazing")))))

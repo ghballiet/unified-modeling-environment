@@ -1,0 +1,172 @@
+unhandled SB-INT:SIMPLE-PROGRAM-ERROR in thread #<SB-THREAD:THREAD
+                                                  "initial thread" RUNNING
+                                                  {B112A09}>:
+  odd number of &KEY arguments
+
+0: (SB-DEBUG::MAP-BACKTRACE #<CLOSURE (LAMBDA #) {B24204D}>)[:EXTERNAL]
+1: (SB-DEBUG:BACKTRACE 128 #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDERR* {90B18F9}>)
+2: (SB-DEBUG::DEBUGGER-DISABLED-HOOK
+    #<SB-INT:SIMPLE-PROGRAM-ERROR "odd number of &KEY arguments" {B240BF1}>
+    #<unavailable argument>)
+3: (SB-DEBUG::RUN-HOOK
+    SB-EXT:*INVOKE-DEBUGGER-HOOK*
+    #<SB-INT:SIMPLE-PROGRAM-ERROR "odd number of &KEY arguments" {B240BF1}>)
+4: (INVOKE-DEBUGGER
+    #<SB-INT:SIMPLE-PROGRAM-ERROR "odd number of &KEY arguments" {B240BF1}>)
+5: (ERROR SB-INT:SIMPLE-PROGRAM-ERROR)[:EXTERNAL]
+6: (SB-KERNEL::ODD-KEY-ARGS-ERROR-HANDLER
+    #<unavailable argument>
+    #<unavailable argument>
+    #<unavailable argument>
+    #<unavailable argument>)
+7: (SB-KERNEL:INTERNAL-ERROR
+    #.(SB-SYS:INT-SAP #XB7CA112C)
+    #<unavailable argument>)
+8: ("foreign function: #x806325B")
+9: ("foreign function: #x8051868")
+10: ("foreign function: #x8055F6B")
+11: ("foreign function: #x805615B")
+12: (MAKE-ALGEBRAIC-EQUATION)[:EXTERNAL]
+13: (MAKE-EQUATIONS ((ALG :VARIABLE "x96.gas_cost_per_gallon" :RHS)))
+14: (PREPARE-PROCESS-ARGS
+     (:NAME "influence_of_gas_tax" :EQUATIONS
+      ((ALG :VARIABLE "x96.gas_cost_per_gallon" :RHS)) :ENTITY-ROLES
+      ((:NAME "x96" :TYPES ("State"))))
+     (#S(GENERIC-ENTITY
+         :TYPE "State"
+         :VARIABLES #<HASH-TABLE :TEST EQUAL :COUNT 2 {B23E461}>
+         :CONSTANTS #<HASH-TABLE :TEST EQUAL :COUNT 5 {B23E6A1}>
+         :COMMENT NIL)))
+15: (MAKE-PROCESSES
+     ((:NAME "car_increase" :EQUATIONS
+       ((ODE :VARIABLE "x93.cars_on_road" :RHS (* "x93.cars_on_road" 1.1)))
+       :ENTITY-ROLES ((:NAME "x93" :TYPES ("State"))))
+      (:NAME "car_decrease" :EQUATIONS
+       ((ODE :VARIABLE "x94.cars_on_road" :RHS
+         (* (* -1 "x94.highway_toll") 25))
+        (ODE :VARIABLE "x94.cars_on_road" :RHS
+         (* (* -1 "x94.gas_cost_per_gallon") 25)))
+       :ENTITY-ROLES ((:NAME "x94" :TYPES ("State"))))
+      (:NAME "influence_of_gas_cost_per_barrel" :EQUATIONS
+       ((ALG :VARIABLE "x95.gas_cost_per_gallon" :RHS
+         (+ (/ "x95.gas_cost_per_barrel" 42) 1)))
+       :ENTITY-ROLES ((:NAME "x95" :TYPES ("State"))))
+      (:NAME "influence_of_gas_tax" :EQUATIONS
+       ((ALG :VARIABLE "x96.gas_cost_per_gallon" :RHS)) :ENTITY-ROLES
+       ((:NAME "x96" :TYPES ("State")))))
+     (#S(GENERIC-ENTITY
+         :TYPE "State"
+         :VARIABLES #<HASH-TABLE :TEST EQUAL :COUNT 2 {B23E461}>
+         :CONSTANTS #<HASH-TABLE :TEST EQUAL :COUNT 5 {B23E6A1}>
+         :COMMENT NIL)))
+16: ((LAMBDA ()))
+17: (SB-INT:SIMPLE-EVAL-IN-LEXENV
+     (CREATE-GENERIC-LIBRARY DATA-66 :ENTITY-LIST
+                             ((:TYPE "State" :VARIABLES
+                               ((:NAME "cars_on_road" :AGGREGATORS (SUM))
+                                (:NAME "gas_cost_per_gallon" :AGGREGATORS
+                                 (SUM)))
+                               :CONSTANTS
+                               ((:NAME "highway_toll" :LOWER-BOUND 3
+                                 :UPPER-BOUND 3)
+                                (:NAME "gas_cost_per_barrel" :LOWER-BOUND 147
+                                 :UPPER-BOUND 147)
+                                (:NAME "gas_tax" :LOWER-BOUND 1 :UPPER-BOUND 1)
+                                (:NAME "pollution" :LOWER-BOUND 50 :UPPER-BOUND
+                                 50)
+                                (:NAME "lung_disease" :LOWER-BOUND 30000
+                                 :UPPER-BOUND 30000))))
+                             :PROCESS-LIST
+                             ((:NAME "car_increase" :EQUATIONS
+                               ((ODE :VARIABLE "x93.cars_on_road" :RHS
+                                 (* "x93.cars_on_road" 1.1)))
+                               :ENTITY-ROLES ((:NAME "x93" :TYPES ("State"))))
+                              (:NAME "car_decrease" :EQUATIONS
+                               ((ODE :VARIABLE "x94.cars_on_road" :RHS
+                                 (* (* -1 "x94.highway_toll") 25))
+                                (ODE :VARIABLE "x94.cars_on_road" :RHS
+                                 (* (* -1 "x94.gas_cost_per_gallon") 25)))
+                               :ENTITY-ROLES ((:NAME "x94" :TYPES ("State"))))
+                              (:NAME "influence_of_gas_cost_per_barrel"
+                               :EQUATIONS
+                               ((ALG :VARIABLE "x95.gas_cost_per_gallon" :RHS
+                                 (+ (/ "x95.gas_cost_per_barrel" 42) 1)))
+                               :ENTITY-ROLES ((:NAME "x95" :TYPES ("State"))))
+                              (:NAME "influence_of_gas_tax" :EQUATIONS
+                               ((ALG :VARIABLE "x96.gas_cost_per_gallon" :RHS))
+                               :ENTITY-ROLES ((:NAME "x96" :TYPES ("State")))))
+                             :CONSTRAINT-LIST
+                             ((:NAME REQ-0 :TYPE EXACTLY-ONE :ITEMS
+                               ((:GPROCESS "car_increase")))
+                              (:NAME REQ-1 :TYPE EXACTLY-ONE :ITEMS
+                               ((:GPROCESS "car_decrease")))
+                              (:NAME REQ-2 :TYPE EXACTLY-ONE :ITEMS
+                               ((:GPROCESS
+                                 "influence_of_gas_cost_per_barrel")))
+                              (:NAME REQ-3 :TYPE EXACTLY-ONE :ITEMS
+                               ((:GPROCESS "influence_of_gas_tax")))))
+     #<NULL-LEXENV>)
+18: (SB-FASL::LOAD-AS-SOURCE
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.glib" {B2083C1}>
+     NIL
+     NIL)
+19: ((FLET SB-FASL::LOAD-STREAM)
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.glib" {B2083C1}>
+     NIL)
+20: (LOAD #P"DATA-66.glib")[:EXTERNAL]
+21: (GENERIC-LIBRARY DATA-66 NIL NIL)
+22: (PREPARE-GENERIC-LIBRARY (:NAME DATA-66))
+23: ((LAMBDA ()))
+24: (SB-INT:SIMPLE-EVAL-IN-LEXENV
+     (CREATE-INSTANCE-LIBRARY DATA-66 :GENERIC-LIBRARY (:NAME DATA-66)
+                              :DATA-FILE-LIST ("DATA-66") :ENTITIES
+                              ((:TYPE "California" :GENERIC-TYPE "State"
+                                :VARIABLES
+                                ((:TYPE "cars_on_road" :AGGREGATOR SUM
+                                  :DATA-NAME "California.cars_on_road")
+                                 (:TYPE "gas_cost_per_gallon" :AGGREGATOR SUM
+                                  :DATA-NAME "California.gas_cost_per_gallon"))
+                                :CONSTANTS
+                                ((:TYPE "highway_toll" :INITIAL-VALUE 3)
+                                 (:TYPE "gas_cost_per_barrel" :INITIAL-VALUE
+                                  147)
+                                 (:TYPE "gas_tax" :INITIAL-VALUE 1)
+                                 (:TYPE "pollution" :INITIAL-VALUE 50)
+                                 (:TYPE "lung_disease" :INITIAL-VALUE
+                                  30000)))))
+     #<NULL-LEXENV>)
+25: (SB-FASL::LOAD-AS-SOURCE
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.ilib" {B1B73C1}>
+     NIL
+     NIL)
+26: ((FLET SB-FASL::LOAD-STREAM)
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.ilib" {B1B73C1}>
+     NIL)
+27: (LOAD #P"DATA-66.ilib")[:EXTERNAL]
+28: (INSTANCE-LIBRARY :DATA-66 NIL NIL)
+29: (RUN-SCIPM-RANDOM :DATA-66)[:EXTERNAL]
+30: (SB-INT:SIMPLE-EVAL-IN-LEXENV
+     (RUN-SCIPM-RANDOM :DATA-66 :NMODELS 1)
+     #<NULL-LEXENV>)
+31: (SB-FASL::LOAD-AS-SOURCE
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.lisp" {B11AD39}>
+     NIL
+     NIL)
+32: ((FLET SB-FASL::LOAD-STREAM)
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.lisp" {B11AD39}>
+     NIL)
+33: (LOAD
+     #<SB-SYS:FD-STREAM
+       for "file /d1/www/html/cll/ume/app/webroot/lisp/DATA-66.lisp" {B11AD39}>)[:EXTERNAL]
+34: (SB-IMPL::PROCESS-SCRIPT
+     "/d1/www/html/cll/ume/app/webroot/lisp/DATA-66.lisp")
+35: (SB-IMPL::TOPLEVEL-INIT)
+36: ((LABELS SB-IMPL::RESTART-LISP))
+
+unhandled condition in --disable-debugger mode, quitting

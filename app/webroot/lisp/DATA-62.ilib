@@ -1,0 +1,15 @@
+(in-package :scipm)
+
+(create-instance-library data-62
+  :generic-library (:name data-62)
+  :data-file-list ("DATA-62")
+
+  ;; ---- entities ----
+  :entities
+  ((:type "California" :generic-type "state"
+    :variables ((:type "cars_on_road" :aggregator sum :data-name "California.cars_on_road"))
+    :constants ((:type "highway_toll" :initial-value 3)
+                (:type "gas_tax" :initial-value 1)
+                (:type "gas_cost_per_gallon" :initial-value 3.25)
+                (:type "pollution" :initial-value 50)
+                (:type "lung_disease" :initial-value 30000)))))

@@ -1,0 +1,74 @@
+unhandled TYPE-ERROR in thread #<SB-THREAD:THREAD
+                                 "Component:1;Thread:1" RUNNING {B2433C9}>:
+  The value NIL is not of type ENTITY.
+
+0: (SB-DEBUG::MAP-BACKTRACE #<CLOSURE (LAMBDA #) {B24863D}>)[:EXTERNAL]
+1: (SB-DEBUG:BACKTRACE 128 #<SYNONYM-STREAM :SYMBOL SB-SYS:*STDERR* {90B18F9}>)
+2: (SB-DEBUG::DEBUGGER-DISABLED-HOOK
+    #<TYPE-ERROR {B246D29}>
+    #<unavailable argument>)
+3: (SB-DEBUG::RUN-HOOK SB-EXT:*INVOKE-DEBUGGER-HOOK* #<TYPE-ERROR {B246D29}>)
+4: (INVOKE-DEBUGGER #<TYPE-ERROR {B246D29}>)
+5: (ERROR TYPE-ERROR)[:EXTERNAL]
+6: (SB-KERNEL::OBJECT-NOT-TYPE-ERROR-HANDLER
+    #<unavailable argument>
+    #.(SB-SYS:INT-SAP #XB785AC90)
+    #<SB-ALIEN-INTERNALS:ALIEN-VALUE :SAP #XB785A98C :TYPE (*
+                                                            (STRUCT
+                                                             SB-VM::OS-CONTEXT-T-STRUCT))>
+    (16 80))
+7: (SB-KERNEL:INTERNAL-ERROR
+    #.(SB-SYS:INT-SAP #XB785A98C)
+    #<unavailable argument>)
+8: ("foreign function: #x806325B")
+9: ("foreign function: #x8051868")
+10: ("foreign function: #x8055F6B")
+11: ("foreign function: #x805615B")
+12: (MATCH-PROPERTY "x81.pushups_per_day" exercise(x82:{NIL}))
+13: (MATCH-RHS ("x81.pushups_per_day") exercise(x82:{NIL}))
+14: (MATCH-RHS (0.25 "x81.pushups_per_day") exercise(x82:{NIL}))
+15: (MATCH-RHS (* 0.25 "x81.pushups_per_day") exercise(x82:{NIL}))
+16: (MATCH-RHS
+     ((* 0.25 "x81.pushups_per_day") "x81.body_fat")
+     exercise(x82:{NIL}))
+17: (MATCH-RHS
+     (* (* 0.25 "x81.pushups_per_day") "x81.body_fat")
+     exercise(x82:{NIL}))
+18: (INSTANTIATE-EQUATION
+     d[x82.metabolic_rate,time,1] =
+   (* (* 0.25 x81.pushups_per_day) x81.body_fat)
+     exercise(x82:{NIL}))
+19: (BUILD-EQUATIONS
+     #S(MODEL
+        :NAME MODEL-1
+        :ENTITIES (NIL{Organism})
+        :PROCESSES (exercise(x82:{NIL}))
+        :COMMENT NIL)
+     NIL)
+20: (VALID-MODEL?
+     #S(MODEL
+        :NAME MODEL-1
+        :ENTITIES (NIL{Organism})
+        :PROCESSES (exercise(x82:{NIL}))
+        :COMMENT NIL))
+21: ((FLET GET-MODEL) 1)
+22: ((LAMBDA ()))
+23: ((LAMBDA ()))
+24: ((FLET #:WITHOUT-INTERRUPTS-BODY-[BLOCK362]367))
+25: ((FLET SB-THREAD::WITH-MUTEX-THUNK))
+26: ((FLET #:WITHOUT-INTERRUPTS-BODY-[CALL-WITH-MUTEX]300))
+27: (SB-THREAD::CALL-WITH-MUTEX
+     #<CLOSURE (FLET SB-THREAD::WITH-MUTEX-THUNK) {B785B235}>
+     #S(SB-THREAD:MUTEX
+        :NAME "thread result lock"
+        :%OWNER #<SB-THREAD:THREAD "Component:1;Thread:1" RUNNING {B2433C9}>
+        :STATE 1)
+     #<SB-THREAD:THREAD "Component:1;Thread:1" RUNNING {B2433C9}>
+     T)
+28: (SB-THREAD::INITIAL-THREAD-FUNCTION)
+29: ("foreign function: #x806325B")
+30: ("foreign function: #x80517ED")
+31: ("foreign function: #x805B64B")
+32: ("foreign function: #xD5D832")
+
+unhandled condition in --disable-debugger mode, quitting

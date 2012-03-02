@@ -14,6 +14,7 @@ var concrete_processes = <? print json_encode($concrete_processes); ?>;
 var concrete_equations = <? print json_encode($concrete_equations); ?>;
 var concrete_process_arguments = <? print json_encode($concrete_process_arguments); ?>;
 var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>;
+var exogenous_values = <? print json_encode($exogenous_values); ?>;
 
 // empirical data
 var empirical_data = {};
@@ -220,15 +221,15 @@ foreach($generic_processes as $p) {
   printf('</div>');
   
   foreach($generic_equations[$p['GenericProcess']['id']] as $q) {
-    printf('<div class="generic-equation">');    
+    printf('<div class="generic-equation" id="generic-equation-%s">', $q['GenericEquation']['id']);
     echo $this->Html->link('×', array('controller'=>'generic_equations', 'action'=>'delete', $q['GenericEquation']['id'],
       $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
     if($q['GenericEquation']['is_algebraic'] == 1) {
       // algebraic eq
-      printf('<span class="name">?x%s.%s</span>', $q['GenericEntity']['id'], $q['GenericAttribute']['name']);
+      printf('<span class="name">?x%s.%s</span>', $q['GenericProcessArgument']['id'], $q['GenericAttribute']['name']);
     } else {
       // diff eq
-      printf('<span class="name">d[?x%s.%s]</span>', $q['GenericEntity']['id'], $q['GenericAttribute']['name']);
+      printf('<span class="name">d[?x%s.%s]</span>', $q['GenericProcessArgument']['id'], $q['GenericAttribute']['name']);
     }
     printf(' = <span class="value">%s</span>;', $q['GenericEquation']['right_hand_side']);
     printf('</div>');
@@ -291,7 +292,7 @@ foreach($concrete_entities as $e) {
   }
   printf('<div id="concrete-expand-%s" data-expand-id="generic-entity-%s" class="expand"></div>', $e['ConcreteEntity']['id'], $e['GenericEntity']['id']);
   // printf('<a class="expand" data-expand-id="concrete-expand-%s">&#x25bc;</a>', $e['ConcreteEntity']['id']);
-  // printf('<a href="#" class="btn" data-reveal-id="add-concrete-attribute-%s">&plus;Attribute</a><br>', $e['ConcreteEntity']['id']);
+  printf('<a href="#" class="btn" data-reveal-id="add-concrete-attribute-%s">&plus;Attribute</a><br>', $e['ConcreteEntity']['id']);
   printf('}');
   printf('</div>');
 }
@@ -383,7 +384,7 @@ foreach($concrete_processes as $p) {
     <div id="exogenous-values" class="reveal-modal">
 <?
 $ex_text = '';
-echo $this->Html->tag('h1', 'Edit Exogenous Data');
+echo $this->Html->tag('h1', 'Edit Data File');
 if($exogenous_values != null)
   $ex_text = $exogenous_values['ExogenousValue']['value'];
 echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit'));
@@ -405,9 +406,9 @@ echo $this->Form->input('value', array('value'=>$eo_text));
 echo $this->Form->end('Save Data');
 ?>
     </div>
-    <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Exogenous Data</a>
+    <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Data File</a>
     <!-- <a href="#" data-reveal-id="empirical-data" class="btn">Edit Empirical Data</a> -->
-    <a href="#" class="btn">Simulate</a>
+    <a href="#" class="btn" id="btnSimulate">Simulate</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));

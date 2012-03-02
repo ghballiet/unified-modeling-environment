@@ -1,0 +1,18 @@
+Heap exhausted during garbage collection: 0 bytes available, 8 requested.
+ Gen StaPg UbSta LaSta LUbSt Boxed Unboxed LB   LUB  !move  Alloc  Waste   Trig    WP  GCs Mem-age
+   0:     0     0     0     0     0     0     0     0     0        0     0  2000000    0   0  0.0000
+   1:     0     0     0     0     0     0     0     0     0        0     0  2000000    0   0  0.0000
+   2:     0     0     0     0     0     0     0     0     0        0     0  2000000    0   0  0.0000
+   3: 107229  8483     0     0 30889     1     0     0     0 126505600 19840 77902264    0   1  1.4000
+   4: 131071  8478     0     0 91711     5     0     0    26 375632400 36336  2000000 61660   0  1.0084
+   5:     0     0     0     0     0     0     0     0     0        0     0  2000000    0   0  0.0000
+   6:     0     0     0     0  6994  1472     0     0     0 34676736     0  2000000 6934   0  0.0000
+   Total bytes allocated    = 536814736
+   Dynamic-space-size bytes = 536870912
+GC control variables:
+   *GC-INHIBIT* = true
+   *GC-PENDING* = in progress
+   *STOP-FOR-GC-PENDING* = false
+fatal error encountered in SBCL pid 16262(tid 3078994832):
+Heap exhausted, game over.
+

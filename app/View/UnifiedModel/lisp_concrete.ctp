@@ -1,14 +1,13 @@
-<pre>
 (in-package :scipm)
 
 <?
 printf("(create-instance-library data-%d\n", $model['UnifiedModel']['id']);
 printf("  :generic-library (:name data-%d)\n", $model['UnifiedModel']['id']);
-printf("  :data-file-list (\"data-%s\")\n\n", $model['UnifiedModel']['id']);
+printf("  :data-file-list (\"DATA-%s\")\n\n", $model['UnifiedModel']['id']);
 
 // ---- entities ----
 printf("  ;; ---- entities ----\n");
-printf("  :entity-list\n  (");
+printf("  :entities\n  (");
 foreach($concrete_entities as $i=>$ce) {
   if($i != 0)
     printf("   ");
@@ -57,4 +56,3 @@ printf(")"); // end of entities
 
 printf(")")  // end of instance library
 ?>
-</pre>

@@ -16,6 +16,20 @@ class UnifiedModelsController extends AppController {
     }
   }
 
+  // ---- lisp simulation code ----
+  public function simulate_lisp($id = null) {
+    $this->layout = 'simulate';
+    $this->UnifiedModel->id = $id;
+    $model = $this->UnifiedModel->read();
+    $data = $this->UnifiedModel->ExogenousValue->findByUnifiedModelId($id);
+    $this->set('model', $model);
+    $this->set('exogenous_data', $data);
+  }
+
+  public function beforeFilter() {
+    $this->Auth->allow(array('lisp_generic', 'lisp_concrete', 'simulate_lisp', 'simulate'));
+  }
+
   public function lisp_generic($id = null) {
     $this->layout = 'simulate';
     $this->UnifiedModel->id = $id;
@@ -28,6 +42,8 @@ class UnifiedModelsController extends AppController {
       'conditions'=>array('GenericProcess.unified_model_id'=>$id)));
     $generic_entity_list = $this->UnifiedModel->GenericEntity->find('list', array('conditions'=>array(
        'GenericEntity.unified_model_id'=>$id)));
+    $generic_process_attributes = $this->UnifiedModel->GenericProcess->GenericProcessAttribute->find('all', 
+       array('conditions'=>array('GenericProcess.unified_model_id'=>$id)));
 
     // grab the variables, by entity id
     $generic_variables = array();
@@ -66,6 +82,7 @@ class UnifiedModelsController extends AppController {
     $this->set('generic_constants', $generic_constants);
     $this->set('generic_equation_list', $generic_equation_list);
     $this->set('generic_entity_list', $generic_entity_list);
+    $this->set('generic_process_attributes', $generic_process_attributes);
   }
 
   public function lisp_concrete($id = null) {

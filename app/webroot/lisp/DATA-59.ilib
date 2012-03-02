@@ -1,0 +1,14 @@
+(in-package :scipm)
+
+(create-instance-library data-59
+  :generic-library (:name data-59)
+  :data-file-list ("DATA-59")
+
+  ;; ---- entities ----
+  :entities
+  ((:type "Human" :generic-type "Organism"
+    :variables ((:type "metabloic_rate" :aggregator sum :data-name "Human.metabloic_rate")
+                (:type "pushups_per_day" :aggregator sum :data-name "Human.pushups_per_day")
+                (:type "donuts_available" :aggregator sum :data-name "Human.donuts_available"))
+    :constants ((:type "body_fat" :initial-value 0.5)
+                (:type "calories_need" :initial-value 2000)))))

@@ -27,6 +27,7 @@ $(document).ready(function() {
        $(this).attr('id') == 'GenericEquationRightHandSide' ||
        $(this).attr('id') == 'ExogenousValueValue' ||
        $(this).attr('id') == 'EmpiricalObservationValue' || 
+       $(this).attr('name') == 'data[GenericEquation][right_hand_side]' || 
        $(this).attr('name') == 'data[ConcreteEquation][right_hand_side]')
       return true;
     if(e.keyCode == 32) {
@@ -181,6 +182,7 @@ $(document).ready(function() {
     $('div.concrete-attribute').click(function() { $(this).editConcreteAttribute(); });
     $('div.concrete-equation').click(function() { $(this).editConcreteEquation(); });
     $('div.generic-process-attribute').click(function() { $(this).editGenericProcessAttribute(); });
+    $('div.generic-equation').click(function() { $(this).editGenericEquation(); });
   }
 
   function showModal(map) {
@@ -190,7 +192,7 @@ $(document).ready(function() {
     var close = $('<a />').html('&#215;').addClass('close-reveal-modal').attr('href','#');
     var form = $('<form />').attr({
       method: 'post',
-      action: '/unified-modeling/' + map.controller + '/edit/' + map.fields.id.value
+      action: '/ume/' + map.controller + '/edit/' + map.fields.id.value
     });
     div.append(close).append(title).append(form);
     $('#content').prepend(div);
@@ -234,6 +236,26 @@ $(document).ready(function() {
     showModal(map);
   };
 
+  $.fn.editGenericEquation = function() {
+    var attr = $(this).attr('id');
+    var type = $(this).attr('class');
+    var id = parseInt(attr.replace(type + '-', ''));
+    var name = $(this).find('span.name').html();
+    var value = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'GenericEquation',
+      title: 'Edit Generic Equation', 
+      controller: 'generic_equations',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        right_hand_side: { label: 'Right Hand Side', type: 'text', value: value },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+  };
+
   $.fn.editGenericProcessAttribute = function() {
     var attr = $(this).attr('id');
     var type = $(this).attr('class');
@@ -253,7 +275,7 @@ $(document).ready(function() {
       }
     };
     showModal(map);
-  }
+  };
 
   $.fn.editConcreteAttribute = function() {
     var attr = $(this).attr('id');
@@ -296,6 +318,64 @@ $(document).ready(function() {
     };
     showModal(map);
   };
+
+  // ---- simulate click event! ----
+  $('#btnSimulate').click(function(e) {
+    e.preventDefault();
+    var id = model.UnifiedModel.id;
+    var url = '../simulate_lisp/' + id;
+
+    // set up the exogenous values
+    ex_values = exogenous_values.ExogenousValue.value;
+    lines = ex_values.split("\n");
+
+    var rows = {};
+    rows['values'] = {};
+    for(var i in lines) {
+      var line = lines[i];
+      if(i==0)
+        rows['names'] = line.trim().split(' ');
+      else
+        rows['values'][i-1] = line.trim().split(' ');
+    }
+    exogenous_values = rows;
+
+    $.get(url, function(response) {
+      eval(response);
+      console.log(data);
+      displaySimulationData(data);
+    });
+  });
+
+  function displaySimulationData(data) {
+    for(var i in data.names) {
+      var name = data.names[i].toLowerCase();
+      if(name == 'time')
+        continue;
+      var table = new google.visualization.DataTable();
+      table.addColumn('number', 'time');
+      table.addColumn('number', 'Simulated');
+      table.addColumn('number', 'Observed');
+      for(var j in data.values) {
+        var val = parseFloat(data.values[j][i].replace(/d/g, 'e+'));
+        var time = parseFloat(data.values[j][0].replace(/d/g, 'e+'));
+        var ex = parseFloat(exogenous_values.values[j][i]);
+        val = parseFloat(val.toFixed(2));
+        ex = parseFloat(ex.toFixed(2));
+        table.addRow([time, val, ex]);
+      }
+      var width = $('#right').width();
+      var options = {
+        width: width, height: 150, title: name, fontSize: 10, fontName: 'Helvetica, Arial',
+        legend: { position: 'bottom' }
+      };
+      var id = name.replace(/\./g, '-').replace(/_/g, '-');
+      var div = $('<div />').attr('id', 'chart-' + id).addClass('google-chart');
+      $('#google-chart').append(div);
+      var chart = new google.visualization.LineChart(document.getElementById('chart-' + id));
+      chart.draw(table, options);
+    }    
+  }
 
   // ---- entry point ----
   // grabExogenousData();
