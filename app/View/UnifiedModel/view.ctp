@@ -143,7 +143,7 @@ foreach($generic_entities as $e) {
     $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
   printf('<span class="type">entity</span> <span class="name">%s</span>(?x) {<br>', $e['GenericEntity']['name']);
   foreach($e['GenericAttribute'] as $a) {
-    printf('<div class="generic-attribute">');
+    printf('<div class="generic-attribute" id="generic-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'generic_attribute', 'action'=>'delete', $a['id'],
       $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
     printf('.<span class="name">%s</span> = <span class="value">%s</span>;<br>', $a['name'], $a['value']);

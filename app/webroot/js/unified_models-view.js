@@ -183,6 +183,7 @@ $(document).ready(function() {
     $('div.concrete-equation').click(function() { $(this).editConcreteEquation(); });
     $('div.generic-process-attribute').click(function() { $(this).editGenericProcessAttribute(); });
     $('div.generic-equation').click(function() { $(this).editGenericEquation(); });
+    $('div.generic-attribute').click(function() { $(this).editGenericAttribute(); });
   }
 
   function showModal(map) {
@@ -235,6 +236,28 @@ $(document).ready(function() {
     };
     showModal(map);
   };
+
+  $.fn.editGenericAttribute = function() {
+    var attr = $(this).attr('id');
+    var type = $(this).attr('class');
+    var id = parseInt(attr.replace(type + '-', ''));
+    var name = $(this).find('span.name').html();
+    var value = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'GenericAttribute',
+      title: 'Edit Generic Attribute',
+      controller: 'generic_attributes',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        name: { label: 'Name', type: 'text', value: name },
+        value: { label: 'Value', type: 'text', value: value },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+  };
+    
 
   $.fn.editGenericEquation = function() {
     var attr = $(this).attr('id');
