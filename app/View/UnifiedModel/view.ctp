@@ -284,15 +284,17 @@ foreach($concrete_entities as $e) {
     printf('</div>');
   }*/
   foreach($e['ConcreteAttribute'] as $a) {
-    echo $this->Html->link('×', array('controller'=>'concrete_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
-      array('class'=>'btnDelete'));
+    // REMOVE CONCRETE
+    // echo $this->Html->link('×', array('controller'=>'concrete_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
+    //   array('class'=>'btnDelete'));
     printf('<div class="concrete-attribute" id="concrete-attribute-%s">', $a['id']);
     printf('.<span class="name" >%s</span> = <span class="value" >%s</span>;', $a['name'], $a['value']);
     printf('</div>');
   }
   printf('<div id="concrete-expand-%s" data-expand-id="generic-entity-%s" class="expand"></div>', $e['ConcreteEntity']['id'], $e['GenericEntity']['id']);
   // printf('<a class="expand" data-expand-id="concrete-expand-%s">&#x25bc;</a>', $e['ConcreteEntity']['id']);
-  printf('<a href="#" class="btn" data-reveal-id="add-concrete-attribute-%s">&plus;Attribute</a><br>', $e['ConcreteEntity']['id']);
+  // REMOVE CONCRETE
+  // printf('<a href="#" class="btn" data-reveal-id="add-concrete-attribute-%s">&plus;Attribute</a><br>', $e['ConcreteEntity']['id']);
   printf('}');
   printf('</div>');
 }
@@ -319,8 +321,9 @@ foreach($concrete_processes as $p) {
   // attributes go here
   foreach($p['ConcreteProcessAttribute'] as $a) {
     printf('<div class="concrete-process-attribute" id="concrete-process-attribute-%s">', $a['id']);
-    echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
-      array('class'=>'btnDelete'));
+    // REMOVE CONCRETE
+    // echo $this->Html->link('×', array('controller'=>'concrete_process_attributes', 'action'=>'delete', $a['id'], $model['UnifiedModel']['id']),
+    // array('class'=>'btnDelete'));
     printf('<span class="name" >%s</span> = ', $a['name']);
     printf('<span class="value"  data-model="ConcreteProcessAttribute" data-type="concrete_process_attributes" data-id="%d" data-name="value">%s</span>;', $a['id'], $a['value']);
     printf('</div>');
@@ -335,7 +338,8 @@ foreach($concrete_processes as $p) {
   echo $this->Form->input('model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
   echo $this->Form->end('Add Attribute');
   printf('</div>');
-  printf('<a href="#" class="btn" data-reveal-id="add-concrete-process-attribute-%s">&plus;Attribute</a><br>', $p['ConcreteProcess']['id']);
+  // REMOVE-CONCRETE
+  // printf('<a href="#" class="btn" data-reveal-id="add-concrete-process-attribute-%s">&plus;Attribute</a><br>', $p['ConcreteProcess']['id']);
   
   // equations go here
   printf('<div class="reveal-modal" id="add-concrete-equation-%s">', $p['ConcreteProcess']['id']);
@@ -353,8 +357,9 @@ foreach($concrete_processes as $p) {
   
   foreach($concrete_equations[$p['ConcreteProcess']['id']] as $q) {
     printf('<div class="concrete-equation" id="concrete-equation-%s">', $q['ConcreteEquation']['id']);
-    echo $this->Html->link('×', array('controller'=>'concrete_equations', 'action'=>'delete', $q['ConcreteEquation']['id'], $model['UnifiedModel']['id']),
-      array('class'=>'btnDelete'));
+    // REMOVE-CONCRETE
+    // echo $this->Html->link('×', array('controller'=>'concrete_equations', 'action'=>'delete', $q['ConcreteEquation']['id'], $model['UnifiedModel']['id']),
+    //   array('class'=>'btnDelete'));
     if($q['ConcreteEquation']['is_algebraic'] == 1) {
       // algebraic eq
       printf('<span class="name" id="%s">%s</span>.<span class="attr">%s</span>', $q['ConcreteEntity']['id'], $q['ConcreteEntity']['name'], 
@@ -367,7 +372,8 @@ foreach($concrete_processes as $p) {
     printf('</div>');
   }
   
-  printf('<a href="#" class="btn" data-reveal-id="add-concrete-equation-%s">&plus;Equation</a></a><br>', $p['ConcreteProcess']['id']);
+  // REMOVE-CONCRETE
+  // printf('<a href="#" class="btn" data-reveal-id="add-concrete-equation-%s">&plus;Equation</a></a><br>', $p['ConcreteProcess']['id']);
   printf('}');
   printf('</div>');
 }

@@ -44,6 +44,10 @@ class UnifiedModelsController extends AppController {
        'GenericEntity.unified_model_id'=>$id)));
     $generic_process_attributes = $this->UnifiedModel->GenericProcess->GenericProcessAttribute->find('all', 
        array('conditions'=>array('GenericProcess.unified_model_id'=>$id)));
+    $concrete_process_attributes = $this->UnifiedModel->ConcreteProcess->ConcreteProcessAttribute->find('all',
+       array('conditions'=>array('ConcreteProcess.unified_model_id'=>$id),
+             'fields'=>array('ConcreteProcessAttribute.name',
+                             'ConcreteProcessAttribute.value')));
 
     // grab the variables, by entity id
     $generic_variables = array();
@@ -83,6 +87,7 @@ class UnifiedModelsController extends AppController {
     $this->set('generic_equation_list', $generic_equation_list);
     $this->set('generic_entity_list', $generic_entity_list);
     $this->set('generic_process_attributes', $generic_process_attributes);
+    $this->set('concrete_process_attributes', $concrete_process_attributes);
   }
 
   public function lisp_concrete($id = null) {

@@ -68,8 +68,16 @@ foreach($generic_processes as $i=>$gp) {
     $rhs = str_replace('?', '', $rhs);
 
     // loop through process attributes, replacing with values
+    // first do concrete process attributes, then generic process attributes
+
+    foreach($concrete_process_attributes as $cpa) {
+      $name = $cpa['ConcreteProcessAttribute']['name'];
+      $value = $cpa['ConcreteProcessAttribute']['value'];
+      $rhs = str_replace($name, $value, $rhs);
+    }
+
     foreach($gp['GenericProcessAttribute'] as $gpa) {
-      $rhs = str_replace($gpa['name'], $gpa['value'], $rhs);
+        $rhs = str_replace($gpa['name'], $gpa['value'], $rhs);
     }
 
     $tokens = split(' ', $rhs);
