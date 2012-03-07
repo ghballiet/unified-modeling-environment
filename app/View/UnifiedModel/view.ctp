@@ -235,7 +235,32 @@ foreach($generic_processes as $p) {
     printf('</div>');
   }
   printf('<a href="#" class="btn" data-reveal-id="add-generic-equation-%s">&plus;Equation</a><br>', $p['GenericProcess']['id']);
+  
+  // ---- generic conditions ----
+  printf('<div id="add-generic-condition-%s" class="reveal-modal">', $p['GenericProcess']['id']);
+  echo $this->Html->tag('h1', 'Add Generic Process Condition');
+  echo $this->Form->create('GenericCondition', array('controller'=>'generic_conditions', 'action'=>'create'),
+                           array('inputDefaults'=>array('required'=>'true')));
+  echo $this->Form->input('value', array('placeholder'=>'True for this process to execute.'));
+  echo $this->Form->input('generic_process_id', array('type'=>'hidden', 'value'=>$p['GenericProcess']['id']));
+  echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
+  echo $this->Form->end('Add Condition');
+  printf('</div>');
+
+
+  printf('<a href="#" class="btn" data-reveal-id="add-generic-condition-%s">&plus;Condition</a><br>', $p['GenericProcess']['id']);
+  
+  // end of process
   printf('}');
+  if(sizeof($p['GenericCondition']) > 0) {
+    printf(' if(');
+    foreach($p['GenericCondition'] as $i=>$gc) {
+      printf('<span class="condition">%s</span>', $gc['value']);
+      if(sizeof($p['GenericCondition']) > 1 && $i != sizeof($p['GenericCondition']) - 1)
+        printf(' and ');
+    }    
+    printf(')');
+  }
   printf('</div>');
 }
 ?>
@@ -374,7 +399,17 @@ foreach($concrete_processes as $p) {
   
   // REMOVE-CONCRETE
   // printf('<a href="#" class="btn" data-reveal-id="add-concrete-equation-%s">&plus;Equation</a></a><br>', $p['ConcreteProcess']['id']);
-  printf('}');
+  printf('}'); // end of concrete process
+  // ---- concrete conditions ----
+  if(sizeof($p['ConcreteCondition']) > 0) {
+    printf(' if(');
+    foreach($p['ConcreteCondition'] as $i=>$cc) {
+      printf('<span class="condition">%s</span>', $cc['value']);
+      if(sizeof($p['ConcreteCondition']) > 1 && $i != sizeof($p['ConcreteCondition']) - 1)
+        printf(' and ');
+    }    
+    printf(')');
+  }
   printf('</div>');
 }
 ?>        

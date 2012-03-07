@@ -28,7 +28,8 @@ $(document).ready(function() {
        $(this).attr('id') == 'ExogenousValueValue' ||
        $(this).attr('id') == 'EmpiricalObservationValue' || 
        $(this).attr('name') == 'data[GenericEquation][right_hand_side]' || 
-       $(this).attr('name') == 'data[ConcreteEquation][right_hand_side]')
+       $(this).attr('name') == 'data[ConcreteEquation][right_hand_side]' || 
+       $(this).attr('id') == 'GenericConditionValue')
       return true;
     if(e.keyCode == 32) {
       e.preventDefault();

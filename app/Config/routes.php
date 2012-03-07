@@ -43,6 +43,8 @@ Router::connect('/concrete_process_attributes/:action/*', array('controller'=>'c
 Router::connect('/concrete_equations/:action/*', array('controller'=>'concrete_equations'));
 Router::connect('/exogenous_values/:action/*', array('controller'=>'exogenous_values'));
 Router::connect('/empirical_observations/:action/*', array('controller'=>'empirical_observations'));
+Router::connect('/generic_conditions/:action/*', array('controller'=>'generic_conditions'));
+Router::connect('/concrete_conditions/:action/*', array('controller'=>'concrete_conditions'));
 Router::connect('/:action/*', array('controller'=>'users'));
 Router::connect('/', array('controller'=>'users', 'action'=>'models'));
 
