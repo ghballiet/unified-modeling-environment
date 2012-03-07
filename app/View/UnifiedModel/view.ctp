@@ -255,7 +255,7 @@ foreach($generic_processes as $p) {
   if(sizeof($p['GenericCondition']) > 0) {
     printf(' if(');
     foreach($p['GenericCondition'] as $i=>$gc) {
-      printf('<span class="condition">%s</span>', $gc['value']);
+      printf('<span class="generic-condition condition" id="generic-condition-%s">%s</span>', $gc['id'], $gc['value']);
       if(sizeof($p['GenericCondition']) > 1 && $i != sizeof($p['GenericCondition']) - 1)
         printf(' and ');
     }    
@@ -404,7 +404,7 @@ foreach($concrete_processes as $p) {
   if(sizeof($p['ConcreteCondition']) > 0) {
     printf(' if(');
     foreach($p['ConcreteCondition'] as $i=>$cc) {
-      printf('<span class="condition">%s</span>', $cc['value']);
+      printf('<span class="concrete-condition condition" id="concrete-condition-%s">%s</span>', $cc['id'], $cc['value']);
       if(sizeof($p['ConcreteCondition']) > 1 && $i != sizeof($p['ConcreteCondition']) - 1)
         printf(' and ');
     }    

@@ -29,7 +29,9 @@ $(document).ready(function() {
        $(this).attr('id') == 'EmpiricalObservationValue' || 
        $(this).attr('name') == 'data[GenericEquation][right_hand_side]' || 
        $(this).attr('name') == 'data[ConcreteEquation][right_hand_side]' || 
-       $(this).attr('id') == 'GenericConditionValue')
+       $(this).attr('id') == 'GenericConditionValue' || 
+       $(this).attr('name') == 'data[GenericCondition][value]' || 
+       $(this).attr('name') == 'data[ConcreteCondition][value]')
       return true;
     if(e.keyCode == 32) {
       e.preventDefault();
@@ -185,16 +187,16 @@ $(document).ready(function() {
     $('div.generic-process-attribute').click(function() { $(this).editGenericProcessAttribute(); });
     $('div.generic-equation').click(function() { $(this).editGenericEquation(); });
     $('div.generic-attribute').click(function() { $(this).editGenericAttribute(); });
+    $('span.generic-condition').click(function() { $(this).editGenericCondition(); });
   }
 
   function showModal(map) {
-    console.log(map);
-    var div = $('<div />').addClass('reveal-modal');
+    var div = $('<div />').addClass('reveal-modal').addClass(map.controller);
     var title = $('<h1 />').html(map.title);
     var close = $('<a />').html('&#215;').addClass('close-reveal-modal').attr('href','#');
     var form = $('<form />').attr({
       method: 'post',
-      action: '/ume/' + map.controller + '/edit/' + map.fields.id.value
+      action: '../../' + map.controller + '/edit/' + map.fields.id.value
     });
     div.append(close).append(title).append(form);
     $('#content').prepend(div);
@@ -217,6 +219,28 @@ $(document).ready(function() {
   }
 
   // ---- extension functions here ----  
+  $.fn.editGenericCondition = function() {
+    var attr = $(this).attr('id');
+    var type = 'generic-condition';
+    var id = parseInt(attr.replace(type + '-', ''));
+    var value = $(this).text();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'GenericCondition',
+      title: 'Edit Generic Process Condition',
+      controller: 'generic_conditions',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        value: { label: 'Value', type: 'text', value: value },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+    var delLink = $('<a />').addClass('btnDelete').html('Delete Condition');
+    delLink.attr('href', '../../' + map.controller + '/delete/' + id + '/' + modelId);
+    $('div.reveal-modal.generic_conditions').append(delLink);
+  };
+
   $.fn.editConcreteProcessAttribute = function() {
     var attr = $(this).attr('id');
     var type = $(this).attr('class');

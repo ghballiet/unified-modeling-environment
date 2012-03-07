@@ -144,5 +144,6 @@ create table if not exists generic_conditions (
 create table if not exists concrete_conditions (
   id integer primary key autoincrement,
   value varchar(500),
-  concrete_process_id integer
+  concrete_process_id integer,
+  generic_condition_id integer
 );

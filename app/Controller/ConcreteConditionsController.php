@@ -10,7 +10,7 @@ class ConcreteConditionsController extends AppController {
   }
 
   public function delete($id = null, $model = null) {
-    if($this->request->is('post') && $this->ConcreteCondition->delete($id)) {
+    if($this->ConcreteCondition->delete($id)) {
       $this->Session->setFlash('Condition successfully deleted.');
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
     }
