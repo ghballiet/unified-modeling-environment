@@ -7989,3 +7989,33 @@
 #1 /d1/www/html/cll/ume/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
 #2 /d1/www/html/cll/ume/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #3 {main}
+2012-03-06 16:32:16 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume-rules/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-03-06 16:32:16 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume-rules/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-03-06 16:32:23 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume-rules/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-03-06 16:32:33 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume-rules/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-03-06 16:32:33 Error: [MissingActionException] Action UserController::css() could not be found.
+#0 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume-rules/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
+2012-03-06 16:32:40 Error: [MissingActionException] Action UserController::js() could not be found.
+#0 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(104): Controller->invokeAction(Object(CakeRequest))
+#1 /d1/www/html/cll/ume-rules/lib/Cake/Routing/Dispatcher.php(86): Dispatcher->_invoke(Object(UsersController), Object(CakeRequest), Object(CakeResponse))
+#2 /d1/www/html/cll/ume-rules/app/webroot/index.php(96): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}

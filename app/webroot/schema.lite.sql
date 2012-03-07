@@ -134,3 +134,15 @@ create table if not exists empirical_observations (
   value longtext, 
   unified_model_id integer
 );
+
+create table if not exists generic_conditions (
+  id integer primary key autoincrement,
+  value varchar(500),
+  generic_process_id integer
+);
+
+create table if not exists concrete_conditions (
+  id integer primary key autoincrement,
+  value varchar(500),
+  concrete_process_id integer
+);
