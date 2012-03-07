@@ -373,6 +373,8 @@ $(document).ready(function() {
     var id = model.UnifiedModel.id;
     var url = '../simulate_lisp/' + id;
 
+    $('#simulating-msg').reveal({closeonbackgroundclick: false});
+
     // set up the exogenous values
     ex_values = exogenous_values.ExogenousValue.value;
     lines = ex_values.split("\n");
@@ -389,6 +391,7 @@ $(document).ready(function() {
     exogenous_values = rows;
 
     $.get(url, function(response) {
+      $('#simulating-msg').trigger('reveal:close');
       eval(response);
       console.log(data);
       displaySimulationData(data);

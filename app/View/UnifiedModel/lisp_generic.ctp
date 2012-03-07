@@ -79,7 +79,8 @@ foreach($generic_processes as $i=>$gp) {
     foreach($gp['GenericProcessAttribute'] as $gpa) {
         $rhs = str_replace($gpa['name'], $gpa['value'], $rhs);
     }
-
+    
+    // convert equations to postfix notation
     $tokens = split(' ', $rhs);
     $rhs_str = '';
     $vars = array();
@@ -112,6 +113,100 @@ foreach($generic_processes as $i=>$gp) {
       printf("\n");
   }
   printf(")\n");
+  // ---- conditions ----
+  printf("    :conditions (");
+  if(sizeof($gp['GenericCondition']) > 1)
+    printf("(and ");
+  foreach($gp['GenericCondition'] as $k=>$gc) {
+    if($k!=0)
+      printf("                      ");
+    // convert the condition to postfix notation
+    $val = $gc['value'];
+    $val_str = '';
+    $vars = array();
+    $val = str_replace('?', '', $val);
+    $op_regex = '/[>=|<=|<|>|=]/';
+    $operand = null;
+    preg_match($op_regex, $val, $operand);
+    $operand = $operand[0];
+    $tokens = preg_split($op_regex, $val);
+    foreach($tokens as $m=>$t)
+      $tokens[$m] = trim($t);
+    $left = $tokens[0];
+    $lstr = '';
+    $right = $tokens[1];
+    $rstr = '';
+    $ltokens = split(' ', $left);
+    $rtokens = split(' ', $right);
+
+    // parse left hand side
+    if(sizeof($ltokens) == 1) {
+      if(!is_numeric($left))
+        $lstr = sprintf('"%s"', $left);
+      else
+        $lstr = $left;
+    } else {
+      for($n=0; $n<=sizeof($ltokens); $n+=2) {
+        if($n==2) {
+          $first = $ltokens[$n-2];
+          $op = $ltokens[$n-1];
+          $second = $ltokens[$n];
+          if(!is_numeric($first))
+            $first = sprintf('"%s"', $first);
+          if(!is_numeric($second))
+            $second = sprintf('"%s"', $second);
+          $lstr = sprintf('(%s %s %s)', $op, $first, $second);
+        } else {
+          if(!array_key_exists($n-1, $ltokens))
+            continue;
+          $arg = $ltokens[$n];
+          $op = $ltokens[$n-1];
+          if(!is_numeric($arg))
+            $arg = sprintf('"%s"', $arg);
+          $lstr = sprintf('(%s %s %s)', $op, $lstr, $arg);
+        }      
+      }
+    }
+
+    // parse right hand side
+    if(sizeof($rtokens) == 1) {
+      if(!is_numeric($right))
+        $rstr = sprintf('"%s"', $right);
+      else
+        $rstr = $right;
+    } else {
+      for($n=0; $n<=sizeof($rtokens); $n+=2) {
+        if($n==2) {
+          $first = $rtokens[$n-2];
+          $op = $rtokens[$n-1];
+          $second = $rtokens[$n];
+          if(!is_numeric($first))
+            $first = sprintf('"%s"', $first);
+          if(!is_numeric($second))
+            $second = sprintf('"%s"', $second);
+          $rstr = sprintf('(%s %s %s)', $op, $first, $second);
+        } else {
+          if(!array_key_exists($n-1, $rtokens))
+            continue;
+          $arg = $rtokens[$n];
+          $op = $rtokens[$n-1];
+          if(!is_numeric($arg))
+            $arg = sprintf('"%s"', $arg);
+          $rstr = sprintf('(%s %s %s)', $op, $lstr, $arg);
+        }      
+      }      
+    }
+    
+    $val_str = sprintf("(%s %s %s)", $operand, $lstr, $rstr);
+    printf("(%s)", $val_str);
+    if($k != sizeof($gp['GenericCondition']) - 1)
+      printf("\n");
+  }
+  if(sizeof($gp['GenericCondition']) > 1)
+    printf(")");
+  printf(")\n");
+
+  // ---- entity roles ----
   printf("    :entity-roles (");
   foreach($gp['GenericProcessArgument'] as $l=>$ga) {
     if($l!=0)

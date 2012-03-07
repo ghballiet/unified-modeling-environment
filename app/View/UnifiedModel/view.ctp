@@ -63,6 +63,11 @@ foreach($arr['data'] as $h=>$row) {
 ?>
 </script>
 
+<div id="simulating-msg" class="reveal-modal">
+<h1>Simulating...</h1>
+<? echo $this->Html->image('ajax_loader.gif'); ?>
+</div>
+
 <?
 echo $this->Html->link('Delete Model', '#', array('data-delete-url'=>$this->Html->url(array(
   'controller'=>'unified_models', 'action'=>'delete', $model['UnifiedModel']['id'])), 
