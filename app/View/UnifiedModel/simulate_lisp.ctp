@@ -61,9 +61,10 @@ $results = shell_exec($cmd);
 echo file_get_contents($output_file);
 
 // delete the files
-unlink($glib_file);
-unlink($ilib_file);
-unlink($data_file);
-unlink($output_file);
-unlink($lisp_file);
+// unlink($glib_file);
+// unlink($ilib_file);
+// unlink($data_file);
+// unlink($output_file);
+// unlink($lisp_file);
+// unlink($error_file);
 ?>

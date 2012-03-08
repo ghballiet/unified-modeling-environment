@@ -392,6 +392,7 @@ $(document).ready(function() {
 
     $.get(url, function(response) {
       $('#simulating-msg').trigger('reveal:close');
+      console.log(response);
       eval(response);
       console.log(data);
       displaySimulationData(data);

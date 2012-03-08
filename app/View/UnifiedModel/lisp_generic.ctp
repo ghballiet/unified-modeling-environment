@@ -197,8 +197,9 @@ foreach($generic_processes as $i=>$gp) {
       }      
     }
     
+    
     $val_str = sprintf("(%s %s %s)", $operand, $lstr, $rstr);
-    printf("(%s)", $val_str);
+    printf("%s", $val_str);
     if($k != sizeof($gp['GenericCondition']) - 1)
       printf("\n");
   }
