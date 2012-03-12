@@ -391,11 +391,17 @@ $(document).ready(function() {
     exogenous_values = rows;
 
     $.get(url, function(response) {
-      $('#simulating-msg').trigger('reveal:close');
       console.log(response);
-      eval(response);
-      console.log(data);
-      displaySimulationData(data);
+      if(response.indexOf('ERROR:' == 0)) {
+        $('#simulating-msg img').fadeOut('fast', function() {
+          $('#simulating-msg pre').html(response).fadeIn('fast');
+        });
+      } else {
+        $('#simulating-msg').trigger('reveal:close');
+        eval(response);
+        console.log(data);
+        displaySimulationData(data);
+      }
     });
   });
 

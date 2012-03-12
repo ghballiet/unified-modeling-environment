@@ -66,6 +66,7 @@ foreach($arr['data'] as $h=>$row) {
 <div id="simulating-msg" class="reveal-modal">
 <h1>Simulating...</h1>
 <? echo $this->Html->image('ajax_loader.gif'); ?>
+<pre></pre>
 </div>
 
 <?

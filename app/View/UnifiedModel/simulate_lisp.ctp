@@ -59,7 +59,16 @@ chdir($output_dir);
 // added ulimit in order to make sure we don't get any runaway processes
 $cmd = sprintf('ulimit -t 8; sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
 $results = shell_exec($cmd);
-echo file_get_contents($output_file);
+
+$output = file_get_contents($output_file);
+$errors = file_get_contents($error_file);
+
+if($output == '') {
+  $lines = split("\n", $errors);
+  echo sprintf('ERROR: %s', trim($lines[2]));
+} else {
+  echo $output;
+}
 
 // delete the files
 unlink($glib_file);

@@ -20,6 +20,7 @@ class MathHelper extends AppHelper {
     $rparens = array();
     $output = '';
     $num_vars = 0;
+    $close_function = false;
 
     // loop through each set of attributes, replacing the values as we
     // go 
@@ -51,6 +52,12 @@ class MathHelper extends AppHelper {
         if($t == '_') {
           $output .= '-';
           continue;
+        } else if (strrpos($t, '(') != false) {
+          // it's a function!
+          $func = str_replace('(', '', $t);
+          $output .= sprintf('(%s ', $func);
+          $close_function = true;
+          continue;
         }
         $num_vars++;
         $t = preg_replace('/_/', '.', $t, 1);
@@ -60,8 +67,12 @@ class MathHelper extends AppHelper {
           $num_vars = 0;
           $output .= sprintf('%s%s', $t, array_pop($rparens));
         } else {
-          $output .= sprintf('%s ', $t);
-        }
+          $output .= sprintf('%s', $t);
+          if(!$close_function)
+            $output .= ' ';
+        }        
+        if($close_function)
+          $output .= ') ';
       }
     }
 
@@ -151,7 +162,7 @@ class MathHelper extends AppHelper {
     $expecting_op = false; // we use this in syntax-checking the expression
     // and determining when a - is a negation
     
-    if (preg_match("/[^\w\s+*^\/()\.,-<>=]/", $expr, $matches)) { // make sure the characters are all good
+    if (preg_match("/[^\w\s+*^\/()\.,-<>=\#]/", $expr, $matches)) { // make sure the characters are all good
       return $this->trigger("illegal character '{$matches[0]}'");
     }
     
