@@ -53,6 +53,12 @@ foreach($generic_entities as $l=>$ge) {
   :process-list
   (<?
 foreach($generic_processes as $i=>$gp) {
+  $constants = array();
+  foreach($gp['GenericProcessAttribute'] as $gpa)
+    $constants[$gpa['name']] = $gpa['value'];
+  foreach($concrete_process_attributes as $cpa)
+    $constants[$cpa['ConcreteProcessAttribute']['name']] = $cpa['ConcreteProcessAttribute']['value'];
+
   if($i!=0)
     printf("   ");
   printf('(:name "%s"', $gp['GenericProcess']['name']);
@@ -69,6 +75,11 @@ foreach($generic_processes as $i=>$gp) {
     // convert to postfix
     $rhs_str = $this->Math->toLisp($rhs, $gp['GenericProcessAttribute'],
                                    $concrete_process_attributes);
+
+    foreach($constants as $name=>$value) {
+      $name = strtolower($name);
+      $rhs_str = str_replace(sprintf('"%s"', $name), $value, $rhs_str);
+    }
 
     if($ge['GenericEquation']['is_algebraic'] == 1)
       printf('(ALG ');
@@ -92,12 +103,31 @@ foreach($generic_processes as $i=>$gp) {
     $val_str = $this->Math->toLisp($val, $gp['GenericProcessAttribute'], 
                                    $concrete_process_attributes);
 
+    foreach($constants as $name=>$value) {
+      $name = strtolower($name);
+      $val_str = str_replace(sprintf('"%s"', $name), $value, $val_str);
+    }
+
     printf("%s", $val_str);
     if($k != sizeof($gp['GenericCondition']) - 1)
       printf("\n");
   }
   if(sizeof($gp['GenericCondition']) > 1)
     printf(")");
+  printf(")\n");
+
+  // ---- constants ---- 
+  printf("    :constants (");
+  $o = 0;
+  foreach($constants as $name=>$value) {
+    $name = strtolower($name);
+    if($o!=0)
+      printf('                ');
+    printf('(:name "%s" :lower-bound %s :upper-bound %s)', $name, $value, $value);
+    if($o != sizeof($constants) - 1)
+      printf("\n");
+    $o++;
+  }
   printf(")\n");
 
   // ---- entity roles ----

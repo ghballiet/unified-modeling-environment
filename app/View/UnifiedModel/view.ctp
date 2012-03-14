@@ -64,6 +64,7 @@ foreach($arr['data'] as $h=>$row) {
 </script>
 
 <div id="simulating-msg" class="reveal-modal">
+<a class="close-reveal-modal">&#215;</a>
 <h1>Simulating...</h1>
 <? echo $this->Html->image('ajax_loader.gif'); ?>
 <pre></pre>
@@ -150,7 +151,7 @@ foreach($generic_entities as $e) {
   printf('<span class="type">entity</span> <span class="name">%s</span>(?x) {<br>', $e['GenericEntity']['name']);
   foreach($e['GenericAttribute'] as $a) {
     printf('<div class="generic-attribute" id="generic-attribute-%s">', $a['id']);
-    echo $this->Html->link('×', array('controller'=>'generic_attribute', 'action'=>'delete', $a['id'],
+    echo $this->Html->link('×', array('controller'=>'generic_attributes', 'action'=>'delete', $a['id'],
       $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
     printf('.<span class="name">%s</span> = <span class="value">%s</span>;<br>', $a['name'], $a['value']);
     printf('</div>');

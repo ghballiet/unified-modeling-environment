@@ -64,8 +64,8 @@ $output = file_get_contents($output_file);
 $errors = file_get_contents($error_file);
 
 if($output == '') {
-  $lines = split("\n", $errors);
-  echo sprintf('ERROR: %s', trim($lines[2]));
+  echo "ERROR: ";
+  echo $errors;
 } else {
   echo $output;
 }

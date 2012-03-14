@@ -392,9 +392,13 @@ $(document).ready(function() {
 
     $.get(url, function(response) {
       console.log(response);
-      if(response.indexOf('ERROR:' == 0)) {
+      var idx = response.indexOf('var data');
+      if(idx == -1) {
+        var stop = response.indexOf('0: (');
+        var msg = response.substring(0, stop - 1);
         $('#simulating-msg img').fadeOut('fast', function() {
-          $('#simulating-msg pre').html(response).fadeIn('fast');
+          $('#simulating-msg pre').html(msg).fadeIn('fast');
+          $('#simulating-msg a.close-reveal-modal').fadeIn('fast');
         });
       } else {
         $('#simulating-msg').trigger('reveal:close');

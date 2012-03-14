@@ -21,10 +21,12 @@ class MathHelper extends AppHelper {
     $output = '';
     $num_vars = 0;
     $close_function = false;
+    $cond_op = false;
+    $cond_op_first = null;
 
     // loop through each set of attributes, replacing the values as we
     // go 
-    foreach($conc_attrs as $cpa) {
+    /*foreach($conc_attrs as $cpa) {
       $name = $cpa['ConcreteProcessAttribute']['name'];
       $value = $cpa['ConcreteProcessAttribute']['value'];
       $rhs = str_replace($name, $value, $rhs);
@@ -33,21 +35,31 @@ class MathHelper extends AppHelper {
     foreach($gen_attrs as $gpa) {
       $rhs = str_replace($gpa['name'], $gpa['value'], $rhs);
     }
+    */
     
-    preg_match_all('/(\w+\.\D+)/', $rhs, $vars);
+    preg_match_all('/\w+\.\w+/', $rhs, $vars);
+    $translated = array();
     foreach($vars as $v) {
-      $w = str_replace('.', '_', $v);
-      $rhs = str_replace($v, $w, $rhs);
-    }
+      foreach($v as $x) {
+        if(is_numeric($x))
+          continue;
+        $num = preg_match('/x[0-9]+\.\w+/', $x, $matches);      
+        $w = str_replace('.', '_', $x);
+        $translated[$w] = $x;
+        $rhs = str_replace($x, $w, $rhs);        
+      }
+    }    
     
     $tokens = array_reverse($this->nfx($rhs));
 
     foreach($tokens as $i=>$t) {
       $is_op = (preg_match('/\W/', $t) === 1 && strlen($t) == 1);
       if($is_op) {
+        if($t == '>' || $t == '<')
+          $cond_op = true;
         $num_vars = 0;
         $output .= sprintf('(%s ', $t);
-        $rparens[] = ')';        
+        $rparens[] = ')';
       } else {
         if($t == '_') {
           $output .= '-';
@@ -58,9 +70,14 @@ class MathHelper extends AppHelper {
           $output .= sprintf('(%s ', $func);
           $close_function = true;
           continue;
+        } else if ($cond_op == true && $cond_op_first == null) {
+          $cond_op_first = $t;
+          continue;
         }
         $num_vars++;
-        $t = preg_replace('/_/', '.', $t, 1);
+        if(isset($translated[$t]))
+          $t = $translated[$t];
+        // $t = preg_replace('/_/', '.', $t, 1);
         if(!is_numeric($t))
           $t = sprintf('"%s"', $t);
         if($num_vars == 2) {
@@ -71,8 +88,24 @@ class MathHelper extends AppHelper {
           if(!$close_function)
             $output .= ' ';
         }        
-        if($close_function)
+        if($close_function) {
           $output .= ') ';
+          $close_function = false;
+        } else if ($cond_op == true && $cond_op_first != null) {
+          $cond_op_first = preg_replace('/_/', '.', $cond_op_first, 1);
+          if(!is_numeric($cond_op_first))
+            $cond_op_first = sprintf('"%s"', $cond_op_first);
+          if($num_vars == 2) {
+            $num_vars = 0;
+            $output .= sprintf('%s%s', $cond_op_first, array_pop($rparens));
+          } else {
+            $output .= sprintf('%s', $cond_op_first);
+            if(!$close_function)
+              $output .= ' ';
+          }          
+          $cond_op = false;
+          $cond_op_first = null;
+        }
       }
     }
 

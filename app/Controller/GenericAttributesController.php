@@ -9,8 +9,8 @@ class GenericAttributesController extends AppController {
     }
   }
 
-  public function delete($id = null, $model) {
-    if($this->GenericAttributesController->delete($id)) {
+  public function delete($id = null, $model = null) {
+    if($this->GenericAttribute->delete($id)) {
       $this->Session->setFlash('Attribute successfully deleted.');
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model));
     }
