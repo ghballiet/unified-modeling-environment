@@ -433,11 +433,15 @@ foreach($concrete_processes as $p) {
 <?
 $ex_text = '';
 echo $this->Html->tag('h1', 'Edit Data File');
-if($exogenous_values != null)
+if($exogenous_values != null) {
   $ex_text = $exogenous_values['ExogenousValue']['value'];
+  $ex_step = $exogenous_values['ExogenousValue']['step_size'];
+}
 echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
-echo $this->Form->input('value', array('value'=>$ex_text));
+echo $this->Form->input('step_size', array('type'=>'number', 'min'=>'1', 'max'=>'100',
+                                           'placeholder'=>'The step size, from 1 to 100.', 'value'=>$ex_step));
+echo $this->Form->input('value', array('value'=>$ex_text, 'placeholder'=>'Type or copy/paste the data here.'));
 echo $this->Form->end('Save Data');
 ?>
     </div>
@@ -445,8 +449,9 @@ echo $this->Form->end('Save Data');
 <?
 $eo_text = '';
 echo $this->Html->tag('h1', 'Edit Empirical Data');
-if($empirical_data != null)
+if($empirical_data != null) {
   $eo_text = $empirical_data['EmpiricalObservation']['value'];
+}
 echo $this->Form->create('EmpiricalObservation', array('controller'=>'empirical_observations',
                                                        'action'=>'edit'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
@@ -455,7 +460,6 @@ echo $this->Form->end('Save Data');
 ?>
     </div>
     <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Data File</a>
-    <!-- <a href="#" data-reveal-id="empirical-data" class="btn">Edit Empirical Data</a> -->
     <a href="#" class="btn" id="btnSimulate">Simulate</a>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',

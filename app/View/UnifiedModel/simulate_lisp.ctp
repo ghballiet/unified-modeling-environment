@@ -3,6 +3,38 @@
 $model_id = $model['UnifiedModel']['id'];
 $data = $exogenous_data['ExogenousValue']['value'];
 
+// add step sizes to the data file
+$steps = $exogenous_data['ExogenousValue']['step_size'];
+if($steps != null) {
+  $step_size = 1.00 / floatval($steps);
+  $step_size = floatval(sprintf("%-.4f", $step_size));
+  $lines = explode("\n", $data);
+  $full_lines = array();
+  foreach($lines as $i=>$line) {
+    if($i == 0) {
+      $full_lines[0] = $line;
+      continue;
+    }
+    $line = trim($line);
+    $full_lines[] = $line;
+    $tokens = explode(' ', $line);
+    $timestep = intval($tokens[0]);
+    $value = $tokens[1];
+
+    // now, add the timesteps
+    for($j=1; $j<intval($steps); $j++) {
+      $arr = array();
+      $arr[0] = ($step_size * $j) + $timestep;
+      $arr[1] = $value;
+      $full_lines[] = join(' ', $arr);
+    }
+  }
+
+  $full = join("\n", $full_lines);
+} else {
+  $full = $data;
+}
+
 // build the urls
 $hostname = sprintf('http://%s', strtolower(php_uname('n')));
 $generic_url = $hostname . $this->Html->url(array('action'=>'lisp_generic', $model_id));
@@ -25,7 +57,7 @@ $error_file = sprintf('%s%s.err', $output_dir, $file_prefix);
 // write to the data files
 file_put_contents($glib_file, $generic_contents);
 file_put_contents($ilib_file, $concrete_contents);
-file_put_contents($data_file, $data);
+file_put_contents($data_file, $full);
 
 // write to the lisp file
 $lisp_content = '

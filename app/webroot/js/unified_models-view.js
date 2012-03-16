@@ -418,10 +418,25 @@ $(document).ready(function() {
       table.addColumn('number', 'time');
       table.addColumn('number', 'Simulated');
       table.addColumn('number', 'Observed');
+
+      var last = null;
+      // make sure the tables line up
+      for(var k in data.values) {
+        var time = parseFloat(data.values[k][0].replace(/d/g, 'e+'));
+        // if data for this time step does not exist, add it
+        // if(exogenous_values.values[time])
+        if(exogenous_values.values[time] == undefined) {
+          exogenous_values.values[time] = last;
+        } else {
+          last = exogenous_values.values[time];
+        }
+      }
+
       for(var j in data.values) {
         var val = parseFloat(data.values[j][i].replace(/d/g, 'e+'));
         var time = parseFloat(data.values[j][0].replace(/d/g, 'e+'));
-        var ex = parseFloat(exogenous_values.values[j][i]);
+        var ex =  parseFloat(exogenous_values.values[time][i]);
+        time = parseFloat(time.toFixed(2));
         val = parseFloat(val.toFixed(2));
         ex = parseFloat(ex.toFixed(2));
         table.addRow([time, val, ex]);

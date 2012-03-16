@@ -126,7 +126,8 @@ create table if not exists operands (
 create table if not exists exogenous_values (
   id integer primary key autoincrement, 
   value longtext,
-  unified_model_id integer
+  unified_model_id integer,
+  step_size integer
 );
 
 create table if not exists empirical_observations (
