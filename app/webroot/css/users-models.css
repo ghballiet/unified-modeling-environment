@@ -386,4 +386,5 @@ table tr td:last-child {
   max-width: 400px;
   overflow-x: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
