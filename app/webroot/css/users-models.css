@@ -379,3 +379,6 @@ table th {
   font-weight: normal;
   border-bottom: solid 1px #777777;
 }
+table td a {
+  color: #9d261d;
+}
