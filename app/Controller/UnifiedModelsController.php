@@ -52,6 +52,7 @@ class UnifiedModelsController extends AppController {
     // grab the variables, by entity id
     $generic_variables = array();
     $generic_variable_list = array();
+    $var_ids = array();
     foreach($generic_equations as $ge) {
       $eid = $ge['GenericAttribute']['generic_entity_id'];
       if(!array_key_exists($eid, $generic_variables))
@@ -60,16 +61,23 @@ class UnifiedModelsController extends AppController {
         $generic_variable_list[$eid] = array();
       $generic_variables[$eid][] = $ge;
       $generic_variable_list[$eid][] = $ge['GenericAttribute']['id'];
+      if(!in_array($ge['GenericAttribute']['id'], array_values($var_ids)))
+        $var_ids[] = $ge['GenericAttribute']['id'];
     }
 
-    // grab the constants, by entity id
     $generic_constants = array();
-    foreach($generic_variable_list as $eid => $gv) {
-      $res = $this->UnifiedModel->GenericEntity->GenericAttribute->find('all', array('conditions'=>array(
-        'GenericEntity.id'=>$eid, 'NOT' => array('GenericAttribute.id'=>$gv))));
-      $generic_constants[$eid] = $res;
-    }
+    $attrs = $this->UnifiedModel->GenericEntity->GenericAttribute->find('all', array(
+      'conditions'=>array('GenericEntity.unified_model_id'=>$id,
+                          'NOT'=>array('GenericAttribute.id'=>$var_ids))));
 
+    // group them by entity id
+    foreach($attrs as $a) {      
+      $eid = $a['GenericEntity']['id'];
+      if(!isset($generic_constants[$eid]))
+        $generic_constants[$eid] = array();
+      $generic_constants[$eid][] = $a;
+    }
+    
     // build the equation list by process id
     $generic_equation_list = array();
     foreach($generic_processes as $gp) {

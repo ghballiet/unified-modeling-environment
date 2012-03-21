@@ -14,7 +14,88 @@ class MathHelper extends AppHelper {
                   'tan','tanh','arctan','atan','arctanh','atanh',
                   'sqrt','abs','ln','log');
 
-  function toLisp($rhs, $gen_attrs = array(), $conc_attrs = array()) {
+  function conv($rhs) {
+    $rhs = trim(str_replace('?', '', $rhs));
+    $matches = null;
+    $conversions = array();
+    $mappings = array('>='=>'&', '<='=>'%');
+    $lisp_mappings = array('&'=>'>=', '%'=>'<=', '^'=>'expt');
+
+    // parse the functions separately, grabbing the full string and the inside
+    preg_match_all('|[a-z]+\{(.*)\}|U', $rhs, $matches);
+    $full_matches = $matches[0];
+    $interior_matches = $matches[1];
+
+    // convert the operators appropriately
+    foreach($mappings as $k=>$v) {
+      $rhs = str_replace($k, $v, $rhs);
+    }
+
+    // replace the inside of each function with a single variable, and
+    // store the postfix equivalent of the inside 
+    foreach($full_matches as $i=>$fm) {
+      $im = $interior_matches[$i];
+      $converted = $this->toLisp($im);
+      $varname = sprintf('eqn_conversion%s', $i);
+      $conversions[$varname] = array('original'=>$im, 'converted'=>$converted);
+      $replace = str_replace($im, $varname, $fm);
+      $rhs = str_replace($fm, $replace, $rhs);
+    }
+
+    // replace brackets with parens
+    $rhs = str_replace('{', '(', $rhs);
+    $rhs = str_replace('}', ')', $rhs);
+
+    $rhs_str = $this->toLisp($rhs);
+    
+    // fill in the old functions
+    foreach($conversions as $name=>$conv) {
+      $rhs_str = str_replace(sprintf('"%s"', $name), $conv['converted'], $rhs_str);
+    }
+
+    // replace the conditionals with the appropriate lisp functions
+    foreach($lisp_mappings as $k=>$v) {
+      $rhs_str = str_replace($k, $v, $rhs_str);
+    }
+
+    // do a couple of replacements to handle the distance equation
+    preg_match_all('/\(expt \(- "(\w|\.)+"\s\d+\s"(\w|\.)+"\)/', $rhs_str, $exp_matches);
+    foreach($exp_matches[0] as $match) {
+      preg_match('/\s\d\s/', $match, $num);
+      $num = $num[0];      
+      $rmatch = str_replace($num, ' ', $match);
+      $rmatch .= $num . ')';
+      $rhs_str = str_replace($match, $rmatch, $rhs_str);
+    }
+    $rhs_str = str_replace(' ))))) ', '))) ', $rhs_str);
+
+    // one last replacement should do the trick
+    // (< (sqrt (+ (expt 2) (- "x195.y" 1 "x196.y")
+
+    /*
+    preg_match_all('/\(< \(sqrt \(\+ \(expt \d\) \(- "(\w|\.)+" \d "(\w|\.)+"\)/',
+                   $rhs_str, $cond_matches);
+    foreach($cond_matches[0] as $match) {
+      preg_match('/\s\d\s/', $match, $num);
+      $num = $num[0];
+      $rmatch = str_replace($num, ' ', $match);
+      preg_match('/\(expt\s\d\)/', $match, $exp);
+      $exp = $exp[0];
+      $rmatch = str_replace($exp, '(expt', $rmatch);
+      $expt = str_replace('(expt ', '', $exp);
+      $expt = str_replace(')', '', $expt);
+      $rmatch = str_replace('")', sprintf('") %d)', $expt), $rmatch);
+      $rhs_str = str_replace($match, $rmatch, $rhs_str);
+      $rhs_str = str_replace(' ))))', ' )))' . $num, $rhs_str);
+    }
+    */
+
+    $rhs_str = str_replace('2 ))))))', '2 ))) 1)', $rhs_str);
+
+    return $rhs_str;
+  }
+
+  function toLisp($rhs) {
     $rhs = trim(str_replace('?', '', $rhs));
     $vars = array();
     $rparens = array();
@@ -23,19 +104,6 @@ class MathHelper extends AppHelper {
     $close_function = false;
     $cond_op = false;
     $cond_op_first = null;
-
-    // loop through each set of attributes, replacing the values as we
-    // go 
-    /*foreach($conc_attrs as $cpa) {
-      $name = $cpa['ConcreteProcessAttribute']['name'];
-      $value = $cpa['ConcreteProcessAttribute']['value'];
-      $rhs = str_replace($name, $value, $rhs);
-    }
-
-    foreach($gen_attrs as $gpa) {
-      $rhs = str_replace($gpa['name'], $gpa['value'], $rhs);
-    }
-    */
     
     preg_match_all('/\w+\.\w+/', $rhs, $vars);
     $translated = array();
@@ -48,14 +116,48 @@ class MathHelper extends AppHelper {
         $translated[$w] = $x;
         $rhs = str_replace($x, $w, $rhs);        
       }
-    }    
-    
+    }
+
     $tokens = array_reverse($this->nfx($rhs));
+
+
+    $ops = array();
+    $last = null;
+    $divArgs = false;
+    // prepare tokens in order to reverse arguments to division
+    foreach($tokens as $i=>$t) {
+      $num = preg_match('/\W+/', $t);
+      $tok = trim($t);
+      if($num > 0) {
+        if($tok == '/') {
+          $divArgs = true;
+        } else if($divArgs == true) {
+          if(sizeof($ops) >= 2)
+            break;
+          $ops[] = array($tok=>array());
+          $last = $tok;
+        }
+      } else if($divArgs == true) {
+        $ops[sizeof($ops)-1][$last][] = $tok;
+      }
+    }
+    if($divArgs == true) {
+      $ops = array_reverse($ops);
+      $r_tokens = array('/');
+      foreach($ops as $o) {
+        foreach($o as $i=>$p) {
+          $r_tokens[] = $i;
+          foreach($p as $s)
+            $r_tokens[] = $s;
+        }
+      }
+      $tokens = $r_tokens;
+    }
 
     foreach($tokens as $i=>$t) {
       $is_op = (preg_match('/\W/', $t) === 1 && strlen($t) == 1);
       if($is_op) {
-        if($t == '>' || $t == '<')
+        if($t == '>' || $t == '<' || $t == '&' || $t == '%' || $t == '^')
           $cond_op = true;
         $num_vars = 0;
         $output .= sprintf('(%s ', $t);
@@ -188,14 +290,16 @@ class MathHelper extends AppHelper {
     $output = array(); // postfix form of expression, to be passed to pfx()
     $expr = trim(strtolower($expr));
         
-    $ops   = array('+', '-', '*', '/', '^', '_', '<', '>');
-    $ops_r = array('+'=>0,'-'=>0,'*'=>0,'/'=>0,'^'=>1, '<'=>1, '>'=>1); // right-associative operator?  
-    $ops_p = array('+'=>0,'-'=>0,'*'=>1,'/'=>1,'_'=>1,'^'=>2, '<'=>3, '>'=>3); // operator precedence
+    $ops   = array('+', '-', '*', '/', '^', '_', '<', '>', '&', '%');
+    $ops_r = array('+'=>0,'-'=>0,'*'=>0,'/'=>0,'^'=>1, '<'=>1, '>'=>1, 
+                   '&'=>1, '%'=>1); // right-associative operator?  
+    $ops_p = array('+'=>0,'-'=>0,'*'=>1,'/'=>1,'_'=>1,'^'=>2, '<'=>3, '>'=>3,
+                   '&'=>3, '%'=>3); // operator precedence
         
     $expecting_op = false; // we use this in syntax-checking the expression
     // and determining when a - is a negation
     
-    if (preg_match("/[^\w\s+*^\/()\.,-<>=\#]/", $expr, $matches)) { // make sure the characters are all good
+    if (preg_match("/[^\w\s+*^\/()\.,-<>=\#\&%]/", $expr, $matches)) { // make sure the characters are all good
       return $this->trigger("illegal character '{$matches[0]}'");
     }
     
@@ -300,7 +404,9 @@ class MathHelper extends AppHelper {
         
     } 
     while (!is_null($op = $stack->pop())) { // pop everything off the stack and push onto output
-      if ($op == '(') return $this->trigger("expecting ')'"); // if there are (s on the stack, ()s were unbalanced
+      if ($op == '(') {
+        return $this->trigger("expecting ')'"); // if there are (s on the stack, ()s were unbalanced
+      }
       $output[] = $op;
     }
     return $output;
@@ -396,6 +502,7 @@ class EvalMathStack {
     }
     
     function last($n=1) {
+      if($this->count >= $n)
         return $this->stack[$this->count-$n];
     }
 }

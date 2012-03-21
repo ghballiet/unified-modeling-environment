@@ -73,8 +73,7 @@ foreach($generic_processes as $i=>$gp) {
     $rhs = trim($ge['GenericEquation']['right_hand_side']);
 
     // convert to postfix
-    $rhs_str = $this->Math->toLisp($rhs, $gp['GenericProcessAttribute'],
-                                   $concrete_process_attributes);
+    $rhs_str = $this->Math->conv($rhs);
 
     foreach($constants as $name=>$value) {
       $name = strtolower($name);
@@ -100,8 +99,7 @@ foreach($generic_processes as $i=>$gp) {
     // convert the condition to postfix notation
     $val = trim($gc['value']);   
     
-    $val_str = $this->Math->toLisp($val, $gp['GenericProcessAttribute'], 
-                                   $concrete_process_attributes);
+    $val_str = $this->Math->conv($val);
 
     foreach($constants as $name=>$value) {
       $name = strtolower($name);

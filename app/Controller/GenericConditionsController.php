@@ -65,13 +65,15 @@ class GenericConditionsController extends AppController {
           $val = str_replace(sprintf('?x%d', $gpa), $ce['ConcreteEntity']['name'], $val);
         }
       }
+      try {
+        $new_cc = $cc;
+        $new_cc['value'] = $val;
+        $arr = array('ConcreteCondition'=>$new_cc);
+        $this->GenericCondition->ConcreteCondition->id = $cc['id'];
+        $this->GenericCondition->ConcreteCondition->save($arr);
+      } catch(Exception $e) {
+      }
       
-      $new_cc = $cc;
-      $new_cc['value'] = $val;
-      $arr = array('ConcreteCondition'=>$new_cc);
-      $this->GenericCondition->ConcreteCondition->id = $cc['id'];
-      $this->GenericCondition->ConcreteCondition->save($arr);
-
       $this->Session->setFlash('Condition successfully saved.');
       $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $data['GenericCondition']['unified_model_id']));
     } 
