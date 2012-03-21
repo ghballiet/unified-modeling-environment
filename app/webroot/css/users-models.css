@@ -367,3 +367,9 @@ table {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
+table td,
+table th {
+  font-weight: lighter;
+  padding: .5em;
+  color: #777777;
+}
