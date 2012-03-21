@@ -372,4 +372,10 @@ table th {
   font-weight: lighter;
   padding: .5em;
   color: #777777;
+  border-bottom: solid 1px #cccccc;
+}
+table th {
+  color: #555555;
+  font-weight: normal;
+  border-bottom: solid 1px #777777;
 }
