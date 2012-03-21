@@ -379,12 +379,14 @@ table th {
   font-weight: normal;
   border-bottom: solid 1px #777777;
 }
-table td a {
-  color: #9d261d;
-}
-table tr td:last-child {
-  max-width: 400px;
+table td {
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+table td a {
+  color: #9d261d;
+}
+table tr td:nth-child(2) {
+  min-width: 100px;
 }
