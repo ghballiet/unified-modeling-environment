@@ -84,6 +84,7 @@ table {
     padding: .5em;
     color: @gray;
     border-bottom: solid 1px @grayLighter;
+    
   }
 
   th {
@@ -94,5 +95,11 @@ table {
 
   td a {
     color: @red;
+  }
+
+  tr td:last-child {
+    max-width: 400px;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 }

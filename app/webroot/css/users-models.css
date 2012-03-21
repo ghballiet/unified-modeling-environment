@@ -382,3 +382,8 @@ table th {
 table td a {
   color: #9d261d;
 }
+table tr td:last-child {
+  max-width: 400px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
