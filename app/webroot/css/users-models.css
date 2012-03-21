@@ -390,3 +390,6 @@ table td a {
 table tr td:nth-child(2) {
   min-width: 100px;
 }
+table tr td:last-child {
+  max-width: 500px;
+}
