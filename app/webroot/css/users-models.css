@@ -364,8 +364,6 @@ table {
   width: 100%;
   background: #ffffff;
   border: solid 1px #cccccc;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
 }
 table td,
 table th {
