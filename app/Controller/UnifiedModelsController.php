@@ -3,9 +3,9 @@ class UnifiedModelsController extends AppController {
   public $name = 'UnifiedModel';
   
   public function create() {
-    if($this->UnifiedModel->save($this->request->data)) {
+    if($model = $this->UnifiedModel->save($this->request->data)) {
       $this->Session->setFlash('Model successfully created.');
-      $this->redirect(array('controller'=>'users', 'action'=>'models'));
+      $this->redirect(array('controller'=>'unified_models', 'action'=>'view', $model['UnifiedModel']['id']));
     }
   }
   
