@@ -146,31 +146,39 @@ printf('</div>');
 <?
 foreach($generic_entities as $e) {
   printf('<div class="generic-entity" id="generic-entity-%s">', $e['GenericEntity']['id']);
-  echo $this->Html->link('×', array('controller'=>'generic_entities', 'action'=>'delete', $e['GenericEntity']['id'], 
-    $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
-  printf('<span class="type">entity</span> <span class="name">%s</span>(?x) {<br>', $e['GenericEntity']['name']);
+  echo $this->Html->link('×', array('controller'=>'generic_entities', 'action'=>'delete', 
+                                    $e['GenericEntity']['id'], $model['UnifiedModel']['id']),
+                         array('class'=>'btnDelete'));
+  printf('<span class="type">entity</span> <span class="name">%s</span>(?x) {<br>',
+         $e['GenericEntity']['name']);
   foreach($e['GenericAttribute'] as $a) {
     printf('<div class="generic-attribute" id="generic-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'generic_attributes', 'action'=>'delete', $a['id'],
       $model['UnifiedModel']['id']), array('class'=>'btnDelete'));
-    printf('.<span class="name">%s</span> = <span class="value">%s</span>;<br>', $a['name'], $a['value']);
+    printf('.<span class="name">%s</span> = <span class="value">[%s, %s]</span>;<br>', $a['name'],
+           $a['lower_bound'], $a['upper_bound']);
     printf('</div>');
   }
-  
+
+  // ---- generic attributes ----  
   printf('<div id="add-generic-attribute-%s" class="reveal-modal">', $e['GenericEntity']['id']);
   printf('<a href="#" class="close-reveal-modal">&#215;</a>');
   echo $this->Html->tag('h1', 'Add Generic Attribute');
-  echo $this->Form->create('GenericAttribute', array('controller'=>'GenericAttribute', 'action'=>'create', 'inputDefaults'=>array(
-    'required'=>'true')));
+  echo $this->Form->create('GenericAttribute', array('controller'=>'GenericAttribute', 'action'=>'create', 
+                                                     'inputDefaults'=>array(
+                                                       'required'=>'true')));
   echo $this->Form->input('name', array('placeholder'=>'The name of the attribute.'));
-  echo $this->Form->input('value', array('placeholder'=>'The default value of the attribute.'));
+  // echo $this->Form->input('value', array('placeholder'=>'The default value of the attribute.'));
+  echo $this->Form->input('lower_bound', array('placeholder'=>'The lower bound of the attribute.'));
+  echo $this->Form->input('upper_bound', array('placeholder'=>'The upper bound of the attribute.'));
   echo $this->Form->input('generic_entity_id', array('type'=>'hidden', 'value'=>$e['GenericEntity']['id']));
   echo $this->Form->input('generic_entity', array('readonly'=>'true', 'value'=>$e['GenericEntity']['name']));
   echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
   echo $this->Form->end('Add Attribute');
   printf('</div>');
 
-  printf('<a href="#" class="btn" data-reveal-id="add-generic-attribute-%s">&plus;Attribute</a><br>', $e['GenericEntity']['id']);
+  printf('<a href="#" class="btn" data-reveal-id="add-generic-attribute-%s">&plus;Attribute</a><br>',
+         $e['GenericEntity']['id']);
   printf('}');
   printf('</div>');
 }
@@ -181,8 +189,9 @@ foreach($generic_entities as $e) {
 // processes start here
 foreach($generic_processes as $p) {
   printf('<div class="generic-process" id="generic-process-%s">', $p['GenericProcess']['id']);
-  echo $this->Html->link('×', array('controller'=>'generic_processes', 'action'=>'delete', $p['GenericProcess']['id'],
-    $model['UnifiedModel']['id']), array('class'=>'btnDelete'));      
+  echo $this->Html->link('×', array('controller'=>'generic_processes', 'action'=>'delete', 
+                                    $p['GenericProcess']['id'],
+                                    $model['UnifiedModel']['id']), array('class'=>'btnDelete'));      
   printf('<span class="type">process</span> <span class="name">%s</span>(', $p['GenericProcess']['name']);
   
   $args = array();

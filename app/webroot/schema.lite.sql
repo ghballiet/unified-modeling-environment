@@ -15,7 +15,8 @@ create table if not exists unified_models (
 create table if not exists generic_entities (
   id integer primary key autoincrement,
   name varchar(250), 
-  unified_model_id int
+  unified_model_id int,
+  instances int
 );
 
 create table if not exists concrete_entities (
