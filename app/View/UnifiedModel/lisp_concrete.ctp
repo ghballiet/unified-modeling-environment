@@ -1,3 +1,12 @@
+<?
+printf(";; @name %s\n", $model['UnifiedModel']['name']);
+printf(";; @desc %s\n", $model['UnifiedModel']['description']);
+$email = $model['User']['email'];
+$email = str_replace('@', ' at ', $email);
+$email = str_replace('.', ' dot ', $email);
+printf(";; @auth %s (%s)\n", $model['User']['name'], $email);
+?>
+
 (in-package :scipm)
 
 <?
@@ -8,51 +17,56 @@ printf("  :data-file-list (\"DATA-%s\")\n\n", $model['UnifiedModel']['id']);
 // ---- entities ----
 printf("  ;; ---- entities ----\n");
 printf("  :entities\n  (");
-foreach($concrete_entities as $i=>$ce) {
-  if($i != 0)
-    printf("   ");
-  printf("(:type \"%s\"", $ce['ConcreteEntity']['name']);
-  printf(" :generic-type \"%s\"\n", $ce['GenericEntity']['name']);
-  printf("    :variables (");
+foreach($generic_entities as $ge) {
+  // do some variable initialization
+  $id = $ge['GenericEntity']['id'];
+  $name = $ge['GenericEntity']['name'];
+  $instances = intval($ge['GenericEntity']['instances']);
+  if(isset($generic_variables[$id]))
+    $variables = $generic_variables[$id];
+  else
+    $variables = array();
+  if(isset($generic_constants[$id]))
+    $constants = $generic_constants[$id];
+  else
+    $constants = array();
 
-  // ---- variables ---- 
-  if(isset($concrete_variables[$ce['ConcreteEntity']['id']])) {
-    $varlist = array();
-    foreach($concrete_variables[$ce['ConcreteEntity']['id']] as $cv) {
-      if(!in_array($cv['ConcreteAttribute']['name'], $varlist))
-        $varlist[] = $cv['ConcreteAttribute']['name'];
-    }
-    foreach($varlist as $j=>$var) {
-      if($j != 0)
+  $i = 0;
+
+  // actually print out the entities
+  for($j=1; $j<=$instances; $j++) {
+    if($i != 0)
+      printf("   ");
+    
+    printf("(:type \"%s%d\" :generic-type \"%s\"\n", $name, $j, $name);
+    
+    // variables
+    $vars_seen = array();
+    printf('    :variables (');
+    foreach($variables as $k=>$var) {
+      $attr = $var['GenericAttribute']['name'];
+      $attr_id = $var['GenericAttribute']['id'];
+      if(in_array($attr_id, $vars_seen))
+        continue;
+      $vars_seen[] = $attr_id;
+      if($k!=0)
         printf("                ");
-      printf('(:type "%s" :aggregator sum :data-name "%s.%s")', $var, $ce['ConcreteEntity']['name'], $var);
-      if($j != sizeof($varlist) - 1)
+      printf('(:type "%s" :aggregator sum :data-name "%s%d.%s")', $attr, $name, $j, $attr);             
+      if($k != sizeof($variables) - 1)
         printf("\n");
     }
-  }
-  printf(")\n"); // end of variables
+    printf(")\n"); // end variables
 
-  // ---- constants ----
-  printf("    :constants (");
-  if(isset($concrete_constants[$ce['ConcreteEntity']['id']])) {
-    foreach($concrete_constants[$ce['ConcreteEntity']['id']] as $j=>$cc) {
-      if($j != 0)
-        printf("                ");
-      printf('(:type "%s" :initial-value %s)', $cc['ConcreteAttribute']['name'], $cc['ConcreteAttribute']['value']);
-      if($j != sizeof($concrete_constants[$ce['ConcreteEntity']['id']]) - 1)
-        printf("\n");
-    }
+    // constants
+    printf('    :constants (');
+    // set the id
+    printf('(:type "id" :initial-value %d)', $j);
+    printf(')');
+    printf(")\n"); // end entity
+    $i++;
   }
-  printf(")"); // end of constants
-  
-  printf(")"); // end of entity
-  if($i != sizeof($concrete_entities) - 1)
-    printf("\n");
 }
 printf(")"); // end of entities
-
-// ---- processes ----
-// printf("\n\n  ;; ---- processes ----\n");
 
 printf(")")  // end of instance library
 ?>

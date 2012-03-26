@@ -80,9 +80,11 @@ echo $this->Html->tag('h1', $model['UnifiedModel']['name']);
 printf('<div id="add-generic-entity" class="reveal-modal">');
 printf('<a href="#" class="close-reveal-modal">&#215;</a>');
 echo $this->Html->tag('h1', 'Add Generic Entity');
-echo $this->Form->create('GenericEntity', array('controller'=>'GenericEntity', 'action'=>'create', 'inputDefaults'=>array(
-  'required'=>'true')));
+echo $this->Form->create('GenericEntity', array('controller'=>'GenericEntity', 'action'=>'create',
+                                                'inputDefaults'=>array(
+                                                  'required'=>'true')));
 echo $this->Form->input('name', array('placeholder'=>'The name of the entity.'));
+echo $this->Form->input('instances', array('min'=>1, 'max'=>150, 'step'=>1, 'value'=>1, 'type'=>'number'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->end('Add Entity');
 printf('</div>');
@@ -151,6 +153,14 @@ foreach($generic_entities as $e) {
                          array('class'=>'btnDelete'));
   printf('<span class="type">entity</span> <span class="name">%s</span>(?x) {<br>',
          $e['GenericEntity']['name']);
+
+  // instances
+  printf('<div class="generic-instances" id="generic-instances-%s">', $e['GenericEntity']['id']);
+  printf('.<span class="name">instances</span> = <span class="value">%s</span>;<br>', 
+         $e['GenericEntity']['instances']);
+  printf('</div>');
+
+  // ---- generic attributes ----  
   foreach($e['GenericAttribute'] as $a) {
     printf('<div class="generic-attribute" id="generic-attribute-%s">', $a['id']);
     echo $this->Html->link('×', array('controller'=>'generic_attributes', 'action'=>'delete', $a['id'],
@@ -160,7 +170,6 @@ foreach($generic_entities as $e) {
     printf('</div>');
   }
 
-  // ---- generic attributes ----  
   printf('<div id="add-generic-attribute-%s" class="reveal-modal">', $e['GenericEntity']['id']);
   printf('<a href="#" class="close-reveal-modal">&#215;</a>');
   echo $this->Html->tag('h1', 'Add Generic Attribute');

@@ -1,3 +1,12 @@
+<?
+printf(";; @name %s\n", $model['UnifiedModel']['name']);
+printf(";; @desc %s\n", $model['UnifiedModel']['description']);
+$email = $model['User']['email'];
+$email = str_replace('@', ' at ', $email);
+$email = str_replace('.', ' dot ', $email);
+printf(";; @auth %s (%s)\n", $model['User']['name'], $email);
+?>
+
 (in-package :scipm)
 
 (create-generic-library data-<? echo $model['UnifiedModel']['id']; ?>
@@ -33,12 +42,12 @@ foreach($generic_entities as $l=>$ge) {
 
   // ---- constants ----
   printf("    :constants (");
+  printf("(:name \"id\" :lower-bound 1 :upper-bound %s)\n", $ge['GenericEntity']['instances']);
   if(isset($generic_constants[$ge['GenericEntity']['id']])) {
     foreach($generic_constants[$ge['GenericEntity']['id']] as $i=>$gc) {
-      if($i != 0)
-        printf("                ");
+      printf("                ");
       printf('(:name "%s" :lower-bound %s :upper-bound %s)', $gc['GenericAttribute']['name'], 
-             $gc['GenericAttribute']['value'], $gc['GenericAttribute']['value']);
+             $gc['GenericAttribute']['lower_bound'], $gc['GenericAttribute']['upper_bound']);
       if($i != sizeof($generic_constants[$gc['GenericEntity']['id']]) - 1)
         printf("\n");
     }    

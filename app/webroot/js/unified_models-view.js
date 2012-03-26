@@ -188,6 +188,7 @@ $(document).ready(function() {
     $('div.generic-equation').click(function() { $(this).editGenericEquation(); });
     $('div.generic-attribute').click(function() { $(this).editGenericAttribute(); });
     $('span.generic-condition').click(function() { $(this).editGenericCondition(); });
+    $('div.generic-instances').click(function() { $(this).editGenericInstances(); });
   }
 
   function showModal(map) {
@@ -219,6 +220,25 @@ $(document).ready(function() {
   }
 
   // ---- extension functions here ----  
+  $.fn.editGenericInstances = function() {
+    var attr = $(this).attr('id');
+    var type = 'generic-instances';
+    var id = parseInt(attr.replace(type + '-', ''));
+    var value = $(this).find('span.value').html();
+    var modelId = parseInt(model.UnifiedModel.id);
+    var map = {
+      type: 'GenericEntity',
+      title: 'Edit Instances',
+      controller: 'generic_entities',
+      fields: {
+        id: { label: '', type: 'hidden', value: id },
+        instances: { label: 'Instances', type: 'number', value: value, min: '1', max: '150' },
+        unified_model_id: { label: '', type: 'hidden', value: modelId }
+      }
+    };
+    showModal(map);
+  }
+
   $.fn.editGenericCondition = function() {
     var attr = $(this).attr('id');
     var type = 'generic-condition';
