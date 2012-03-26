@@ -29,6 +29,8 @@ create table if not exists generic_attributes (
   id integer primary key autoincrement,
   name varchar(250),
   value varchar(500),
+  lower_bound varchar(500),
+  upper_bound varchar(500),
   generic_entity_id int
 );
 
