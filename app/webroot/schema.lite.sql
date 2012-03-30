@@ -130,7 +130,8 @@ create table if not exists exogenous_values (
   id integer primary key autoincrement, 
   value longtext,
   unified_model_id integer,
-  step_size integer
+  step_size integer,
+  steps integer
 );
 
 create table if not exists empirical_observations (

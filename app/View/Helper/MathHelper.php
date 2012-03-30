@@ -14,12 +14,43 @@ class MathHelper extends AppHelper {
                   'tan','tanh','arctan','atan','arctanh','atanh',
                   'sqrt','abs','ln','log');
 
+  function rand_string($length) {
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";	
+    $size = strlen($chars);
+    $str = '';
+    for($i = 0; $i < $length; $i++) {
+      $str .= $chars[rand(0, $size - 1)];
+    }
+    return $str;
+  }
+
   function conv($rhs) {
     $rhs = trim(str_replace('?', '', $rhs));
     $matches = null;
     $conversions = array();
     $mappings = array('>='=>'&', '<='=>'%');
     $lisp_mappings = array('&'=>'>=', '%'=>'<=', '^'=>'expt');
+    $hide_functions = array('rand', 'max');
+    $replace_hidden = array();
+    $replaced = 0;
+
+    // do some fat-finger replacement
+    $rhs = str_replace('str {', 'str{', $rhs);
+
+    // hide these functions from the equation parser
+    foreach($hide_functions as $func) {
+      $preg_str = sprintf('/%s\([\w|\.]+,\s*[\w|\.]+\)/', $func);
+      preg_match_all($preg_str, $rhs, $func_matches);
+      foreach($func_matches as $f) {
+        if(!isset($f[0]))
+          continue;
+        $old = $f[0];
+        $new = sprintf('replaced%s', $replaced);
+        $replace_hidden[$new] = array('type'=>$func, 'old'=>$old);
+        $rhs = str_replace($old, $new, $rhs);        
+        $replaced++;
+      }
+    }
 
     // parse the functions separately, grabbing the full string and the inside
     preg_match_all('|[a-z]+\{(.*)\}|U', $rhs, $matches);
@@ -46,6 +77,7 @@ class MathHelper extends AppHelper {
     $rhs = str_replace('{', '(', $rhs);
     $rhs = str_replace('}', ')', $rhs);
 
+    // actually do the conversion
     $rhs_str = $this->toLisp($rhs);
     
     // fill in the old functions
@@ -72,23 +104,40 @@ class MathHelper extends AppHelper {
     // one last replacement should do the trick
     // (< (sqrt (+ (expt 2) (- "x195.y" 1 "x196.y")
 
-    /*
-    preg_match_all('/\(< \(sqrt \(\+ \(expt \d\) \(- "(\w|\.)+" \d "(\w|\.)+"\)/',
-                   $rhs_str, $cond_matches);
-    foreach($cond_matches[0] as $match) {
-      preg_match('/\s\d\s/', $match, $num);
-      $num = $num[0];
-      $rmatch = str_replace($num, ' ', $match);
-      preg_match('/\(expt\s\d\)/', $match, $exp);
-      $exp = $exp[0];
-      $rmatch = str_replace($exp, '(expt', $rmatch);
-      $expt = str_replace('(expt ', '', $exp);
-      $expt = str_replace(')', '', $expt);
-      $rmatch = str_replace('")', sprintf('") %d)', $expt), $rmatch);
-      $rhs_str = str_replace($match, $rmatch, $rhs_str);
-      $rhs_str = str_replace(' ))))', ' )))' . $num, $rhs_str);
+    // replace the stuff from the hidden functions
+    foreach($replace_hidden as $new=>$r) {
+      $str = '';
+      $type = $r['type'];
+      $old = $r['old'];
+      preg_match('/\(.*\)/', $old, $inner);
+      $inner = $inner[0];
+      $inner = str_replace('(', '', $inner);
+      $inner = str_replace(')', '', $inner);
+      $inner = str_replace(' ','', $inner);
+      $inner = explode(',', $inner);
+
+      if($type == 'rand') {
+        $first = floatval($inner[0]);
+        $last = floatval($inner[1]);
+        $diff = abs($first - $last);
+        $min = min($first, $last);
+        $str = sprintf('(+ (random %s) %s)', $diff, $min);
+      } else if($type == 'max') {
+        $str = sprintf('(max "%s" "%s")', $inner[0], $inner[1]);
+      }
+      $rhs_str = str_replace(sprintf('"%s"', $new), $str, $rhs_str);
     }
-    */
+
+    // reverse args to subtraction
+    preg_match_all('/\(-\s"[\w|\.]+"\s"[\w|\.]+"\)/', $rhs_str, $sub_matches);
+    $sub_matches = $sub_matches[0];
+    foreach($sub_matches as $sm) {
+      $orig = $sm;
+      preg_match_all('/"[\w|\.]+"/', $sm, $tokens);
+      $tokens = array_reverse($tokens[0]);
+      $mod = sprintf('(- %s %s)', $tokens[0], $tokens[1]);
+      $rhs_str = str_replace($orig, $mod, $rhs_str);
+    }
 
     $rhs_str = str_replace('2 ))))))', '2 ))) 1)', $rhs_str);
 
@@ -118,6 +167,7 @@ class MathHelper extends AppHelper {
       }
     }
 
+    // send it on over
     $tokens = array_reverse($this->nfx($rhs));
 
 
@@ -157,7 +207,7 @@ class MathHelper extends AppHelper {
     foreach($tokens as $i=>$t) {
       $is_op = (preg_match('/\W/', $t) === 1 && strlen($t) == 1);
       if($is_op) {
-        if($t == '>' || $t == '<' || $t == '&' || $t == '%' || $t == '^')
+        if($t == '>' || $t == '<' || $t == '&' || $t == '%' || $t == '^') 
           $cond_op = true;
         $num_vars = 0;
         $output .= sprintf('(%s ', $t);
@@ -290,11 +340,11 @@ class MathHelper extends AppHelper {
     $output = array(); // postfix form of expression, to be passed to pfx()
     $expr = trim(strtolower($expr));
         
-    $ops   = array('+', '-', '*', '/', '^', '_', '<', '>', '&', '%');
+    $ops   = array('+', '-', '*', '/', '^', '_', '<', '>', '&', '%', '=');
     $ops_r = array('+'=>0,'-'=>0,'*'=>0,'/'=>0,'^'=>1, '<'=>1, '>'=>1, 
-                   '&'=>1, '%'=>1); // right-associative operator?  
+                   '&'=>1, '%'=>1, '='=>0); // right-associative operator?  
     $ops_p = array('+'=>0,'-'=>0,'*'=>1,'/'=>1,'_'=>1,'^'=>2, '<'=>3, '>'=>3,
-                   '&'=>3, '%'=>3); // operator precedence
+                   '&'=>3, '%'=>3, '='=>3); // operator precedence
         
     $expecting_op = false; // we use this in syntax-checking the expression
     // and determining when a - is a negation

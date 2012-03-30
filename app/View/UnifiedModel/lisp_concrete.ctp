@@ -38,7 +38,7 @@ foreach($generic_entities as $ge) {
     if($i != 0)
       printf("   ");
     
-    printf("(:type \"%s%d\" :generic-type \"%s\"\n", $name, $j, $name);
+    printf("(:type \"%s%s\" :generic-type \"%s\"\n", $name, $j, $name);
     
     // variables
     $vars_seen = array();
@@ -51,7 +51,7 @@ foreach($generic_entities as $ge) {
       $vars_seen[] = $attr_id;
       if($k!=0)
         printf("                ");
-      printf('(:type "%s" :aggregator sum :data-name "%s%d.%s")', $attr, $name, $j, $attr);             
+      printf('(:type "%s" :aggregator sum :data-name "%s%s.%s")', $attr, $name, $j, $attr);             
       if($k != sizeof($variables) - 1)
         printf("\n");
     }
@@ -61,6 +61,23 @@ foreach($generic_entities as $ge) {
     printf('    :constants (');
     // set the id
     printf('(:type "id" :initial-value %d)', $j);
+    if(isset($generic_constants[$id])) {
+      if(sizeof($generic_constants[$id]) > 0)
+        printf("\n");
+      foreach($generic_constants[$id] as $i=>$gc) {
+        $attr = $gc['GenericAttribute'];
+        $const_name = $attr['name'];
+        $lower = floatval($attr['lower_bound']);
+        $upper = floatval($attr['upper_bound']);
+        $amt = 100.0;
+        $val = rand($lower * $amt, $upper * $amt) / $amt;
+        printf("                ");
+        printf('(:type "%s" :initial-value "%s")', $const_name, $val);
+        //printf('(:type "%s")', $const_name);
+        if($i != sizeof($generic_constants))
+          printf("\n");
+      }
+    }
     printf(')');
     printf(")\n"); // end entity
     $i++;

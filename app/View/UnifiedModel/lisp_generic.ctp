@@ -13,8 +13,12 @@ printf(";; @auth %s (%s)\n", $model['User']['name'], $email);
 
   ;; ---- entities ----
   :entity-list
-  (<?
+  (
+<?
 foreach($generic_entities as $l=>$ge) {
+  $instances = intval($ge['GenericEntity']['instances']);
+  //  for($w=1; $w<=$instances; $w++) {
+    
   if($l!=0)
     printf("   ");
   printf("(:type \"%s\"\n", $ge['GenericEntity']['name']);
@@ -55,6 +59,7 @@ foreach($generic_entities as $l=>$ge) {
   printf("))");
   if($l != sizeof($generic_entities) -1)
     printf("\n");
+  //}
 }
    ?>)
 
@@ -89,10 +94,11 @@ foreach($generic_processes as $i=>$gp) {
       $rhs_str = str_replace(sprintf('"%s"', $name), $value, $rhs_str);
     }
 
-    if($ge['GenericEquation']['is_algebraic'] == 1)
+    if($ge['GenericEquation']['is_algebraic'] == 1) {
       printf('(ALG ');
-    else
+    } else {
       printf('(ODE ');
+    }
     printf(':variable "%s.%s" :rhs %s)', $var, $attr, $rhs_str);
     if($j != sizeof($generic_equation_list[$gp['GenericProcess']['id']]) - 1)
       printf("\n");
@@ -158,7 +164,19 @@ foreach($generic_processes as $i=>$gp) {
 foreach($generic_processes as $i=>$gp) {
   if($i != 0)
     printf("   ");
-  printf('(:name req-%d :type exactly-one :items ((:gprocess "%s")))', $i, $gp['GenericProcess']['name']);
+  printf('(:name req-%d :type exactly-one :items ((:gprocess "%s" :modifiers (', $i, $gp['GenericProcess']['name']);
+  $alpha = range('a', 'z');
+  foreach($gp['GenericProcessArgument'] as $j=>$gpa) {
+    $id = $gpa['id'];
+    printf('(:id %s :entity-role-name "x%s")', $alpha[$j], $id);
+  }
+  /*  foreach($gp['GenericProcessArgument'] as $j=>$gpa) {
+    $eid = $gpa['generic_entity_id'];
+    $name = $generic_entity_list[$eid];
+    printf(' (:id X%d :entity-role-name "%s")', $j, $name);
+    }*/
+  printf('))))');
+  
   if($i != sizeof($generic_processes) -1)
     printf("\n");
 }

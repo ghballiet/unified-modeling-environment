@@ -22,8 +22,44 @@ class UnifiedModelsController extends AppController {
     $this->UnifiedModel->id = $id;
     $model = $this->UnifiedModel->read();
     $data = $this->UnifiedModel->ExogenousValue->findByUnifiedModelId($id);
+    $generic_entities = $this->UnifiedModel->GenericEntity->findAllByUnifiedModelId($id);
+    $generic_equations = $this->UnifiedModel->GenericProcess->GenericEquation->find('all', array(
+      'conditions'=>array('GenericProcess.unified_model_id'=>$id)));
+
+    // grab the variables, by entity id
+    $generic_variables = array();
+    $generic_variable_list = array();
+    $var_ids = array();
+    foreach($generic_equations as $ge) {
+      $eid = $ge['GenericAttribute']['generic_entity_id'];
+      if(!array_key_exists($eid, $generic_variables))
+        $generic_variables[$eid] = array();
+      if(!array_key_exists($eid, $generic_variable_list))
+        $generic_variable_list[$eid] = array();
+      $generic_variables[$eid][] = $ge;
+      $generic_variable_list[$eid][] = $ge['GenericAttribute']['id'];
+      if(!in_array($ge['GenericAttribute']['id'], array_values($var_ids)))
+        $var_ids[] = $ge['GenericAttribute']['id'];
+    }
+
+    $generic_constants = array();
+    $attrs = $this->UnifiedModel->GenericEntity->GenericAttribute->find('all', array(
+      'conditions'=>array('GenericEntity.unified_model_id'=>$id,
+                          'NOT'=>array('GenericAttribute.id'=>$var_ids))));
+
+    // group them by entity id
+    foreach($attrs as $a) {      
+      $eid = $a['GenericEntity']['id'];
+      if(!isset($generic_constants[$eid]))
+        $generic_constants[$eid] = array();
+      $generic_constants[$eid][] = $a;
+    }
+
     $this->set('model', $model);
     $this->set('exogenous_data', $data);
+    $this->set('generic_entities', $generic_entities);
+    $this->set('variables', $generic_variables);
+    $this->set('constants', $generic_constants);
   }
 
   public function beforeFilter() {

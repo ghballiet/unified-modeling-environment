@@ -3,37 +3,96 @@
 $model_id = $model['UnifiedModel']['id'];
 $data = $exogenous_data['ExogenousValue']['value'];
 
-// add step sizes to the data file
-$steps = $exogenous_data['ExogenousValue']['step_size'];
-if($steps != null) {
-  $step_size = 1.00 / floatval($steps);
-  $step_size = floatval(sprintf("%-.4f", $step_size));
-  $lines = explode("\n", $data);
-  $full_lines = array();
-  foreach($lines as $i=>$line) {
-    if($i == 0) {
-      $full_lines[0] = $line;
-      continue;
-    }
-    $line = trim($line);
-    $full_lines[] = $line;
-    $tokens = explode(' ', $line);
-    $timestep = intval($tokens[0]);
-    $value = $tokens[1];
+// generate the data file
+$step_size = $exogenous_data['ExogenousValue']['step_size'];
+$steps = intval($exogenous_data['ExogenousValue']['steps']);
+if($steps == null)
+  $steps = 1;
+$data = array();
+$header = array();
+$defaults = array();
+$columns = 1;
 
-    // now, add the timesteps
-    for($j=1; $j<intval($steps); $j++) {
-      $arr = array();
-      $arr[0] = ($step_size * $j) + $timestep;
-      $arr[1] = $value;
-      $full_lines[] = join(' ', $arr);
+// build the header and default value rows
+$header[] = 'time';
+$defaults[] = 0;
+$grain = 1000.0;
+foreach($generic_entities as $ge) {
+  $instances = intval($ge['GenericEntity']['instances']);
+  $name = $ge['GenericEntity']['name'];
+  $attrs = $variables[$ge['GenericEntity']['id']];
+  for($i=1; $i<=$instances; $i++) {
+    foreach($attrs as $a) {
+      $attr_name = $a['GenericAttribute']['name'];
+      $lower_bound = $a['GenericAttribute']['lower_bound'];
+      $upper_bound = $a['GenericAttribute']['upper_bound'];
+      $column = sprintf('%s%s.%s', $name, $i, $attr_name);
+      $header[] = $column;
+      if($attr_name == 'target') {
+        $rand = rand(intval($lower_bound), intval($upper_bound));
+      } else {
+        $rand = rand(floatval($lower_bound) * $grain, floatval($upper_bound) * $grain);
+        $rand = $rand / $grain;
+      }
+      $defaults[] = $rand;
+    }
+  }
+}
+$data[0] = $header;
+$data[1] = $defaults;
+
+// add the partial timesteps for the default row
+$inc = 1.0 / floatval($step_size);
+for($i=1; $i<$step_size; $i++) {
+  $row = array();
+  $row[] = $inc * $i;
+  foreach($generic_entities as $ge) {
+    $instances = intval($ge['GenericEntity']['instances']);
+    $attrs = $variables[$ge['GenericEntity']['id']];
+    for($j=1; $j<=$instances; $j++) {
+      foreach($attrs as $a)
+        $row[] = 0;
+    }
+  }
+  $data[] = $row;
+}
+
+for($i=1; $i<=$steps; $i++) {
+  $row = array();  
+  $row[] = $i;
+  foreach($generic_entities as $ge) {
+    $instances = intval($ge['GenericEntity']['instances']);
+    $attrs = $variables[$ge['GenericEntity']['id']];
+    for($j=1; $j<=$instances; $j++) {
+      foreach($attrs as $a)
+        $row[] = 0;
     }
   }
 
-  $full = join("\n", $full_lines);
-} else {
-  $full = $data;
+  $data[] = $row;
+
+  // build out the other partial timesteps
+  $increment = 1.0 / floatval($step_size);
+  for($k=1; $k<$step_size; $k++) {
+    $trow = array();
+    $trow[] = $i + ($increment * $k);
+    foreach($generic_entities as $ge) {
+      $instances = intval($ge['GenericEntity']['instances']);
+      $attrs = $variables[$ge['GenericEntity']['id']];
+      for($j=1; $j<=$instances; $j++) {
+        foreach($attrs as $a)
+          $trow[] = 0;
+      }
+    }
+    $data[] = $trow;
+  }
 }
+
+$lines = array();
+foreach($data as $row)
+  $lines[] = implode(' ', $row);
+
+$full = implode("\n", $lines);
 
 // build the urls
 $hostname = sprintf('http://%s', strtolower(php_uname('n')));
@@ -89,7 +148,7 @@ file_put_contents($lisp_file, $lisp_content);
 // start doin' some lisp stuff
 chdir($output_dir);
 // added ulimit in order to make sure we don't get any runaway processes
-$cmd = sprintf('ulimit -t 10; sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
+$cmd = sprintf('ulimit -t 30; sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
 $results = shell_exec($cmd);
 
 $output = file_get_contents($output_file);

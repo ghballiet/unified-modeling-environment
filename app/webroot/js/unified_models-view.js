@@ -288,6 +288,10 @@ $(document).ready(function() {
     var id = parseInt(attr.replace(type + '-', ''));
     var name = $(this).find('span.name').html();
     var value = $(this).find('span.value').html();
+    value = value.replace('[', '').replace(']', '').replace(' ','');
+    var tokens = value.split(',');
+    var lower = tokens[0];
+    var upper = tokens[1];
     var modelId = parseInt(model.UnifiedModel.id);
     var map = {
       type: 'GenericAttribute',
@@ -296,7 +300,8 @@ $(document).ready(function() {
       fields: {
         id: { label: '', type: 'hidden', value: id },
         name: { label: 'Name', type: 'text', value: name },
-        value: { label: 'Value', type: 'text', value: value },
+        lower_bound: { label: 'Lower bound', type: 'text', value: lower },
+        upper_bound: { label: 'Upper bound', type: 'text', value: upper },
         unified_model_id: { label: '', type: 'hidden', value: modelId }
       }
     };
@@ -390,6 +395,7 @@ $(document).ready(function() {
   // ---- simulate click event! ----
   $('#btnSimulate').click(function(e) {
     e.preventDefault();
+    $('#charts').html('');
     var id = model.UnifiedModel.id;
     var url = '../simulate_lisp/' + id;
 
@@ -408,8 +414,8 @@ $(document).ready(function() {
       else
         rows['values'][i-1] = line.trim().split(' ');
     }
-    exogenous_values = rows;
-
+    ex_vals = rows;
+    
     $.get(url, function(response) {
       console.log(response);
       var idx = response.indexOf('var data');
@@ -424,14 +430,125 @@ $(document).ready(function() {
         $('#simulating-msg').trigger('reveal:close');
         eval(response);
         console.log(data);
+        createMotionChart(data);
         displaySimulationData(data);
       }
     });
   });
 
-  function displaySimulationData(data) {
-    for(var i in data.names) {
-      var name = data.names[i].toLowerCase();
+  function num(i) {
+    i = parseFloat(i.replace(/d/g, 'e+'));
+    return parseFloat(i.toFixed(2));
+  }
+
+  function buildMotionDataTable(sim_data) {
+    var d = sim_data;
+
+    var headers = buildHeaders(d);
+    var tab = new google.visualization.DataTable();
+
+    // set up columns
+    tab.addColumn('string', 'entity');
+    tab.addColumn('number', 'time');
+    
+    for(var i in headers.attributes) {
+      tab.addColumn('number', i);
+    }
+
+    var rdata = {};
+
+    // set up rows
+    for(var i in d.values) {
+      var row = d.values[i];
+      var time = num(row[0]);
+      var j;
+      for(j=1; j<row.length; j++) {
+        var name = d.names[j].toLowerCase();
+        var entity = name.split('.')[0];
+        var attr = name.split('.')[1];
+        var value = num(row[j]);
+        if(rdata[entity] == null)
+          rdata[entity] = {};
+        if(rdata[entity][time] == null)
+          rdata[entity][time] = {};
+        rdata[entity][time][attr] = value;
+      }
+    }
+    
+    var numCols = tab.getNumberOfColumns();
+    console.log(rdata);
+    
+    for(var i in rdata) {
+      var entity = i;
+      for(var j in rdata[i]) {
+        var time = num(j);
+        var row = [entity, time];
+        var k;
+        for(k=2; k<numCols; k++) {
+          var lbl = tab.getColumnLabel(k);
+          if(rdata[i][j][lbl] == null)
+            continue;
+          row.push(rdata[i][j][lbl]);
+        }
+        tab.addRow(row);
+      }
+    }
+
+    console.log(tab);
+
+    return tab;
+  }
+
+  function buildHeaders(sim_data) {
+    var ents = [];
+    var attrs = {};    
+    for(var i in sim_data.names) {
+      var name = sim_data.names[i].toLowerCase();
+      if(name == 'time')
+        continue;
+      var entity = name.split('.')[0];
+      var attr = name.split('.')[1];
+      if($.inArray(entity, ents) == -1)
+        ents.push(entity);
+      if(attrs[attr] == null)
+        attrs[attr] = 1;
+      else
+        attrs[attr]++;
+    }
+    
+    var headers = {};
+    
+    // remove the attributes that are not global
+    for(var i in attrs) {
+      if(attrs[i] == ents.length) {
+        headers[i] = [];
+        for(var j in ents) {
+          headers[i].push(ents[j] + '.' + i);
+        }
+      }
+    }
+    
+    return { 'attributes': headers, 'entities': ents };
+  }
+
+  function createMotionChart(sim_data) {
+    var tab = buildMotionDataTable(sim_data);
+    var div = $('<div />').attr('id', 'motion_chart').addClass('google-chart');
+    var w = $('#right').width();
+    var state = '{"xZoomedDataMin":10.18,"colorOption":"_UNIQUE_COLOR","xAxisOption":"2","time":"1900","orderedByX":false,"sizeOption":"_UNISIZE","xLambda":1,"dimensions":{"iconDimensions":["dim0"]},"showTrails":true,"xZoomedDataMax":18.43,"orderedByY":false,"iconType":"BUBBLE","playDuration":15000,"yZoomedDataMin":10.32,"xZoomedIn":false,"yZoomedDataMax":17.51,"nonSelectedAlpha":0.4,"yZoomedIn":false,"uniColorForNonSelected":false,"yAxisOption":"3","duration":{"multiplier":1,"timeUnit":"Y"},"yLambda":1,"iconKeySettings":[]}';
+    var options = {
+      width: w, height: 300, title: '', fontSize: 10, fontName: 'Helvetica, Arial',
+      legend: { position: 'bottom' }, state: state
+    };
+    $('#charts').append(div);
+    var motion = new google.visualization.MotionChart(document.getElementById('motion_chart'));
+    motion.draw(tab, options);
+  }
+
+  function displaySimulationData(sim_data) {    
+    // build the static charts
+    for(var i in sim_data.names) {
+      var name = sim_data.names[i].toLowerCase();
       if(name == 'time')
         continue;
       var table = new google.visualization.DataTable();
@@ -441,21 +558,24 @@ $(document).ready(function() {
 
       var last = null;
       // make sure the tables line up
-      for(var k in data.values) {
-        var time = parseFloat(data.values[k][0].replace(/d/g, 'e+'));
-        // if data for this time step does not exist, add it
-        // if(exogenous_values.values[time])
-        if(exogenous_values.values[time] == undefined) {
-          exogenous_values.values[time] = last;
+      for(var k in sim_data.values) {
+        var time = parseFloat(sim_data.values[k][0].replace(/d/g, 'e+'));
+        // if sim_data for this time step does not exist, add it
+        if(ex_vals.values[time] == undefined) {
+          ex_vals.values[time] = last;
         } else {
-          last = exogenous_values.values[time];
+          last = ex_vals.values[time];
         }
       }
 
-      for(var j in data.values) {
-        var val = parseFloat(data.values[j][i].replace(/d/g, 'e+'));
-        var time = parseFloat(data.values[j][0].replace(/d/g, 'e+'));
-        var ex =  parseFloat(exogenous_values.values[time][i]);
+      for(var j in sim_data.values) {
+        var val = parseFloat(sim_data.values[j][i].replace(/d/g, 'e+'));
+        var time = parseFloat(sim_data.values[j][0].replace(/d/g, 'e+'));
+        var ex = 0;
+        if(ex_vals.values[time] != null && ex_vals[time][i] != null)
+          ex =  parseFloat(ex_vals.values[time][i]);
+        else
+          ex = val;
         time = parseFloat(time.toFixed(2));
         val = parseFloat(val.toFixed(2));
         ex = parseFloat(ex.toFixed(2));
@@ -468,7 +588,7 @@ $(document).ready(function() {
       };
       var id = name.replace(/\./g, '-').replace(/_/g, '-');
       var div = $('<div />').attr('id', 'chart-' + id).addClass('google-chart');
-      $('#google-chart').append(div);
+      $('#charts').append(div);
       var chart = new google.visualization.LineChart(document.getElementById('chart-' + id));
       chart.draw(table, options);
     }    

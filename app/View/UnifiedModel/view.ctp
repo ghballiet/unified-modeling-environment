@@ -15,6 +15,7 @@ var concrete_equations = <? print json_encode($concrete_equations); ?>;
 var concrete_process_arguments = <? print json_encode($concrete_process_arguments); ?>;
 var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>;
 var exogenous_values = <? print json_encode($exogenous_values); ?>;
+var ex_vals = null;
 
 // empirical data
 var empirical_data = {};
@@ -301,15 +302,20 @@ foreach($generic_processes as $p) {
     <div id="exogenous-values" class="reveal-modal">
 <?
 $ex_text = '';
+$ex_step = '';
+$ex_steps = '';
 echo $this->Html->tag('h1', 'Edit Data File');
 if($exogenous_values != null) {
   $ex_text = $exogenous_values['ExogenousValue']['value'];
   $ex_step = $exogenous_values['ExogenousValue']['step_size'];
+  $ex_steps = $exogenous_values['ExogenousValue']['steps'];
 }
 echo $this->Form->create('ExogenousValue', array('controller'=>'exogenous_values', 'action'=>'edit'));
 echo $this->Form->input('unified_model_id', array('type'=>'hidden', 'value'=>$model['UnifiedModel']['id']));
 echo $this->Form->input('step_size', array('type'=>'number', 'min'=>'1', 'max'=>'100',
                                            'placeholder'=>'The step size, from 1 to 100.', 'value'=>$ex_step));
+echo $this->Form->input('steps', array('type'=>'number', 'min'=>'1', 'max'=>'200', 'value'=>$ex_steps, 
+                                       'placeholder'=>'The number of time steps to simulate.'));
 echo $this->Form->input('value', array('value'=>$ex_text, 'placeholder'=>'Type or copy/paste the data here.'));
 echo $this->Form->end('Save Data');
 ?>
@@ -339,8 +345,10 @@ printf('<input type="hidden" id="data-url" value="%s">', $url);
     </div>
     <div id="google-chart">
       <script type="text/javascript">
-        google.load('visualization', '1', { packages: ['corechart']});
+        google.load('visualization', '1', { packages: ['corechart', 'motionchart']});
       </script>
+      <div id="charts">
+      </div>
     </div>
     <!-- 
     <div id="simulation-data">
