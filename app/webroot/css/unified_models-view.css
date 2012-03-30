@@ -684,6 +684,9 @@ a.expand {
 div.google-chart {
   margin: 5px 0px;
 }
+div#motion_chart {
+  margin: 5px -1em;
+}
 div#data-selection {
   padding: 1em 0px;
   color: #555555;
