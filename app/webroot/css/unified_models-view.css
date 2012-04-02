@@ -686,6 +686,7 @@ div.google-chart {
 }
 div#motion_chart {
   margin: 5px -1em;
+  display: none;
 }
 div#data-selection {
   padding: 1em 0px;
