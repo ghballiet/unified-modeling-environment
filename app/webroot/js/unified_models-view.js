@@ -428,10 +428,12 @@ $(document).ready(function() {
         });
       } else {
         $('#simulating-msg').trigger('reveal:close');
+        $('#btnAgg').fadeIn('slow');
         eval(response);
         console.log(data);
+        simulation_data = data;
         createMotionChart(data);
-        displaySimulationData(data);
+        displaySimulationData(data);        
       }
     });
   });

@@ -1,3 +1,4 @@
+<? echo $this->Html->script('aggregate.js'); ?>
 <script type="text/javascript">
 // pretty much all the data, as JSON
 var model = <? print json_encode($model); ?>;
@@ -16,6 +17,7 @@ var concrete_process_arguments = <? print json_encode($concrete_process_argument
 var concrete_process_argument_list = <? print json_encode($concrete_process_argument_list); ?>;
 var exogenous_values = <? print json_encode($exogenous_values); ?>;
 var ex_vals = null;
+var simulation_data = null;
 
 // empirical data
 var empirical_data = {};
@@ -137,7 +139,7 @@ printf('</div>');
 <div class="left">
   <div class="generic">
     <div class="header">
-      <h2>Generic</h2>
+      <h2>Model</h2>
       <div class="actions">
         <a href="#" class="btn" data-reveal-id="add-generic-entity">&plus;Entity</a>
         <a href="#" class="btn" data-reveal-id="add-generic-process">&plus;Process</a>
@@ -152,7 +154,7 @@ foreach($generic_entities as $e) {
   echo $this->Html->link('×', array('controller'=>'generic_entities', 'action'=>'delete', 
                                     $e['GenericEntity']['id'], $model['UnifiedModel']['id']),
                          array('class'=>'btnDelete'));
-  printf('<span class="type">entity</span> <span class="name">%s</span>(?x) {<br>',
+  printf('<span class="type">entity</span> <span class="name">%s</span> {<br>',
          $e['GenericEntity']['name']);
 
   // instances
@@ -336,6 +338,28 @@ echo $this->Form->end('Save Data');
     </div>
     <a href="#" data-reveal-id="exogenous-values" class="btn">Edit Data File</a>
     <a href="#" class="btn" id="btnSimulate">Simulate</a>
+    <a href="#" id="btnAgg" data-reveal-id="aggregate-plot" class="btn" style="display:none">Add Aggregate Plot</a>
+    <div class="reveal-modal" id="aggregate-plot">
+      <h1>Add Aggregate Plot</h1>
+<?
+$list = array();
+foreach($generic_entities as $ge) {
+  $ename = $ge['GenericEntity']['name'];
+  $list[$ename] = array();
+  foreach($ge['GenericAttribute'] as $ga) {
+    $name = strtolower($ge['GenericEntity']['name']);
+    $attr = strtolower($ga['name']);
+    $at = sprintf('%s.%s', $name, $attr);
+    $na = sprintf('%s.%s', $ename, $ga['name']);
+    $list[$ename][$at] = $na;
+  }
+}
+echo $this->Form->input('Generic Attribute', array('options'=>$list, 'id'=>'agg_attr'));
+$ops = array('avg'=>'Average', 'sum'=>'Sum');
+echo $this->Form->input('Aggregate Operator', array('options'=>$ops, 'id'=>'agg_op'));
+echo $this->Form->submit('Add Plot');
+?>    
+    </div>
 <?
 $url = $this->Html->url(array('controller'=>'unified_models', 'action'=>'simulate',
                               $model['UnifiedModel']['id']));
