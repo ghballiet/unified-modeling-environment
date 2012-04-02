@@ -386,7 +386,9 @@ div.left div.content div.generic-entity,
 div.left div.content div.concrete-entity,
 div.left div.content div.generic-process,
 div.left div.content div.concrete-process {
-  padding: .5em 0px;
+  /* padding: .5em 0px; */
+
+  padding: 0px;
   margin-left: .5em;
   padding-left: .5em;
   border-left: solid 1px #c3c3c3;
