@@ -148,8 +148,8 @@ file_put_contents($lisp_file, $lisp_content);
 // start doin' some lisp stuff
 chdir($output_dir);
 // added ulimit in order to make sure we don't get any runaway processes
-// $cmd = sprintf('ulimit -t 60; sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
-$cmd = sprintf('sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
+$cmd = sprintf('ulimit -t 60; sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
+// $cmd = sprintf('sbcl --core sbcl.core --script %s > %s 2> %s', $lisp_file, $output_file, $error_file);
 $results = shell_exec($cmd);
 
 $output = file_get_contents($output_file);
